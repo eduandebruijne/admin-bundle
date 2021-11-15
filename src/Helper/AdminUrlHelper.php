@@ -21,7 +21,12 @@ class AdminUrlHelper
         $shortName = ClassUtils::getShortName($class);
         $params = [];
 
-        if (in_array($action, [AbstractAdmin::ROUTE_CONTEXT_UPDATE, AbstractAdmin::ROUTE_CONTEXT_DELETE])) {
+        if (in_array($action, [
+            AbstractAdmin::ROUTE_CONTEXT_UPDATE,
+            AbstractAdmin::ROUTE_CONTEXT_DELETE,
+            AbstractAdmin::ROUTE_CONTEXT_MOVE_UP,
+            AbstractAdmin::ROUTE_CONTEXT_MOVE_DOWN,
+        ])) {
             if (!$id) throw new Exception("Object 'id' is mandatory for route context '$action'");
             $params = ['id' => $id];
         }
