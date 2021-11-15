@@ -32,13 +32,18 @@ function selectMaskedForm(formId, value) {
   $('#' + formId).val(value);
   var base_form_id = formId.split('_').slice(0, -1);
   var main_form_element = $('#' + base_form_id.join('_'));
-  $('#' + base_form_id.join('_') + '>.mb-3').hide();
+  $('.masked-container-' + formId + ' button').each(function (index, buttonElement) {
+    $(buttonElement).removeClass('active');
+    $(buttonElement).data('form-ids').split(',').forEach(function (id) {
+      var sub_form_id = base_form_id.concat([id]).join('_');
+      main_form_element.find('label[for="' + sub_form_id + '"]').parent().hide();
+    });
+  });
   var element = $('.masked-container-' + formId + ' button[data-value="' + value + '"]');
   if (element.length === 0) return;
-  $('.masked-container-' + formId + '>.btn-group>div').hide();
   element.attr('data-form-ids').split(',').forEach(function (name) {
     var sub_form_id = base_form_id.concat([name]).join('_');
-    main_form_element.find('label[for="' + sub_form_id + '"]').parents().show();
+    main_form_element.find('label[for="' + sub_form_id + '"]').parent().show();
   });
-  $('.masked-container-' + formId + ' [data-value="' + value + '"]').addClass('active');
+  element.addClass('active');
 }
