@@ -6,12 +6,12 @@ namespace EDB\AdminBundle\Route;
 
 use EDB\AdminBundle\Admin\AdminInterface;
 use EDB\AdminBundle\Admin\Pool;
-use EDB\AdminBundle\Util\ClassUtils;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Loader\LoaderResolverInterface;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 use function sprintf;
+use function Symfony\Component\String\u;
 
 class Loader implements LoaderInterface
 {
@@ -48,8 +48,9 @@ class Loader implements LoaderInterface
                 }
 
                 $fullUrl = sprintf('%s/%s%s', $admin->getPluralClassName(), $paramsString, $context);
+                $camelContext = u($context)->camel();
                 $adminRoute = new Route($fullUrl, [
-                    '_controller' => sprintf('%s::%s', $admin::getCRUDControllerClass(), $context),
+                    '_controller' => sprintf('%s::%s', $admin::getCRUDControllerClass(), $camelContext),
                     '_entity' => $admin::getEntityClass(),
                 ], $params, [], '', [], $methods);
 

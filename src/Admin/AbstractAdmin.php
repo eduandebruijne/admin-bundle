@@ -16,6 +16,8 @@ abstract class AbstractAdmin implements AdminInterface
     public const ROUTE_CONTEXT_CREATE = 'create';
     public const ROUTE_CONTEXT_UPDATE = 'update';
     public const ROUTE_CONTEXT_DELETE = 'delete';
+    public const ROUTE_CONTEXT_MOVE_UP = 'move_up';
+    public const ROUTE_CONTEXT_MOVE_DOWN = 'move_down';
 
     public static function getCRUDControllerClass(): string
     {
@@ -68,6 +70,22 @@ abstract class AbstractAdmin implements AdminInterface
                     'id',
                 ],
             ],
+            self::ROUTE_CONTEXT_MOVE_UP => [
+                'methods' => [
+                    'GET',
+                ],
+                'params' => [
+                    'id',
+                ],
+            ],
+            self::ROUTE_CONTEXT_MOVE_DOWN => [
+                'methods' => [
+                    'GET',
+                ],
+                'params' => [
+                    'id',
+                ],
+            ],
             self::ROUTE_CONTEXT_DELETE => [
                 'methods' => [
                     'GET',
@@ -79,7 +97,7 @@ abstract class AbstractAdmin implements AdminInterface
             ],
         ];
     }
-    
+
     public function extendQuery(QueryBuilder $queryBuilder)
     {
     }
@@ -110,7 +128,7 @@ abstract class AbstractAdmin implements AdminInterface
     {
         return null;
     }
-    
+
     public function getPath(string $context): string
     {
         $pluralType = ClassUtils::getShortName($this->getEntityClass());

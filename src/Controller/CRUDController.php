@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EDB\AdminBundle\Controller;
 
+use Doctrine\Common\Collections\Criteria;
 use EDB\AdminBundle\Admin\AdminInterface;
 use EDB\AdminBundle\Admin\Pool as AdminPool;
 use EDB\AdminBundle\EntityEvent\Pool;
@@ -16,6 +17,7 @@ use EDB\AdminBundle\Util\ClassUtils;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use EDB\AdminBundle\Admin\AbstractAdmin;
+use EDB\AdminBundle\Entity\SortableEntity;
 use EDB\AdminBundle\Helper\AdminUrlHelper;
 use Exception;
 use ReflectionException;
@@ -236,6 +238,46 @@ class CRUDController
         );
     }
 
+    public function moveDown(Request $request)
+    {
+        return $this->sort($request, function($position) { return $position + 1; });
+    }
+
+    public function moveUp(Request $request)
+    {
+        return $this->sort($request, function($position) { return $position - 1; });
+    }
+
+    private function sort(Request $request, callable $method)
+    {
+        $admin = $this->getAdminFromRequest($request);
+        if(!$this->security->isGranted($admin->getRequiredRole())) throw new Exception('Access denied.');
+
+        $object = $this->getObjectById($admin, $request->attributes->getInt('id'));
+
+        if (!$object instanceof SortableEntity) {
+            throw new Exception('Entity must extend SortableEntity');
+        }
+
+        $orderBy = 'ASC';
+        $positionMap = array_map(function($instance) {
+            return $instance;
+        }, $this->entityManager->getRepository($admin->getEntityClass())->findBy([], ['position' => $orderBy]));
+        foreach ($positionMap as $position => $instance) {
+            if ($object === $instance && isset($positionMap[$method($position)])) {
+                $positionMap[$position] = $positionMap[$method($position)];
+                $positionMap[$method($position)] = $object;
+                break;
+            }
+        }
+        foreach ($positionMap as $position => $instance) {
+            $instance->setPosition($position+1);
+        }
+        $this->entityManager->flush();
+
+        return new RedirectResponse($this->adminUrlHelper->generateAdminUrl($admin->getEntityClass(), AbstractAdmin::ROUTE_CONTEXT_LIST));
+    }
+
     /**
      * @throws Exception
      */
@@ -243,7 +285,7 @@ class CRUDController
     {
         $admin = $this->getAdminFromRequest($request);
         if(!$this->security->isGranted($admin->getRequiredRole())) throw new Exception('Access denied.');
-        
+
         $object = $this->getObjectById($admin, $request->attributes->getInt('id'));
         $this->entityEventHandlerPool->handleEvents($object, Pool::DELETE_CONTEXT);
         $this->entityManager->remove($object);
