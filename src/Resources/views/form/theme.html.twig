@@ -137,7 +137,7 @@
 
 {% block collection_row %}
     <div class="mb-3">
-        {{ form_label(form) }}
+        <label for="{{ form.vars.id }}" class="form-label">{{ form.vars.name | humanize }}</label>
         <div class="form-collection-wrapper bg-light">
             <div class="form-collection-inner">
                 <ul class="form-collection {{ form.vars.id }}" data-prototype="{{ form_row(form.vars.prototype)|e('html_attr') }}">
