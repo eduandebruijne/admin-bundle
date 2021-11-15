@@ -39,7 +39,7 @@ EDB\AdminBundle\MenuBuilder\MenuBuilder:
 ------
 
 ```bash
-composer require eduandebruijne/admin-bundle:dev-master
+composer require eduandebruijne/admin-bundle
 ```
 
 
