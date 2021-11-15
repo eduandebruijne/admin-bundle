@@ -29,16 +29,25 @@ function showAlert(message, type) {
 }
 
 function selectMaskedForm(formId, value) {
-    $('#' + formId).val(value)
-    const base_form_id = formId.split('_').slice(0,-1)
-    const main_form_element = $('#' + base_form_id.join('_'))
-    $('#' + base_form_id.join('_') + '>.mb-3').hide()
-    const element = $('.masked-container-' + formId + ' button[data-value="'+value+'"]')
-    if (element.length === 0) return
-    $('.masked-container-' + formId + '>.btn-group>div').hide()
-    element.attr('data-form-ids').split(',').forEach((name) => {
-      const sub_form_id = base_form_id.concat([name]).join('_')
-      main_form_element.find('label[for="'+sub_form_id+'"]').parents().show()
-    })
-    $('.masked-container-' + formId + ' [data-value="'+value+'"]').addClass('active');
+    $('#' + formId).val(value);
+
+    const base_form_id = formId.split('_').slice(0, -1);
+    const main_form_element = $('#' + base_form_id.join('_'));
+
+    $('.masked-container-' + formId + ' button').each((index, buttonElement) => {
+        $(buttonElement).removeClass('active');
+        $(buttonElement).data('form-ids').split(',').forEach((id) => {
+            const sub_form_id = base_form_id.concat([id]).join('_');
+            main_form_element.find('label[for="' + sub_form_id + '"]').parent().hide();
+        })
+    });
+
+    const element = $('.masked-container-' + formId + ' button[data-value="' + value + '"]');
+    if (element.length === 0) return;
+
+    element.attr('data-form-ids').split(',').forEach(function (name) {
+        const sub_form_id = base_form_id.concat([name]).join('_');
+        main_form_element.find('label[for="' + sub_form_id + '"]').parent().show();
+    });
+    element.addClass('active');
   }
