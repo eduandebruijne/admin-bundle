@@ -1,0 +1,13 @@
+<td>
+	{% for field in element.name | split('.') %}
+		{% set object = attribute(object, field) %}
+	{% endfor %}
+	{% block value %}
+		{% if object is iterable %}
+			{{ object | join(', ') }}
+		{% else %}
+			{% set max = 50 %}
+			{{ object | length < max ? object : object | slice(0, max) ~ '...' }}
+		{% endif %}
+	{% endblock %}
+</td>

@@ -1,0 +1,34 @@
+{
+  "name": "eduandebruijne/admin-bundle",
+  "description": "A simple to use Symfony based CMS",
+  "type": "symfony-bundle",
+  "license": "MIT",
+  "require": {
+    "doctrine/dbal": "^3.1",
+    "doctrine/doctrine-bundle": "^2.4",
+    "doctrine/orm": "^2.10",
+    "firebase/php-jwt": "^5.5",
+    "knpuniversity/oauth2-client-bundle": "^2.8",
+    "league/glide": "^2.0",
+    "league/oauth2-google": "^4.0",
+    "oneup/flysystem-bundle": "^4.1",
+    "symfony/asset": "5.3.*",
+    "symfony/form": "5.3.*",
+    "symfony/framework-bundle": "5.3.*",
+    "symfony/security-bundle": "5.3.*",
+    "symfony/translation": "5.3.*",
+    "symfony/twig-bundle": "5.3.*",
+    "twig/twig": "^2.12|^3.0"
+
+  },
+  "config": {
+    "platform": {
+      "php": "7.4"
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "EDB\\AdminBundle\\": "src"
+    }
+  }
+}

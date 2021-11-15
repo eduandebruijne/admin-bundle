@@ -1,0 +1,4 @@
+{% set deleteUrl = generate_admin_url(admin.entityClass, 'delete', object.id) %}
+<a onclick="confirmUrl('{{ "Are you sure you want to delete" | trans }} {{ '"' ~ object ~ '"' }}?', '{{ deleteUrl }}', '{{ 'Delete forever' | trans }}', 'danger')" class="btn btn-sm btn-danger">
+    <i class="fa fa-trash-alt"></i> {{ 'Delete' | trans }}
+</a>

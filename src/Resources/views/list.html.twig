@@ -1,0 +1,67 @@
+{% extends '@EDBAdmin/layout.html.twig' %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-sm-6">
+			<h4 class="m-3">{{ admin.adminMenuTitle | trans }}</h4>
+		</div>
+		<div class="col-sm-6">
+			<div class="m-3 float-sm-end">
+			{% block create %}
+				<a href="{{ generate_admin_url(admin.entityClass, 'create') }}" class="btn btn-sm btn-primary">
+					<i class="fa fa-plus-circle"></i>
+					{{ 'Create new' | trans }}
+				</a>
+			{% endblock %}
+			</div>
+		</div>
+	</div>
+	<div class="block">
+		{% if list | length > 0 %}
+			<table class="table table-hover table-striped table-borderless">
+				<thead>
+					<tr class="thead-light">
+						{% for element in list_collection.elements %}
+							<th>
+								{% set label = element.getOption('label') is not empty ? element.getOption('label') : element.name | humanize %}
+								{% if element.getOption('sortable') %}
+									{% set sortedOnColumn = element.name == sort | replace({'!': ''}) %}
+									{% set sortedReverse = '!' in sort %}
+									<a href="{{ path(route, {'sort': (sortedOnColumn and not sortedReverse ? '!' : '') ~ element.name}) }}">
+										{{ label | trans }}
+										{{ sortedOnColumn and sortedReverse ? '<i class="fas fa-sort-up"></i>' : '' }}
+										{{ sortedOnColumn and not sortedReverse ? '<i class="fas fa-sort-down"></i>' : '' }}
+									</a>
+								{% else %}
+									{{ label | trans }}
+								{% endif %}
+							</th>
+						{% endfor %}
+					</tr>
+				<thead>
+				<tbody>
+				{% for row in list %}
+					<tr>
+						{% for element in list_collection.elements %}
+							{% include element.getOption('template') with {object: row} %}
+						{% endfor %}
+					</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+		{% else %}
+			{% set non_found_text = 'No items found' | trans %}
+			{% if search is not empty %}
+				<div class="alert alert-warning mb-0">{{ non_found_text }}</div>
+			{% else %}
+				<div class="card w-50">
+					<div class="card-body">
+						<h5 class="card-title">{{ non_found_text }}</h5>
+						<p class="card-text">Click the button below to start adding content!</p>
+						{{ block('create') }}
+					</div>
+				</div>
+			{% endif %}
+		{% endif %}
+	</div>
+{% endblock %}

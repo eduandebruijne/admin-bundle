@@ -1,0 +1,79 @@
+{% extends '@EDBAdmin/base.html.twig' %}
+
+{% block title %}CMS{% endblock %}
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('bundles/edbadmin/dist/js/jquery-3.5.1.min.js') }}"></script>
+	<script src="{{ asset('bundles/edbadmin/source/bootstrap-5.0.2/dist/js/bootstrap.js') }}"></script>
+	<script src="{{ asset('bundles/edbadmin/dist/js/quill-1.3.6.js') }}"></script>
+	<script src="{{ asset('bundles/edbadmin/dist/js/main.dev.js') }}"></script>
+	<script>
+		const confirmText = "{{ 'Confirm' | trans }}"
+	</script>
+{% endblock %}
+{% block stylesheets %}
+	{{ parent() }}
+	<link rel="stylesheet" href="{{ asset('bundles/edbadmin/dist/css/quill-snow.css') }}">
+{% endblock %}
+{% block body %}
+	{% set route = app.request.attributes.get('_route') %}
+	<div class="wrapper">
+		<div class="menu">
+			<div class="logo">
+				<i class="fa fa-{{ get_parameter('admin_icon') }}"></i>
+				<span>{{ get_parameter('admin_title') }}</span>
+			</div>
+			<ul>
+				{% for element in get_menu() %}
+					{% if element.getOption('items') is not null %}
+						<li>
+							<span>{{ element.name | trans }}</span>
+							<ul>
+								{% for menuItem in element.getOption('items') %}
+									<a title="{{ menuItem.name | trans }}" href="{{ path(menuItem.getOption('path')) }}" class="{{ menuItem.getOption('path') == route ? 'active' : '' }}">
+										<i class="fa fa-{{ menuItem.getOption('icon') }}"></i>
+										<span>{{ menuItem.name | trans }}</span>
+									</a>
+								{% endfor %}
+							</ul>
+						</li>
+					{% else %}
+						<li>
+							<a title="{{ element.name | trans }}" href="{{ path(element.getOption('path')) }}" class="{{ element.getOption('path') == route ? 'active' : '' }}">
+								<i class="fa fa-{{ element.getOption('icon') }}"></i>
+								<span>{{ element.name | trans }}</span>
+							</a>
+						</li>
+					{% endif %}
+				{% endfor %}
+			</ul>
+			<div class="user">
+				<img src="https://gravatar.com/avatar/{{ app.user.avatarHash }}?s=50">
+				<div class="badge bg-success ml-2">{{ app.user.username | length > 30 ? app.user.username | slice(0,30) ~ '...' : app.user.username }}</div>
+			</div>
+		</div>
+		<div class="content">
+			<div class="inner-content">
+			{% block content_header %}
+				<div class="row">
+					<div class="col">
+						{% if list is defined %}
+							<div class="block">
+								<form action="{{ path(route, {'sort': sort}) }}" method="GET">
+									<i class="fas fa-search"></i>
+									<input id="global-search" name="search" type="text" value="{{ search }}" placeholder="{{ "Search" | trans }}">
+								</form>
+							</div>
+						{% endif %}
+					</div>
+				</div>
+			{% endblock %}
+			{% block content %}
+				<div class="block">
+					{{ 'Dashboard' | trans }}
+				</div>
+			{% endblock %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

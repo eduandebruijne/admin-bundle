@@ -1,0 +1,6 @@
+{% extends '@EDBAdmin/list_column.html.twig' %}
+
+{% block value %}
+	{% set max = 30 %}
+	<div class="badge bg-primary">/{{ object | length < max ? object : object | slice(0, max) ~ '...' }}</div>
+{% endblock %}

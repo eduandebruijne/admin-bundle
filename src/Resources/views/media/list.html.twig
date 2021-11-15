@@ -1,0 +1,7 @@
+<div class="d-flex flex-wrap justify-content-center">
+{% for instance in media %}
+    <div class="ms-2 mb-2 flex-column" style="cursor: pointer" onclick="$(this).trigger({type: 'choose', value: {{ instance.id }}})">
+        <img src="{{ get_media_path(instance, 101, 101) }}"/>
+    </div>
+{% endfor %}
+</div>

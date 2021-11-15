@@ -1,0 +1,22 @@
+{% extends '@EDBAdmin/base.html.twig' %}
+
+{% block body %}
+	<div class="container">
+		<div class="row">
+			<div class="col offset-3 col-6 mt-5 text-center">
+				<div class="block pt-5">
+					<div class="login-user-icon">
+						<i class="fa fa-user-alt fa-2x"></i>
+					</div>
+					<div class="mb-4 mt-5">
+						Login
+					</div>
+					<a class="login-method" href="{{ path('connect_google') }}">
+						<i class="fab fa-google"></i>
+						Google
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

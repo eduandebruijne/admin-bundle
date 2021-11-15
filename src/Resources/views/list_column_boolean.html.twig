@@ -1,0 +1,9 @@
+{% extends '@EDBAdmin/list_column.html.twig' %}
+
+{% block value %}
+	{% if object %}
+		<div class="badge bg-success">{{ 'YES' | trans }}</div>
+	{% else %}
+		<div class="badge bg-danger">{{ 'NO' | trans }}</div>
+	{% endif %}
+{% endblock %}

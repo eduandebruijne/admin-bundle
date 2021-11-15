@@ -1,0 +1,41 @@
+parameters:
+  admin_icon: "%env(CMS_ICON)%"
+  admin_path: "%env(ADMIN_PATH)%"
+  admin_title: "%env(CMS_TITLE)%"
+  google_client_id: "%env(OAUTH_GOOGLE_CLIENT_ID)%"
+  google_client_secret: "%env(OAUTH_GOOGLE_CLIENT_SECRET)%"
+  media_path: "/media"
+
+services:
+  _defaults:
+    public: true
+    autowire: true
+    autoconfigure: true
+    bind:
+      $mediaPath: '%media_path%'
+
+  EDB\AdminBundle\:
+    resource: "../../../src/"
+    exclude:
+      - "../../../src/DependencyInjection/"
+      - "../../../src/Entity/"
+      - "../../../src/FormBuilder/"
+      - "../../../src/ListBuilder/"
+      - "../../../src/Admin/"
+      - "../../../src/MenuBuilder/MenuGroup.php"
+      - "../../../src/MenuBuilder/MenuItem.php"
+
+  League\Glide\Server:
+    factory: ['League\Glide\ServerFactory', "create"]
+    arguments:
+      -
+        "source": "@oneup_flysystem.private_filesystem_filesystem"
+        "cache": "@oneup_flysystem.public_filesystem_filesystem"
+  
+  EDB\AdminBundle\Security\TokenManager:
+    arguments:
+      $appSecret: "%env(APP_SECRET)%"
+
+  _instanceof:
+    EDB\AdminBundle\EntityEvent\EntityEventHandlerInterface:
+      tags: ["app.entity_event_handler"]
