@@ -21,7 +21,9 @@ class ListCollection extends AbstractCollection
     {
         $defaultTemplates = [
             'update' => '@EDBAdmin/update_button.html.twig',
-            'delete' => '@EDBAdmin/delete_button.html.twig'
+            'delete' => '@EDBAdmin/delete_button.html.twig',
+            'move_up' => '@EDBAdmin/move_up_button.html.twig',
+            'move_down' => '@EDBAdmin/move_down_button.html.twig',
         ];
 
         $actionObjects = [];
