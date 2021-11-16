@@ -14,7 +14,7 @@ class SortableEntity extends BaseEntity
      * @ORM\Column(type="integer")
      * @var ?int
      */
-    private $position;
+    private $position = 0;
 
     public function getPosition(): ?int
     {
