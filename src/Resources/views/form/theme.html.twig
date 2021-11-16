@@ -216,7 +216,7 @@
             // index when inserting a new item (e.g. 2)
             tagsCollectionHolder.data('index', tagsCollectionHolder.find('input').length);
 
-            $('body').on('click', '.add_item_link', function(e) {
+            $('body').on('click', '.add_item_link_{{ form.vars.id }}', function(e) {
                 let collectionHolderClass = $(e.currentTarget).data('collectionHolderClass');
                 // add a new tag form (see next code block)
                 addFormToCollection(collectionHolderClass);
