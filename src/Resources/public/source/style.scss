@@ -19,12 +19,12 @@ $secondary: #00818F;
 $danger: #A62317;
 $warning: #F2B035;
 
-$fa-font-path: "../../source/fontawesome-5.15.1/webfonts";
+$fa-font-path: "/bundles/edbadmin/source/node_modules/@fortawesome/fontawesome-free/webfonts";
 
-@import "bootstrap-5.0.2/scss/bootstrap";
-@import "fontawesome-5.15.1/scss/fontawesome";
-@import "fontawesome-5.15.1/scss/solid";
-@import "fontawesome-5.15.1/scss/brands";
+@import "node_modules/bootstrap/scss/bootstrap.scss";
+@import "node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss";
+@import "node_modules/@fortawesome/fontawesome-free/scss/solid.scss";
+@import "node_modules/@fortawesome/fontawesome-free/scss/brands.scss";
 
 ::-webkit-scrollbar {
   width: 7px;

@@ -1,5 +1,15 @@
 {% extends '@EDBAdmin/layout.html.twig' %}
 
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('bundles/edbadmin/source/node_modules/quill/dist/quill.min.js') }}"></script>
+{% endblock javascripts %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link rel="stylesheet" href="{{ asset('bundles/edbadmin/source/node_modules/quill/dist/quill.snow.css') }}">
+{% endblock %}
+
 {% block content %}
 	<h4 class="m-3">
 		{% if object is defined %}

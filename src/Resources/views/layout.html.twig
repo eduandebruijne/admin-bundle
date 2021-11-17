@@ -1,20 +1,16 @@
 {% extends '@EDBAdmin/base.html.twig' %}
 
 {% block title %}CMS{% endblock %}
+
 {% block javascripts %}
 	{{ parent() }}
-	<script src="{{ asset('bundles/edbadmin/dist/js/jquery-3.5.1.min.js') }}"></script>
-	<script src="{{ asset('bundles/edbadmin/source/bootstrap-5.0.2/dist/js/bootstrap.js') }}"></script>
-	<script src="{{ asset('bundles/edbadmin/dist/js/quill-1.3.6.js') }}"></script>
+	<script src="{{ asset('bundles/edbadmin/source/node_modules/jquery/dist/jquery.min.js') }}"></script>
 	<script src="{{ asset('bundles/edbadmin/dist/js/main.dev.js') }}"></script>
 	<script>
 		const confirmText = "{{ 'Confirm' | trans }}"
 	</script>
 {% endblock %}
-{% block stylesheets %}
-	{{ parent() }}
-	<link rel="stylesheet" href="{{ asset('bundles/edbadmin/dist/css/quill-snow.css') }}">
-{% endblock %}
+
 {% block body %}
 	{% set route = app.request.attributes.get('_route') %}
 	<div class="wrapper">
