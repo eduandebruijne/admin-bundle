@@ -31,10 +31,6 @@ services:
       -
         "source": "@oneup_flysystem.private_filesystem_filesystem"
         "cache": "@oneup_flysystem.public_filesystem_filesystem"
-  
-  EDB\AdminBundle\Security\TokenManager:
-    arguments:
-      $appSecret: "%env(APP_SECRET)%"
 
   _instanceof:
     EDB\AdminBundle\EntityEvent\EntityEventHandlerInterface:
