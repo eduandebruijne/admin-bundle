@@ -244,27 +244,6 @@
     </div>
 {% endblock %}
 
-{% block editor_row %}
-    <div class="mb-3">
-        {{ form_label(form) }}
-        <div id="{{ form.vars.id }}-editor" class="edb-editor">
-            {{ form_row(form) }}
-            <div contenteditable="true"></div>
-        </div>
-    </div>
-    <script>
-        document.getElementById('{{ form.vars.id }}-editor').childNodes.forEach((node) => {
-            if (node.nodeName !== 'DIV') return
-            if (!node.getAttribute('contenteditable')) return
-
-            node.innerHTML = '{{ value | raw }}'
-            node.addEventListener('blur', function(event) {
-                document.getElementById('{{ form.vars.id }}').value = event.target.innerHTML
-            })
-        })
-    </script>
-{% endblock %}
-
 {% block quill_row %}
     <div class="mb-3">
         {{ form_label(form) }}
