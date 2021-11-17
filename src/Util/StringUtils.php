@@ -9,7 +9,7 @@ class StringUtils
 {
     public static function createSlug(?string $value): string
     {
-        if (empty($value)) return self::generateRandomString();
+        if (empty($value)) return null;
 
         $slugger = new AsciiSlugger();
         return $slugger
@@ -19,6 +19,6 @@ class StringUtils
 
     public static function generateRandomString(string $prefix = null): string
     {
-        return ByteString::fromRandom(30);
+        return sprintf('%s%s', $prefix, ByteString::fromRandom(30));
     }
 }
