@@ -2,7 +2,6 @@
 
 namespace EDB\AdminBundle\Command;
 
-use DateTime;
 use Doctrine\Persistence\ManagerRegistry;
 use EDB\AdminBundle\Entity\User;
 use Symfony\Component\Console\Command\Command;

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EDB\AdminBundle\Controller;
 
-use Doctrine\Common\Collections\Criteria;
 use EDB\AdminBundle\Admin\AdminInterface;
 use EDB\AdminBundle\Admin\Pool as AdminPool;
 use EDB\AdminBundle\EntityEvent\Pool;
