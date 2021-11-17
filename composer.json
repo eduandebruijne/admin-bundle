@@ -17,8 +17,8 @@
     "symfony/security-bundle": "5.3.*",
     "symfony/translation": "5.3.*",
     "symfony/twig-bundle": "5.3.*",
-    "twig/twig": "^2.12|^3.0"
-
+    "twig/twig": "^2.12|^3.0",
+    "symfony/webpack-encore-bundle": "^1.12"
   },
   "config": {
     "platform": {
