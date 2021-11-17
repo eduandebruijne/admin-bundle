@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EDB\AdminBundle\Twig;
 
 use EDB\AdminBundle\MenuBuilder\MenuBuilder;
-use ReflectionException;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -25,9 +24,6 @@ class MenuExtension extends AbstractExtension
         ];
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function getMenu(): array
     {
         return $this->menuBuilder->getElements();
