@@ -17,12 +17,6 @@ class User extends BaseEntity implements UserInterface
     private $username;
 
     /**
-     * @ORM\Column
-     * @var ?string
-     */
-    private $token;
-
-    /**
      * @ORM\Column(type="json")
      * @var array
      */
@@ -62,16 +56,6 @@ class User extends BaseEntity implements UserInterface
     {
         $this->username = $username;
     }
-
-	public function getToken(): ?string
-	{
-		return $this->token;
-	}
-
-	public function setToken(?string $token)
-	{
-		$this->token = $token;
-	}
 
     public function eraseCredentials()
     {

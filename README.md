@@ -129,8 +129,6 @@ providers:
 
 firewalls:
     main:
-        custom_authenticators:
-            - EDB\AdminBundle\Security\TokenAuthenticator
         guard:
             authenticators:
                 - EDB\AdminBundle\Security\GoogleAuthenticator
