@@ -23,14 +23,14 @@
 		{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 		{{ form_widget(form) }}
 		<div class="mt-5"></div>
-		<button type="submit" class="btn btn-sm btn-primary">
+        <a href="{{ back }}" class="btn btn btn-outline-secondary">
+            <i class="fa fa-arrow-alt-circle-left"></i>
+            {{ 'Back' | trans }}
+        </a>
+		<button type="submit" class="btn btn btn-primary">
 			<i class="fa fa-save"></i>
 			{{ 'Save' | trans }}
 		</button>
-		<a href="{{ back }}" class="btn btn-sm btn-outline-secondary">
-			<i class="fa fa-arrow-alt-circle-left"></i>
-			{{ 'Back' | trans }}
-		</a>
 		{{ form_end(form) }}
 	</div>
 {% endblock %}
