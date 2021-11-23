@@ -1,4 +1,4 @@
-import 'jquery/dist/jquery';
+import $ from 'jquery'
 import './js/script';
 import './scss/style.scss';
 
