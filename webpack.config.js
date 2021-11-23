@@ -1,9 +1,11 @@
 const Encore = require('@symfony/webpack-encore');
 
 Encore
-    .setOutputPath('public/build/')
+    .setOutputPath('./src/Resources/public/build/')
     .setPublicPath('/build')
-    .addEntry('app', './src/Resources/public/source/main.js')
+    .addEntry('app', './src/Resources/assets/js/app.js')
+    .addEntry('style', './src/Resources/assets/js/style.js')
+    .enableSassLoader()
     .enableSingleRuntimeChunk()
 ;
 

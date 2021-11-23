@@ -1,4 +1,10 @@
-"use strict";
+(self["webpackChunk"] = self["webpackChunk"] || []).push([["app"],{
+
+/***/ "./src/Resources/assets/js/app.js":
+/*!****************************************!*\
+  !*** ./src/Resources/assets/js/app.js ***!
+  \****************************************/
+/***/ (() => {
 
 function confirmUrl(question, confirmedUrl, buttonText, type) {
   if (!type) type = 'success';
@@ -47,3 +53,12 @@ function selectMaskedForm(formId, value) {
   });
   element.addClass('active');
 }
+
+/***/ })
+
+},
+/******/ __webpack_require__ => { // webpackRuntimeModules
+/******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
+/******/ var __webpack_exports__ = (__webpack_exec__("./src/Resources/assets/js/app.js"));
+/******/ }
+]);
