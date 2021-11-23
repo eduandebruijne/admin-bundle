@@ -2,7 +2,8 @@ const Encore = require('@symfony/webpack-encore');
 
 Encore
     .setOutputPath('./src/Resources/public/build/')
-    .setPublicPath('/build')
+    .setPublicPath('/')
+    .setManifestKeyPrefix('bundles/edbadmin')
     .addEntry('app', './src/Resources/assets/js/app.js')
     .addEntry('style', './src/Resources/assets/js/style.js')
     .enableSassLoader()
