@@ -1,5 +1,6 @@
 import jQuery from 'jquery'
-import './js/script';
+import selectMaskedForm from './js/script';
 import './scss/style.scss';
 
 window.$ = jQuery;
+window.selectMaskedForm = selectMaskedForm
