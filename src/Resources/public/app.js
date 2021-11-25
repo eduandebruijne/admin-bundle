@@ -11,6 +11,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery_dist_jquery_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery/dist/jquery.js */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery_dist_jquery_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery_dist_jquery_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _js_script__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./js/script */ "./src/Resources/assets/js/script.js");
+/* harmony import */ var _js_script__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_js_script__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _scss_style_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./scss/style.scss */ "./src/Resources/assets/scss/style.scss");
 
 
@@ -22,13 +23,8 @@ __webpack_require__.r(__webpack_exports__);
 /*!*******************************************!*\
   !*** ./src/Resources/assets/js/script.js ***!
   \*******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ (() => {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "selectMaskedForm": () => (/* binding */ selectMaskedForm)
-/* harmony export */ });
 function confirmUrl(question, confirmedUrl, buttonText, type) {
   if (!type) type = 'success';
   var modal = $('<div id="confirm-modal" class="modal fade" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">' + confirmText + '</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div><div class="modal-body"><p>' + question + '</p></div><div class="modal-footer"><a class="btn btn-sm btn-' + type + '" href="' + confirmedUrl + '">' + buttonText + '</a></div></div></div></div>');

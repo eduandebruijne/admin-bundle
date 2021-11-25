@@ -28,7 +28,7 @@ function showAlert(message, type) {
     }, 1)
 }
 
-export function selectMaskedForm(formId, value) {
+function selectMaskedForm(formId, value) {
     $('#' + formId).val(value);
 
     const base_form_id = formId.split('_').slice(0, -1);
