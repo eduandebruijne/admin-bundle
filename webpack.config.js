@@ -8,6 +8,9 @@ Encore
     .enableSassLoader()
     .enableSingleRuntimeChunk()
     .autoProvidejQuery()
+    .autoProvideVariables({
+        'test': require('jquery')
+    })
 ;
 
 module.exports = Encore.getWebpackConfig();
