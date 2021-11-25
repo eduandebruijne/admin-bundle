@@ -7,6 +7,10 @@ Encore
     .addEntry('app', './src/Resources/assets/app.js')
     .enableSassLoader()
     .enableSingleRuntimeChunk()
+    .addExternals({
+        jquery: '$',
+        jquery: 'jQuery'
+    })
 ;
 
 module.exports = Encore.getWebpackConfig();
