@@ -8,6 +8,9 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "selectMaskedForm": () => (/* reexport default from dynamic */ _js_script__WEBPACK_IMPORTED_MODULE_1___default.a)
+/* harmony export */ });
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _js_script__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./js/script */ "./src/Resources/assets/js/script.js");
@@ -16,8 +19,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-window.$ = (jquery__WEBPACK_IMPORTED_MODULE_0___default());
-window.selectMaskedForm = (_js_script__WEBPACK_IMPORTED_MODULE_1___default());
+
 
 /***/ }),
 
