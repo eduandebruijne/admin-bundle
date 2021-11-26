@@ -4,8 +4,7 @@
 
 {% block javascripts %}
 	{{ parent() }}
-	<script src="{{ asset('bundles/edbadmin/source/node_modules/jquery/dist/jquery.min.js') }}"></script>
-	<script src="{{ asset('bundles/edbadmin/dist/js/main.dev.js') }}"></script>
+	<script src="{{ asset('bundles/edbadmin/all.js') }}"></script>
 	<script>
 		const confirmText = "{{ 'Confirm' | trans }}"
 	</script>

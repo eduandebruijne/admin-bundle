@@ -31,7 +31,7 @@
         </div>
     </div>
     <script>
-        $(function() {
+        jquery(function() {
             selectMaskedForm('{{ form.vars.id }}', '{{ value }}')
         });
     </script>
@@ -62,14 +62,14 @@
             <div id="{{ form.vars.id }}-media-preview" class="bg-light col-12 d-flex justify-content-center"></div>
             <div class="row mb-3">
                 <div class="col-6">
-                    <button type="button" class="btn btn-sm btn-secondary w-100" onclick="$('#{{ form.vars.id }}-modal').trigger('open')">
+                    <button type="button" class="btn btn-sm btn-secondary w-100" onclick="jquery('#{{ form.vars.id }}-modal').trigger('open')">
                         {{ 'Select media' | trans }}
                     </button>
                 </div>
                 <div class="col-6">
                     <input type="hidden" id="{{ form.vars.id }}" name="{{ form.vars.full_name }}" value="{{ value }}">
-                    <input type="file" onchange="$('#{{ form.vars.id }}-media-form').trigger({type: 'updateValue', fileInput: this})" class="d-none">
-                    <label onclick="$(this).prev().trigger('click')" for="{{ form.vars.full_name }}" class="custom-upload-label btn btn-sm btn-secondary"></label>
+                    <input type="file" onchange="jquery('#{{ form.vars.id }}-media-form').trigger({type: 'updateValue', fileInput: this})" class="d-none">
+                    <label onclick="jquery(this).prev().trigger('click')" for="{{ form.vars.full_name }}" class="custom-upload-label btn btn-sm btn-secondary"></label>
                 </div>
             </div>
             {{ block('modal') }}
@@ -77,12 +77,12 @@
     </div>
 
     <script>
-        $(function() {
-            const previewContainer = $('#{{ form.vars.id }}-media-preview')
-            const formContainer = $('#{{ form.vars.id }}-media-form')
-            const inputElement = $('#{{ form.vars.id }}')
-            const mediaModal = $('#{{ form.vars.id }}-modal')
-            const mediaModelBody = $('#{{ form.vars.id }}-modal .modal-body')
+        jquery(function() {
+            const previewContainer = jquery('#{{ form.vars.id }}-media-preview')
+            const formContainer = jquery('#{{ form.vars.id }}-media-form')
+            const inputElement = jquery('#{{ form.vars.id }}')
+            const mediaModal = jquery('#{{ form.vars.id }}-modal')
+            const mediaModelBody = jquery('#{{ form.vars.id }}-modal .modal-body')
 
             previewContainer.on('refresh', async function(event) {
                 const response = await fetch('{{ path(preview_route_name) }}?id=' + event.id, {method: "GET"});
@@ -161,7 +161,7 @@
     <script>
         function addFormToCollection(collectionHolderClass) {
             // Get the ul that holds the collection of tags
-            let collectionHolder = $('.' + collectionHolderClass);
+            let collectionHolder = jquery('.' + collectionHolderClass);
 
             // Get the data-prototype explained earlier
             let prototype = collectionHolder.data('prototype');
@@ -183,7 +183,7 @@
             collectionHolder.data('index', index + 1);
 
             // Display the form in the page in an li, before the "Add a tag" link li
-            let newFormLi = $('<li class="form-collection-item"><div class="row"><div class="col-11">'+newForm+'</div></div></li>');
+            let newFormLi = jquery('<li class="form-collection-item"><div class="row"><div class="col-11">'+newForm+'</div></div></li>');
 
             // Add the new form at the end of the list
             collectionHolder.append(newFormLi)
@@ -193,7 +193,7 @@
         }
 
         function addTagFormDeleteLink(tagFormLi) {
-            let removeFormButton = $('<div class="col-1"><button type="button" class="btn btn-sm btn-danger"><i class="fa fa-minus-circle"></i></button></div>');
+            let removeFormButton = jquery('<div class="col-1"><button type="button" class="btn btn-sm btn-danger"><i class="fa fa-minus-circle"></i></button></div>');
             tagFormLi.find('.row:first-child').prepend(removeFormButton);
 
             removeFormButton.on('click', 'button', function(e) {
@@ -201,23 +201,23 @@
             });
         }
 
-        $(document).ready(function() {
+        jquery(document).ready(function() {
             // Get the ul that holds the collection of tags
-            let collectionHolder = $('ul.{{ form.vars.id }}');
+            let collectionHolder = jquery('ul.{{ form.vars.id }}');
 
             // add a delete link to all of the existing tag form li elements
             collectionHolder.find('li').each(function() {
-                addTagFormDeleteLink($(this));
+                addTagFormDeleteLink(jquery(this));
             });
 
             // Get the ul that holds the collection of tags
-            let tagsCollectionHolder = $('ul.{{ form.vars.id }}');
+            let tagsCollectionHolder = jquery('ul.{{ form.vars.id }}');
             // count the current form inputs we have (e.g. 2), use that as the new
             // index when inserting a new item (e.g. 2)
             tagsCollectionHolder.data('index', tagsCollectionHolder.find('input').length);
 
-            $('body').on('click', '.add_item_link_{{ form.vars.id }}', function(e) {
-                let collectionHolderClass = $(e.currentTarget).data('collectionHolderClass');
+            jquery('body').on('click', '.add_item_link_{{ form.vars.id }}', function(e) {
+                let collectionHolderClass = jquery(e.currentTarget).data('collectionHolderClass');
                 // add a new tag form (see next code block)
                 addFormToCollection(collectionHolderClass);
             })
@@ -231,7 +231,7 @@
 
         {% set formId = form.vars.id %}
         {% set messageText = 'The slug will be recreated after saving' | trans %}
-        {% set onClickJs = "$('#" ~ formId ~ "').val(''); showAlert('" ~ messageText ~ "');" %}
+        {% set onClickJs = "jquery('#" ~ formId ~ "').val(''); showAlert('" ~ messageText ~ "');" %}
 
         <div class="input-group">
             <input id="{{ form.vars.id }}" name="{{ form.vars.full_name }}" type="text" class="form-control" readonly value="{{ value ?? '' }}">
@@ -248,7 +248,7 @@
     <div class="mb-3">
         {{ form_label(form) }}
         <div id="quill-container-{{ form.vars.id }}">
-            <input type="file" onchange="$('#quill-container-{{ form.vars.id }}').trigger({type: 'updateValue', fileInput: this})" class="d-none">
+            <input type="file" onchange="jquery('#quill-container-{{ form.vars.id }}').trigger({type: 'updateValue', fileInput: this})" class="d-none">
             <input type="hidden" {{ block('widget_attributes') }} value="{{ value }}">
             <div id="{{ id }}_quill" class="form-control quill-editor">
                 {{ value | raw }}
@@ -259,9 +259,9 @@
     {{ form_errors(form) }}
 
     <script>
-        $(function() {
-            const quillContainer = $('#quill-container-{{ form.vars.id }}')
-            const quillContainerFileInput = $('#quill-container-{{ form.vars.id }} [type="file"]')
+        jquery(function() {
+            const quillContainer = jquery('#quill-container-{{ form.vars.id }}')
+            const quillContainerFileInput = jquery('#quill-container-{{ form.vars.id }} [type="file"]')
             quillContainer.on('updateValue', async function(event) {
                 const file = event.fileInput.files[0]
                 const formData = new FormData()
