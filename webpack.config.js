@@ -4,7 +4,7 @@ const webpack = require('webpack');
 module.exports = {
     entry: './src/Resources/assets/app.js',
     output: {
-        filename: 'all.js',
+        filename: 'dist.js',
         path: path.resolve(__dirname, 'src/Resources/public'),
     },
     plugins: [
