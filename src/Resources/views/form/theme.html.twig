@@ -82,6 +82,7 @@
             const formContainer = jquery('#{{ form.vars.id }}-media-form')
             const inputElement = jquery('#{{ form.vars.id }}')
             const mediaModal = jquery('#{{ form.vars.id }}-modal')
+            const mediaModalObject = new bootstrap.Modal(mediaModal)
             const mediaModelBody = jquery('#{{ form.vars.id }}-modal .modal-body')
 
             previewContainer.on('refresh', async function(event) {
@@ -99,14 +100,14 @@
             previewContainer.trigger({type: 'refresh', id: '{{ value }}'})
 
             mediaModal.on('open', async function() {
-                mediaModal.modal('show')
+                mediaModalObject.show()
                 const response = await fetch("{{ path('media_list') }}", {method: "GET"});
                 const html = await response.text()
                 mediaModelBody.html(html)
             })
 
             mediaModal.on('choose', async function(event) {
-                mediaModal.modal('hide')
+                mediaModalObject.hide()
                 inputElement.val(event.value)
                 previewContainer.trigger({type: 'refresh', id: event.value})
             })
