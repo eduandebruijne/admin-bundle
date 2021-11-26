@@ -50,4 +50,6 @@ function selectMaskedForm(formId, value) {
         main_form_element.find('label[for="' + sub_form_id + '"]').parent().show();
     });
     element.addClass('active');
-  }
+}
+
+export {confirmUrl, showAlert, selectMaskedForm}

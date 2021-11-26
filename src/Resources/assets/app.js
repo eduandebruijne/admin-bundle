@@ -1,7 +1,12 @@
-import 'jquery'
-import './js/script';
-import './scss/style.scss';
+import $ from 'jquery'
+import quill from 'quill'
+import {confirmUrl, showAlert, selectMaskedForm} from './js/script';
 
-export default {
-    'test': function() {console.log('Test')}
-}
+import 'quill/dist/quill.snow.css'
+import './scss/style.scss'
+
+globalThis.confirmUrl = confirmUrl
+globalThis.selectMaskedForm = selectMaskedForm
+globalThis.showAlert = showAlert
+globalThis.jquery = $
+globalThis.Quill = quill

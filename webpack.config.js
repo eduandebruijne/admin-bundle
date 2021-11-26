@@ -1,16 +1,27 @@
-const Encore = require('@symfony/webpack-encore');
+const path = require('path');
+const webpack = require('webpack');
 
-Encore
-    .setOutputPath('./src/Resources/public/')
-    .setPublicPath('./')
-    .setManifestKeyPrefix('bundles/edbadmin')
-    .addEntry('app', './src/Resources/assets/app.js')
-    .enableSassLoader()
-    .enableSingleRuntimeChunk()
-    .autoProvidejQuery()
-    .autoProvideVariables({
-        'test': require('jquery')
-    })
-;
-
-module.exports = Encore.getWebpackConfig();
+module.exports = {
+    entry: './src/Resources/assets/app.js',
+    output: {
+        filename: 'all.js',
+        path: path.resolve(__dirname, 'src/Resources/public'),
+    },
+    plugins: [
+        new webpack.ProvidePlugin({
+            $: 'jquery'
+        })
+    ],
+    module: {
+        rules: [
+          {
+            test: /\.scss$/i,
+            use: ["style-loader", "css-loader", 'sass-loader'],
+          },
+          {
+            test: /\.css$/i,
+            use: ["style-loader", "css-loader"],
+          },
+        ],
+      },
+};
