@@ -1,8 +1,9 @@
 function confirmUrl(question, confirmedUrl, buttonText, type) {
     if (!type)
         type = 'success'
-    const modal = $('<div id="confirm-modal" class="modal fade" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">' + confirmText + '</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div><div class="modal-body"><p>' + question + '</p></div><div class="modal-footer"><a class="btn btn-sm btn-' + type + '" href="' + confirmedUrl + '">' + buttonText + '</a></div></div></div></div>')
-    modal.modal('show')
+    const modalElement = $('<div id="confirm-modal" class="modal fade" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">' + confirmText + '</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div><div class="modal-body"><p>' + question + '</p></div><div class="modal-footer"><a class="btn btn-sm btn-' + type + '" href="' + confirmedUrl + '">' + buttonText + '</a></div></div></div></div>')
+    const modal = new bootstrap.Modal(modalElement)
+    modal.show()
     modal.on('hidden.bs.modal', function () {
         modal.remove()
     })
