@@ -245,6 +245,34 @@
     </div>
 {% endblock %}
 
+{% block tiny_mce_row %}
+    <script src="{{ asset('bundles/edbadmin/source/node_modules/tinymce/tinymce.min.js') }}"></script>
+    <script type="text/javascript">
+        tinymce.init({
+            selector: '#tinymce-{{ form.vars.id }}',
+            height: 500,
+            menubar: false,
+            plugins: [
+                '{{ form.vars.tinymce_plugins }}',
+            ],
+            toolbar: '{{ form.vars.tinymce_toolbar }}',
+        {% if form.vars.editor_css %}
+            content_css: '{{ form.vars.editor_css }}',
+        {% endif %}
+        {% if form.vars.tinymce_formats %}
+            formats: '{{ form.vars.tinymce_formats }}',
+        {% endif %}
+        {% if form.vars.tinymce_style_formats %}
+            style_formats: '{{ form.vars.tinymce_style_formats }}',
+        {% endif %}
+        });
+    </script>
+    <div class="mb-3">
+        {{ form_label(form) }}
+        <textarea id="tinymce-{{ form.vars.id }}">{{ value | raw }}</textarea>
+    </div>
+{% endblock %}
+
 {% block quill_row %}
     <div class="mb-3">
         {{ form_label(form) }}

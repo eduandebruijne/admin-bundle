@@ -9,6 +9,7 @@
     "sass": "^1.43.4",
     "sass-loader": "^12.3.0",
     "scss-loader": "^0.0.1",
-    "webpack": "^5.64.4"
+    "webpack": "^5.64.4",
+    "tinymce": "^5.10.2",
   }
 }
