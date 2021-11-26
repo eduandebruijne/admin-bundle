@@ -4,12 +4,17 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>
-			{% block title %}Welcome!{% endblock %}
+			{% block title %}CMS{% endblock %}
 		</title>
 		{% block stylesheets %}{% endblock %}
 	</head>
 	<body>
-		{% block javascripts %}{% endblock %}
+		{% block javascripts %}
+			<script src="{{ asset('bundles/edbadmin/all.js') }}"></script>
+			<script>
+				const confirmText = "{{ 'Confirm' | trans }}"
+			</script>
+		{% endblock %}
 		{% block body %}{% endblock %}
 	</body>
 </html>

@@ -1,15 +1,5 @@
 {% extends '@EDBAdmin/base.html.twig' %}
 
-{% block title %}CMS{% endblock %}
-
-{% block javascripts %}
-	{{ parent() }}
-	<script src="{{ asset('bundles/edbadmin/all.js') }}"></script>
-	<script>
-		const confirmText = "{{ 'Confirm' | trans }}"
-	</script>
-{% endblock %}
-
 {% block body %}
 	{% set route = app.request.attributes.get('_route') %}
 	<div class="wrapper">
