@@ -249,21 +249,21 @@
     <script type="text/javascript">
         tinymce.init({
             selector: "#tinymce-{{ form.vars.id }}",
-            height: 250,
-            menubar: false,
+            height: {{ height }},
+            menubar: {{ show_menu ? 'true' : 'false' }},
             plugins: [
                 "{{ form.vars.tinymce_plugins }}",
             ],
             toolbar: "{{ form.vars.tinymce_toolbar }}",
-        {% if form.vars.editor_css %}
+            {% if form.vars.editor_css %}
             content_css: "{{ form.vars.editor_css }}",
-        {% endif %}
-        {% if form.vars.tinymce_formats %}
-            formats: "{{ form.vars.tinymce_formats }}",
-        {% endif %}
-        {% if form.vars.tinymce_style_formats %}
-            style_formats: "{{ form.vars.tinymce_style_formats }}",
-        {% endif %}
+            {% endif %}
+            {% if form.vars.tinymce_formats %}
+            formats: {{ form.vars.tinymce_formats | json_encode() | raw }},
+            {% endif %}
+            {% if form.vars.tinymce_style_formats %}
+            style_formats: {{ form.vars.tinymce_style_formats | json_encode() | raw }},
+            {% endif %}
         });
     </script>
     <div class="mb-3">
