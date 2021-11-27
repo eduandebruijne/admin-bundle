@@ -32,7 +32,7 @@
     </div>
     <script>
         jquery(function() {
-            selectMaskedForm('{{ form.vars.id }}', '{{ value }}')
+            selectMaskedForm("{{ form.vars.id }}", "{{ value }}")
         });
     </script>
 {% endblock %}
@@ -78,41 +78,41 @@
 
     <script>
         jquery(function() {
-            const previewContainer = jquery('#{{ form.vars.id }}-media-preview')
-            const formContainer = jquery('#{{ form.vars.id }}-media-form')
-            const inputElement = jquery('#{{ form.vars.id }}')
-            const mediaModal = jquery('#{{ form.vars.id }}-modal')
+            const previewContainer = jquery("#{{ form.vars.id }}-media-preview")
+            const formContainer = jquery("#{{ form.vars.id }}-media-form")
+            const inputElement = jquery("#{{ form.vars.id }}")
+            const mediaModal = jquery("#{{ form.vars.id }}-modal")
             const mediaModalObject = new bootstrap.Modal(mediaModal)
-            const mediaModelBody = jquery('#{{ form.vars.id }}-modal .modal-body')
+            const mediaModelBody = jquery("#{{ form.vars.id }}-modal .modal-body")
 
-            previewContainer.on('refresh', async function(event) {
-                const response = await fetch('{{ path(preview_route_name) }}?id=' + event.id, {method: "GET"});
+            previewContainer.on("refresh", async function(event) {
+                const response = await fetch("{{ path(preview_route_name) }}?id=" + event.id, {method: "GET"});
                 if (response.status === 200) {
                     const html = await response.text()
                     if (html) {
-                        this.innerHTML = '<div class="mb-3">'+html+'</div>'
+                        this.innerHTML = "<div class=\"mb-3\">"+html+"</div>"
                     }
                 } else {
-                    showAlert('Something went wrong while loading the preview', 'danger')
+                    showAlert("Something went wrong while loading the preview", "danger")
                 }
             });
 
-            previewContainer.trigger({type: 'refresh', id: '{{ value }}'})
+            previewContainer.trigger({type: "refresh", id: "{{ value }}"})
 
-            mediaModal.on('open', async function() {
+            mediaModal.on("open", async function() {
                 mediaModalObject.show()
                 const response = await fetch("{{ path('media_list') }}", {method: "GET"});
                 const html = await response.text()
                 mediaModelBody.html(html)
             })
 
-            mediaModal.on('choose', async function(event) {
+            mediaModal.on("choose", async function(event) {
                 mediaModalObject.hide()
                 inputElement.val(event.value)
-                previewContainer.trigger({type: 'refresh', id: event.value})
+                previewContainer.trigger({type: "refresh", id: event.value})
             })
 
-            formContainer.on('updateValue', async function(event) {
+            formContainer.on("updateValue", async function(event) {
                 const file = event.fileInput.files[0]
                 const formData = new FormData()
                 formData.append("image", file)
@@ -125,11 +125,11 @@
                 const responseBody = await response.json()
                 if (response.status === 200) {
                     event.fileInput.value = null
-                    showAlert('File uploaded successfully')
+                    showAlert("File uploaded successfully")
                     inputElement.val(responseBody.mediaId)
-                    previewContainer.trigger({type: 'refresh', id: responseBody.mediaId})
+                    previewContainer.trigger({type: "refresh", id: responseBody.mediaId})
                 } else {
-                    showAlert(responseBody.error, 'danger')
+                    showAlert(responseBody.error, "danger")
                 }
             })
         });
@@ -162,13 +162,13 @@
     <script>
         function addFormToCollection(collectionHolderClass) {
             // Get the ul that holds the collection of tags
-            let collectionHolder = jquery('.' + collectionHolderClass);
+            let collectionHolder = jquery("." + collectionHolderClass);
 
             // Get the data-prototype explained earlier
-            let prototype = collectionHolder.data('prototype');
+            let prototype = collectionHolder.data("prototype");
 
             // get the new index
-            let index = collectionHolder.data('index');
+            let index = collectionHolder.data("index");
 
             let newForm = prototype;
             // You need this only if you didn't set 'label' => false in your tags field in TaskType
@@ -181,10 +181,10 @@
             newForm = newForm.replace(/__name__/g, index);
 
             // increase the index with one for the next item
-            collectionHolder.data('index', index + 1);
+            collectionHolder.data("index", index + 1);
 
             // Display the form in the page in an li, before the "Add a tag" link li
-            let newFormLi = jquery('<li class="form-collection-item"><div class="row"><div class="col-11">'+newForm+'</div></div></li>');
+            let newFormLi = jquery("<li class=\"form-collection-item\"><div class=\"row\"><div class=\"col-11\">"+newForm+"</div></div></li>");
 
             // Add the new form at the end of the list
             collectionHolder.append(newFormLi)
@@ -194,31 +194,31 @@
         }
 
         function addTagFormDeleteLink(tagFormLi) {
-            let removeFormButton = jquery('<div class="col-1"><button type="button" class="btn btn-sm btn-danger"><i class="fa fa-minus-circle"></i></button></div>');
-            tagFormLi.find('.row:first-child').prepend(removeFormButton);
+            let removeFormButton = jquery("<div class=\"col-1\"><button type=\"button\" class=\"btn btn-sm btn-danger\"><i class=\"fa fa-minus-circle\"></i></button></div>");
+            tagFormLi.find(".row:first-child").prepend(removeFormButton);
 
-            removeFormButton.on('click', 'button', function(e) {
+            removeFormButton.on("click", "button", function(e) {
                 tagFormLi.remove();
             });
         }
 
         jquery(document).ready(function() {
             // Get the ul that holds the collection of tags
-            let collectionHolder = jquery('ul.{{ form.vars.id }}');
+            let collectionHolder = jquery("ul.{{ form.vars.id }}");
 
             // add a delete link to all of the existing tag form li elements
-            collectionHolder.find('li').each(function() {
+            collectionHolder.find("li").each(function() {
                 addTagFormDeleteLink(jquery(this));
             });
 
             // Get the ul that holds the collection of tags
-            let tagsCollectionHolder = jquery('ul.{{ form.vars.id }}');
+            let tagsCollectionHolder = jquery("ul.{{ form.vars.id }}");
             // count the current form inputs we have (e.g. 2), use that as the new
             // index when inserting a new item (e.g. 2)
-            tagsCollectionHolder.data('index', tagsCollectionHolder.find('input').length);
+            tagsCollectionHolder.data("index", tagsCollectionHolder.find("input").length);
 
-            jquery('body').on('click', '.add_item_link_{{ form.vars.id }}', function(e) {
-                let collectionHolderClass = jquery(e.currentTarget).data('collectionHolderClass');
+            jquery("body").on("click", ".add_item_link_{{ form.vars.id }}", function(e) {
+                let collectionHolderClass = jquery(e.currentTarget).data("collectionHolderClass");
                 // add a new tag form (see next code block)
                 addFormToCollection(collectionHolderClass);
             })
@@ -245,76 +245,29 @@
     </div>
 {% endblock %}
 
-{% block quill_row %}
-    <div class="mb-3">
-        {{ form_label(form) }}
-        <div id="quill-container-{{ form.vars.id }}">
-            <input type="file" onchange="jquery('#quill-container-{{ form.vars.id }}').trigger({type: 'updateValue', fileInput: this})" class="d-none">
-            <input type="hidden" {{ block('widget_attributes') }} value="{{ value }}">
-            <div id="{{ id }}_quill" class="form-control quill-editor">
-                {{ value | raw }}
-            </div>
-        </div>
-    </div>
-
-    {{ form_errors(form) }}
-
-    <script>
-        jquery(function() {
-            const quillContainer = jquery('#quill-container-{{ form.vars.id }}')
-            const quillContainerFileInput = jquery('#quill-container-{{ form.vars.id }} [type="file"]')
-            quillContainer.on('updateValue', async function(event) {
-                const file = event.fileInput.files[0]
-                const formData = new FormData()
-                formData.append("image", file)
-
-                const response = await fetch("{{ path('media_upload_original_path') }}", {
-                    method: "POST",
-                    body: formData
-                });
-
-                const responseBody = await response.json()
-                if (response.status === 200) {
-                    event.fileInput.value = null
-                    showAlert('File uploaded successfully')
-
-                    const range = quill.getSelection(true);
-                    quill.insertEmbed(range.index, 'image', responseBody.path, 'api')
-                } else {
-                    showAlert(responseBody.error, 'danger')
-                }
-            })
-
-            const quill = new Quill('#{{ id }}_quill', {
-                placeholder: 'Enter content',
-                theme: 'snow',
-                modules: {
-                    toolbar: [
-                        ['bold', 'italic', 'underline', 'strike'],
-                        ['blockquote', 'code-block'],
-                        [{ 'header': 1 }, { 'header': 2 }],
-                        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                        [{ 'script': 'sub'}, { 'script': 'super' }],
-                        [{ 'indent': '-1'}, { 'indent': '+1' }],
-                        [{ 'direction': 'rtl' }],
-                        [{ 'size': ['small', false, 'large', 'huge'] }],
-                        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-                        [{ 'color': [] }, { 'background': [] }],
-                        [{ 'font': [] }],
-                        [{ 'align': [] }],
-                        ['clean', 'link', 'image']
-                    ]
-                }
-            });
-
-            quill.on('text-change', function () {
-                const input = document.getElementById('{{ id }}')
-                input.value = quill.container.firstChild.innerHTML;
-            })
-
-            quill.getModule('toolbar').addHandler('image', async function() {
-                quillContainerFileInput.trigger('click')
-            });
+{% block tiny_mce_row %}
+    <script type="text/javascript">
+        tinymce.init({
+            selector: "#tinymce-{{ form.vars.id }}",
+            height: {{ height }},
+            menubar: {{ show_menu ? 'true' : 'false' }},
+            plugins: [
+                "{{ form.vars.tinymce_plugins }}",
+            ],
+            toolbar: "{{ form.vars.tinymce_toolbar }}",
+            {% if form.vars.editor_css %}
+            content_css: "{{ form.vars.editor_css }}",
+            {% endif %}
+            {% if form.vars.tinymce_formats %}
+            formats: {{ form.vars.tinymce_formats | json_encode() | raw }},
+            {% endif %}
+            {% if form.vars.tinymce_style_formats %}
+            style_formats: {{ form.vars.tinymce_style_formats | json_encode() | raw }},
+            {% endif %}
         });
     </script>
+    <div class="mb-3">
+        {{ form_label(form) }}
+        <textarea name="{{ full_name }}" id="tinymce-{{ form.vars.id }}">{{ value | raw }}</textarea>
+    </div>
 {% endblock %}
