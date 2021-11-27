@@ -1,14 +1,12 @@
-import $ from 'jquery'
-import quill from 'quill'
-import bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
-import {confirmUrl, showAlert, selectMaskedForm} from './js/script';
-
-import 'quill/dist/quill.snow.css'
 import './scss/style.scss'
+import {confirmUrl, showAlert, selectMaskedForm} from './js/script';
+import $ from 'jquery'
+import bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
+import tinymce from 'tinymce'
 
+globalThis.bootstrap = bootstrap
 globalThis.confirmUrl = confirmUrl
 globalThis.jquery = $
-globalThis.bootstrap = bootstrap
-globalThis.Quill = quill
 globalThis.selectMaskedForm = selectMaskedForm
 globalThis.showAlert = showAlert
+globalThis.tinymce = tinymce
