@@ -82,10 +82,21 @@ class MediaController
      */
     public function list(Request $request): Response
     {
-        $instances = $this->entityManager->getRepository(Media::class)->findAll();
+        /** @var EntityRepository $repository */
+        $repository = $this->entityManager->getRepository(Media::class);
+        $queryBuilder = $repository->createQueryBuilder('m')->select('m');
+        $query = $request->get('q');
+        if (!empty($query)) {
+            $queryBuilder
+                ->where('m.title LIKE :q')
+                ->setParameter('q', '%'.$query.'%');
+        }
+        $queryBuilder
+            ->orderBy('m.createdAt', 'DESC')
+            ->setMaxResults(20);
 
         return new Response($this->twig->render('@EDBAdmin/media/list.html.twig', [
-            'media' => $instances
+            'media' => $queryBuilder->getQuery()->getResult()
         ]));
     }
 

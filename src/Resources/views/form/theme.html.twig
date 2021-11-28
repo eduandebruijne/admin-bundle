@@ -7,9 +7,17 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<div class="d-flex justify-content-center">
-                        <div class="spinner-border" role="status">
-                            <span class="visually-hidden">Loading...</span>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">
+                            <i class="fa fa-search"></i>
+                        </span>
+                        <div class="form-control" contenteditable="true"></div>
+                    </div>
+                    <div class="media-list">
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
                         </div>
                     </div>
 				</div>
@@ -81,12 +89,22 @@
             const previewContainer = jquery("#{{ form.vars.id }}-media-preview")
             const formContainer = jquery("#{{ form.vars.id }}-media-form")
             const inputElement = jquery("#{{ form.vars.id }}")
+            const searchInput = jquery("#{{ form.vars.id }}-modal .form-control")
             const mediaModal = jquery("#{{ form.vars.id }}-modal")
             const mediaModalObject = new bootstrap.Modal(mediaModal)
-            const mediaModelBody = jquery("#{{ form.vars.id }}-modal .modal-body")
+            const mediaModelBody = jquery("#{{ form.vars.id }}-modal .modal-body .media-list")
+
+            searchInput.on('keyup', async function() {
+                let query = searchInput.html()
+                query = query.replace(/[^a-z0-9áéíóúñü \.,_-]/gim,"");
+                query = query.trim();
+                const response = await fetch("{{ path('media_list') }}?q=" + query, {method: "GET"})
+                const html = await response.text()
+                mediaModelBody.html(html)
+            })
 
             previewContainer.on("refresh", async function(event) {
-                const response = await fetch("{{ path(preview_route_name) }}?id=" + event.id, {method: "GET"});
+                const response = await fetch("{{ path(preview_route_name) }}?id=" + event.id, {method: "GET"})
                 if (response.status === 200) {
                     const html = await response.text()
                     if (html) {
@@ -95,13 +113,13 @@
                 } else {
                     showAlert("Something went wrong while loading the preview", "danger")
                 }
-            });
+            })
 
             previewContainer.trigger({type: "refresh", id: "{{ value }}"})
 
             mediaModal.on("open", async function() {
                 mediaModalObject.show()
-                const response = await fetch("{{ path('media_list') }}", {method: "GET"});
+                const response = await fetch("{{ path('media_list') }}", {method: "GET"})
                 const html = await response.text()
                 mediaModelBody.html(html)
             })
@@ -132,7 +150,7 @@
                     showAlert(responseBody.error, "danger")
                 }
             })
-        });
+        })
     </script>
 {% endblock %}
 
