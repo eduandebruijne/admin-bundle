@@ -28,11 +28,20 @@ class MediaExtension extends AbstractExtension
         ];
     }
 
+    private function isImage(string $mimeType): bool
+    {
+        return in_array($mimeType, [
+            'image/bmp',
+            'image/jpeg',
+            'image/png',
+        ]);
+    }
+
     public function renderMedia(?Media $media, int $width, int $height, string $fit = "crop")
     {
         if (empty($media)) return null;
 
-        if (str_starts_with($media->getMimeType(), 'image/')) {
+        if ($this->isImage($media->getMimeType())) {
             $imageUrl = $this->imageServer->makeImage($media->getFilename(), [
                 'w' => $width,
                 'h' => $height,
