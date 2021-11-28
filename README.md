@@ -81,28 +81,6 @@ edb_admin_media:
 
 
 
-#### Adjust oneup_flysystem.yaml to use filesystem_source in default local adapter
-
-------
-
-```yaml
-oneup_flysystem:
-    adapters:
-        public:
-            local:
-                location: '%kernel.project_dir%/public/media'
-        private:
-            local:
-                location: '%kernel.project_dir%/var/uploads'
-    filesystems:
-        public_filesystem:
-            adapter: public
-        private_filesystem:
-            adapter: private
-```
-
-
-
 #### Installing bundle assets and clearing cache
 
 ------
@@ -158,12 +136,12 @@ knpu_oauth2_client:
 
 
 
-#### Add first admin user
+#### Create admin user
 
 ------
 
-```sql
-INSERT INTO `user` (`id`, `created_at`, `updated_at`, `username`, `roles`) values (1, '2021-08-31 10:00:00', '2021-08-31 10:00:00', '{google-email-address}', '["ROLE_ADMIN"]')
+```bash
+bin/console admin:create-user {email} ["ROLE_ADMIN"]
 ```
 
 

@@ -2,6 +2,7 @@
 
 namespace EDB\AdminBundle\Controller;
 
+use EDB\AdminBundle\Service\ImageServer;
 use EDB\AdminBundle\Entity\Media;
 use EDB\AdminBundle\Util\StringUtils;
 use Doctrine\ORM\EntityManagerInterface;
@@ -11,24 +12,19 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
-use League\Flysystem\FilesystemOperator;
-use League\Glide\Server;
 
 class MediaController
 {
-    private FilesystemOperator $privateFilesystem;
+    private ImageServer $imageServer;
     private EntityManagerInterface $entityManager;
     private Environment $twig;
-    private Server $server;
     private string $mediaPath;
 
-    public function __construct(FilesystemOperator $privateFilesystem, FilesystemOperator $publicFilesystem, EntityManagerInterface $entityManager, Environment $twig, Server $server, string $mediaPath)
+    public function __construct(ImageServer $imageServer, EntityManagerInterface $entityManager, Environment $twig, string $mediaPath)
     {
-        $this->privateFilesystem = $privateFilesystem;
-        $this->publicFilesystem = $publicFilesystem;
+        $this->imageServer = $imageServer;
         $this->entityManager = $entityManager;
         $this->twig = $twig;
-        $this->server = $server;
         $this->mediaPath = $mediaPath;
     }
 
@@ -102,8 +98,8 @@ class MediaController
         $extension = $uploadedFile->getClientOriginalExtension();
 
         $newFilename = StringUtils::generateRandomString();
-        $this->privateFilesystem->write(
-            $newFilename,
+        $this->imageServer->writeToPrivate(
+            sprintf('%s/%s', 'source', $newFilename),
             file_get_contents($uploadedFile->getRealPath())
         );
 
