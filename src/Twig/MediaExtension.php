@@ -3,19 +3,19 @@
 namespace EDB\AdminBundle\Twig;
 
 use EDB\AdminBundle\Entity\Media;
-use EDB\AdminBundle\Service\ImageServer;
+use EDB\AdminBundle\Service\MediaService;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 class MediaExtension extends AbstractExtension
 {
-    private ImageServer $imageServer;
+    private MediaService $mediaService;
     private string $mediaPath;
     private string $sourcePrefix;
 
-    public function __construct(ImageServer $imageServer, string $mediaPath, string $sourcePrefix)
+    public function __construct(MediaService $mediaService, string $mediaPath, string $sourcePrefix)
     {
-        $this->imageServer = $imageServer;
+        $this->mediaService = $mediaService;
         $this->mediaPath = $mediaPath;
         $this->sourcePrefix = $sourcePrefix;
     }
@@ -42,7 +42,7 @@ class MediaExtension extends AbstractExtension
         if (empty($media)) return null;
 
         if ($this->isImage($media->getMimeType())) {
-            $imageUrl = $this->imageServer->makeImage($media->getFilename(), [
+            $imageUrl = $this->mediaService->makeImage($media->getFilename(), [
                 'w' => $width,
                 'h' => $height,
                 'fit' => $fit

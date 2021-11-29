@@ -1,31 +1,3 @@
-{% block modal %}
-    <div class="modal fade" id="{{ form.vars.id }}-modal">
-		<div class="modal-dialog modal-xl">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">{{ 'Select media' | trans }}</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">
-                            <i class="fa fa-search"></i>
-                        </span>
-                        <div class="form-control" contenteditable="true"></div>
-                    </div>
-                    <div class="media-list">
-                        <div class="d-flex justify-content-center">
-                            <div class="spinner-border" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-                        </div>
-                    </div>
-				</div>
-			</div>
-		</div>
-	</div>
-{% endblock %}
-
 {% block masked_row %}
     {{ form_label(form) }}
     {{ form_widget(form) }}
@@ -70,7 +42,7 @@
             <div id="{{ form.vars.id }}-media-preview" class="bg-light col-12 d-flex justify-content-center"></div>
             <div class="row mb-3">
                 <div class="col-6">
-                    <button type="button" class="btn btn-sm btn-secondary w-100" onclick="jquery('#{{ form.vars.id }}-modal').trigger('open')">
+                    <button type="button" class="btn btn-sm btn-secondary w-100" onclick="jquery(this).trigger('open')">
                         {{ 'Select media' | trans }}
                     </button>
                 </div>
@@ -80,7 +52,6 @@
                     <label onclick="jquery(this).prev().trigger('click')" for="{{ form.vars.full_name }}" class="custom-upload-label btn btn-sm btn-secondary"></label>
                 </div>
             </div>
-            {{ block('modal') }}
         </div>
     </div>
 
@@ -89,19 +60,6 @@
             const previewContainer = jquery("#{{ form.vars.id }}-media-preview")
             const formContainer = jquery("#{{ form.vars.id }}-media-form")
             const inputElement = jquery("#{{ form.vars.id }}")
-            const searchInput = jquery("#{{ form.vars.id }}-modal .form-control")
-            const mediaModal = jquery("#{{ form.vars.id }}-modal")
-            const mediaModalObject = new bootstrap.Modal(mediaModal)
-            const mediaModelBody = jquery("#{{ form.vars.id }}-modal .modal-body .media-list")
-
-            searchInput.on('keyup', async function() {
-                let query = searchInput.html()
-                query = query.replace(/[^a-z0-9áéíóúñü \.,_-]/gim,"");
-                query = query.trim();
-                const response = await fetch("{{ path('media_list') }}?q=" + query, {method: "GET"})
-                const html = await response.text()
-                mediaModelBody.html(html)
-            })
 
             previewContainer.on("refresh", async function(event) {
                 const response = await fetch("{{ path(preview_route_name) }}?id=" + event.id, {method: "GET"})
@@ -117,17 +75,18 @@
 
             previewContainer.trigger({type: "refresh", id: "{{ value }}"})
 
-            mediaModal.on("open", async function() {
+            formContainer.on("open", async function() {
                 mediaModalObject.show()
-                const response = await fetch("{{ path('media_list') }}", {method: "GET"})
+                const response = await fetch("{{ path('media_modal_list') }}?targetId={{ form.vars.id }}", {method: "GET"})
                 const html = await response.text()
                 mediaModelBody.html(html)
             })
 
-            mediaModal.on("choose", async function(event) {
+            document.addEventListener('pickMedia', async function(event) {
+                if (event.detail.targetId != "{{ form.vars.id }}") return
                 mediaModalObject.hide()
-                inputElement.val(event.value)
-                previewContainer.trigger({type: "refresh", id: event.value})
+                inputElement.val(event.detail.value)
+                previewContainer.trigger({type: "refresh", id: event.detail.value})
             })
 
             formContainer.on("updateValue", async function(event) {
@@ -265,27 +224,36 @@
 
 {% block tiny_mce_row %}
     <script type="text/javascript">
-        tinymce.init({
-            selector: "#tinymce-{{ form.vars.id }}",
-            height: {{ height }},
-            menubar: {{ show_menu ? 'true' : 'false' }},
-            plugins: [
-                "{{ form.vars.tinymce_plugins }}",
-            ],
-            toolbar: "{{ form.vars.tinymce_toolbar }}",
-            {% if form.vars.editor_css %}
-            content_css: "{{ form.vars.editor_css }}",
-            {% endif %}
-            {% if form.vars.tinymce_formats %}
-            formats: {{ form.vars.tinymce_formats | json_encode() | raw }},
-            {% endif %}
-            {% if form.vars.tinymce_style_formats %}
-            style_formats: {{ form.vars.tinymce_style_formats | json_encode() | raw }},
-            {% endif %}
-        });
+        jquery(function() {
+            tinymce.init({
+                selector: "#tinymce-{{ form.vars.id }}",
+                height: {{ height }},
+                menubar: {{ show_menu ? 'true' : 'false' }},
+                plugins: "media",
+                toolbar: "{{ form.vars.tinymce_toolbar }}",
+                {% if form.vars.editor_css %}
+                content_css: "{{ form.vars.editor_css }}",
+                {% endif %}
+                {% if form.vars.tinymce_formats %}
+                formats: {{ form.vars.tinymce_formats | json_encode() | raw }},
+                {% endif %}
+                {% if form.vars.tinymce_style_formats %}
+                style_formats: {{ form.vars.tinymce_style_formats | json_encode() | raw }},
+                {% endif %}
+            });
+            document.addEventListener('pickMedia', async function(event) {
+                if (event.detail.targetId != "tinymce-{{ form.vars.id }}") return
+                mediaModalObject.hide()
+                const resolution = "&w=100&h=100"
+                const response = await fetch("{{ path('media_insert') }}?id=" + event.detail.value + resolution, {method: "GET"})
+                const html = await response.text()
+                const parentEditor = parent.tinyMCE.activeEditor;
+                parentEditor.execCommand('mceInsertRawHTML', false, html)
+            })
+        })
     </script>
     <div class="mb-3">
         {{ form_label(form) }}
-        <textarea name="{{ full_name }}" id="tinymce-{{ form.vars.id }}">{{ value | raw }}</textarea>
+        <textarea name="{{ full_name }}" data-list-url="{{ path('media_modal_list') }}" data-insert-url="{{ path('media_insert') }}" id="tinymce-{{ form.vars.id }}">{{ value | raw }}</textarea>
     </div>
 {% endblock %}

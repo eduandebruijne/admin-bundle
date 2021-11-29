@@ -278,28 +278,6 @@ a {
   content: "Upload"
 }
 
-.edb-editor {
-  border: 1px solid #ccc;
-  padding: 10px 15px;
-  margin-bottom: 15px;
-  border-radius: 0.25rem;
-}
-
-.edb-editor * {
-  outline: none;
-}
-
-.ql-toolbar.ql-snow {
-  border-radius: 0.25rem 0.25rem 0 0;
-}
-
-.ql-toolbar.ql-snow+.ql-container.ql-snow {
-  border-radius: 0 0 0.25rem 0.25rem;
-  margin-bottom: 15px;
-}
-
-.ql-snow .ql-tooltip {
-  left: 50px !important;
-  right: 50px !important;
-  text-align: center;
+.targetId {
+  display: none;
 }

@@ -25,7 +25,7 @@ class TinyMceType extends AbstractType
             'tinymce_formats' => false,
             'tinymce_plugins' => 'autolink lists link table wordcount',
             'tinymce_style_formats' => false,
-            'tinymce_toolbar' => 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect styleselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | link',
+            'tinymce_toolbar' => 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect styleselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | link media',
         ]);
     }
 

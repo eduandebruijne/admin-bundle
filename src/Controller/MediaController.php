@@ -2,10 +2,9 @@
 
 namespace EDB\AdminBundle\Controller;
 
-use EDB\AdminBundle\Service\ImageServer;
 use EDB\AdminBundle\Entity\Media;
-use EDB\AdminBundle\Util\StringUtils;
 use Doctrine\ORM\EntityManagerInterface;
+use EDB\AdminBundle\Service\MediaService;
 use Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,14 +14,14 @@ use Twig\Environment;
 
 class MediaController
 {
-    private ImageServer $imageServer;
+    private MediaService $mediaService;
     private EntityManagerInterface $entityManager;
     private Environment $twig;
     private string $mediaPath;
 
-    public function __construct(ImageServer $imageServer, EntityManagerInterface $entityManager, Environment $twig, string $mediaPath)
+    public function __construct(MediaService $mediaService, EntityManagerInterface $entityManager, Environment $twig, string $mediaPath)
     {
-        $this->imageServer = $imageServer;
+        $this->mediaService = $mediaService;
         $this->entityManager = $entityManager;
         $this->twig = $twig;
         $this->mediaPath = $mediaPath;
@@ -78,7 +77,7 @@ class MediaController
     }
 
     /**
-     * @Route("/media/list-all", name="media_list", methods={"GET"})
+     * @Route("/media/list-all", name="media_modal_list", methods={"GET"})
      */
     public function list(Request $request): Response
     {
@@ -96,34 +95,37 @@ class MediaController
             ->setMaxResults(20);
 
         return new Response($this->twig->render('@EDBAdmin/media/list.html.twig', [
-            'media' => $queryBuilder->getQuery()->getResult()
+            'media' => $queryBuilder->getQuery()->getResult(),
+            'targetId' => $request->query->get('targetId')
         ]));
+    }
+
+    /**
+     * @Route("/media/insert-media", name="media_insert", methods={"GET"})
+     */
+    public function insert(Request $request): Response
+    {
+        try {
+            $width = $request->query->get('w');
+            $height = $request->query->get('h');
+            $media = $this->entityManager->getRepository(Media::class)->find(
+                $request->query->get('id')
+            );
+
+            $response = new Response($this->twig->render('@EDBAdmin/media/insert.html.twig', [
+                'media' => $media,
+                'width' => $width,
+                'height' => $height,
+            ]));
+        } catch (Exception $e) {
+            $response = new Response('');
+        }
+
+        return $response;
     }
 
     private function createMedia(Request $request): Media
     {
-        $uploadedFile = $request->files->get('image');
-        $filename = $uploadedFile->getClientOriginalName();
-        $mimetype = $uploadedFile->getClientMimeType();
-        $size = $uploadedFile->getSize();
-        $extension = $uploadedFile->getClientOriginalExtension();
-
-        $newFilename = StringUtils::generateRandomString();
-        $this->imageServer->writeToPrivate(
-            sprintf('%s/%s', 'source', $newFilename),
-            file_get_contents($uploadedFile->getRealPath())
-        );
-
-        $media = new Media();
-        $media->setTitle($filename);
-        $media->setFilename($newFilename);
-        $media->setExtension($extension);
-        $media->setMimeType($mimetype);
-        $media->setSize($size);
-
-        $this->entityManager->persist($media);
-        $this->entityManager->flush();
-
-        return $media;
+        return $this->mediaService->createFromRequest($request, 'image');
     }
 }

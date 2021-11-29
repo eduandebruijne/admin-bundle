@@ -18,6 +18,7 @@ use Doctrine\ORM\EntityNotFoundException;
 use EDB\AdminBundle\Admin\AbstractAdmin;
 use EDB\AdminBundle\Entity\SortableEntity;
 use EDB\AdminBundle\Helper\AdminUrlHelper;
+use EDB\AdminBundle\Service\MediaService;
 use Exception;
 use ReflectionException;
 use Symfony\Component\Form\FormFactoryInterface;

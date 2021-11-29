@@ -1,8 +1,3 @@
-import './scss/style.scss'
-import {confirmUrl, showAlert, selectMaskedForm} from './js/script';
-import $ from 'jquery'
-import bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
-
 /* Import TinyMCE */
 import tinymce from 'tinymce';
 
@@ -21,6 +16,11 @@ import 'tinymce/plugins/lists';
 import 'tinymce/plugins/link';
 import 'tinymce/plugins/table';
 import 'tinymce/plugins/wordcount';
+
+import './scss/style.scss'
+import {confirmUrl, showAlert, selectMaskedForm} from './js/script';
+import $ from 'jquery'
+import bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
 
 globalThis.bootstrap = bootstrap
 globalThis.confirmUrl = confirmUrl

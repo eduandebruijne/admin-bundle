@@ -53,4 +53,27 @@ function selectMaskedForm(formId, value) {
     element.addClass('active');
 }
 
+tinymce.PluginManager.add('media', function(editor, url) {
+    editor.ui.registry.addButton('media', {
+        icon: 'gallery',
+        onAction: async function() {
+            mediaModalObject.show()
+            const listUrl = jquery(editor.targetElm).data('list-url')
+            const response = await fetch(listUrl + "?targetId=" + editor.id, {method: "GET"})
+            const html = await response.text()
+            mediaModelBody.html(html)
+        }
+    })
+    editor.on('ObjectResized', async function(event) {
+        if (!event.width || !event.height) return
+
+        const mediaId = jquery(event.target).data('id')
+        const resolution = "&w=" + event.width + "&h=" + event.height
+        const insertUrl = jquery(editor.targetElm).data('insert-url')
+        const response = await fetch(insertUrl + "?id=" + mediaId + resolution, {method: "GET"})
+        const html = await response.text()
+        jquery(event.target).replaceWith(jquery(html))
+    })
+})
+
 export {confirmUrl, showAlert, selectMaskedForm}

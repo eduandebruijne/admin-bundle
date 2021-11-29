@@ -61,4 +61,45 @@
 			</div>
 		</div>
 	</div>
+	<div class="modal fade" id="media-modal">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">{{ 'Select media' | trans }}</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="input-group mb-3">
+						<span class="input-group-text" id="basic-addon1">
+							<i class="fa fa-search"></i>
+						</span>
+						<div class="form-control" contenteditable="true"></div>
+					</div>
+                    <div class="media-list">
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		const mediaModal = jquery("#media-modal")
+		const mediaModalObject = new bootstrap.Modal(mediaModal)
+		const mediaModelBody = jquery("#media-modal .modal-body .media-list")
+		const searchInput = jquery("#media-modal .form-control")
+
+		searchInput.on('keyup', async function() {
+			let query = searchInput.html()
+			query = query.replace(/[^a-z0-9áéíóúñü \.,_-]/gim,"");
+			query = query.trim();
+			const targetId = mediaModelBody.find('.targetId').html()
+			const response = await fetch("{{ path('media_modal_list') }}?q=" + query + "&targetId=" + targetId, {method: "GET"})
+			const html = await response.text()
+			mediaModelBody.html(html)
+		})
+	</script>
 {% endblock %}
