@@ -10,4 +10,7 @@
         </div>
     </div>
 {% endfor %}
+{% if media | length < 1 %}
+    <div class="w-100 text-center alert alert-warning">{{ 'No results found' | trans }}</div>
+{% endif %}
 </div>
