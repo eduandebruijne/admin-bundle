@@ -23,7 +23,7 @@ class TinyMceType extends AbstractType
             'height' => 250,
             'show_menu' => false,
             'tinymce_formats' => false,
-            'tinymce_plugins' => 'autolink lists link table wordcount',
+            'tinymce_plugins' => 'media link lists autolink table wordcount',
             'tinymce_style_formats' => false,
             'tinymce_toolbar' => 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect styleselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | link media',
         ]);

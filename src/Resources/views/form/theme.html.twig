@@ -229,7 +229,7 @@
                 selector: "#tinymce-{{ form.vars.id }}",
                 height: {{ height }},
                 menubar: {{ show_menu ? 'true' : 'false' }},
-                plugins: "media",
+                plugins: "{{ form.vars.tinymce_plugins }}",
                 toolbar: "{{ form.vars.tinymce_toolbar }}",
                 {% if form.vars.editor_css %}
                 content_css: "{{ form.vars.editor_css }}",
