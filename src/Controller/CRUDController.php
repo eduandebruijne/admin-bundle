@@ -33,13 +33,13 @@ use Twig\Error\SyntaxError;
 
 class CRUDController
 {
-    private Environment $twig;
-    private AdminPool $adminPool;
-    private EntityEventHandlerPool $entityEventHandlerPool;
-    private FormFactoryInterface $formFactory;
-    private EntityManagerInterface $entityManager;
-    private AdminUrlHelper $adminUrlHelper;
-    private Security $security;
+    protected Environment $twig;
+    protected AdminPool $adminPool;
+    protected EntityEventHandlerPool $entityEventHandlerPool;
+    protected FormFactoryInterface $formFactory;
+    protected EntityManagerInterface $entityManager;
+    protected AdminUrlHelper $adminUrlHelper;
+    protected Security $security;
 
     public function __construct(
         Environment $twig,
