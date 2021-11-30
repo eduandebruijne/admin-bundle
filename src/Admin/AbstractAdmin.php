@@ -29,11 +29,6 @@ abstract class AbstractAdmin implements AdminInterface
         return 'ROLE_ADMIN';
     }
 
-    public function hasListView(): bool
-    {
-        return true;
-    }
-
     public function getTemplate(string $context): string
     {
         return self::ROUTE_CONTEXT_UPDATE === $context ? '@EDBAdmin/update.html.twig' : '@EDBAdmin/list.html.twig';
@@ -42,6 +37,11 @@ abstract class AbstractAdmin implements AdminInterface
     public function getTemplateArguments(string $context, ?BaseEntity $entity = null): array
     {
         return [];
+    }
+
+    public static function showInMenu(): bool
+    {
+        return true;
     }
 
     /**

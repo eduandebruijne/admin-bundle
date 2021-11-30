@@ -37,6 +37,7 @@ class MenuBuilder
         static $elements = [];
         static $all = [];
         foreach ($this->pool->getAdmins() as $admin) {
+            if (!$admin->showInMenu()) continue;
             if(!$this->security->isGranted($admin->getRequiredRole())) continue;
             $path = $admin->getPath(AbstractAdmin::ROUTE_CONTEXT_LIST);
 
