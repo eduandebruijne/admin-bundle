@@ -3,6 +3,7 @@
 namespace EDB\AdminBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity
@@ -33,6 +34,8 @@ class Media extends BaseEntity
      * @ORM\Column(type="integer", nullable=true)
      */
     private ?int $size;
+
+    public ?UploadedFile $update;
 
     public function __toString()
     {

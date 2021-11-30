@@ -18,7 +18,6 @@ use Doctrine\ORM\EntityNotFoundException;
 use EDB\AdminBundle\Admin\AbstractAdmin;
 use EDB\AdminBundle\Entity\SortableEntity;
 use EDB\AdminBundle\Helper\AdminUrlHelper;
-use EDB\AdminBundle\Service\MediaService;
 use Exception;
 use ReflectionException;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -202,7 +201,7 @@ class CRUDController
         $admin = $this->getAdminFromRequest($request);
         if(!$this->security->isGranted($admin->getRequiredRole())) throw new Exception('Access denied.');
 
-        $object = $this->getObjectById($admin, $request->attributes->getInt('id'));
+        $object = $this->getObjectByRequest($admin, $request);
         $adminListUrl = $this->adminUrlHelper->generateAdminUrl($admin->getEntityClass(), AbstractAdmin::ROUTE_CONTEXT_LIST);
 
         if (empty($object)) {
@@ -217,8 +216,8 @@ class CRUDController
             if ($form->isValid()) {
                 $object = $form->getData();
 
-                $this->entityEventHandlerPool->handleEvents($object, Pool::UPDATE_CONTEXT);
                 $admin->preUpdate($object);
+                $this->entityEventHandlerPool->handleEvents($object, Pool::UPDATE_CONTEXT);
                 $admin->preFlush($object);
                 $this->entityManager->flush();
 
@@ -253,7 +252,7 @@ class CRUDController
         $admin = $this->getAdminFromRequest($request);
         if(!$this->security->isGranted($admin->getRequiredRole())) throw new Exception('Access denied.');
 
-        $object = $this->getObjectById($admin, $request->attributes->getInt('id'));
+        $object = $this->getObjectByRequest($admin, $request);
 
         if (!$object instanceof SortableEntity) {
             throw new Exception('Entity must extend SortableEntity');
@@ -286,7 +285,7 @@ class CRUDController
         $admin = $this->getAdminFromRequest($request);
         if(!$this->security->isGranted($admin->getRequiredRole())) throw new Exception('Access denied.');
 
-        $object = $this->getObjectById($admin, $request->attributes->getInt('id'));
+        $object = $this->getObjectByRequest($admin, $request);
         $this->entityEventHandlerPool->handleEvents($object, Pool::DELETE_CONTEXT);
         $this->entityManager->remove($object);
         $this->entityManager->flush();
@@ -305,8 +304,9 @@ class CRUDController
     /**
      * @throws Exception
      */
-    private function getObjectById(AdminInterface $admin, int $id): ?BaseEntity
+    private function getObjectByRequest(AdminInterface $admin, Request $request): ?BaseEntity
     {
+        $id = $request->attributes->getInt('id');
         $repository = $this->entityManager->getRepository($admin::getEntityClass());
         $object = $repository->find($id);
         if ($object instanceof BaseEntity) {

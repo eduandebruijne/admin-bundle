@@ -126,6 +126,11 @@ class MediaController
 
     private function createMedia(Request $request): Media
     {
-        return $this->mediaService->createFromRequest($request, 'image');
+        $uploadedFile = $request->files->get('media');
+        $media = $this->mediaService->handleUploadedFile($uploadedFile);
+        $this->entityManager->persist($media);
+        $this->entityManager->flush();
+
+        return $media;
     }
 }

@@ -26,7 +26,7 @@ class Pool
 
     public function handleEvents(BaseEntity $entity, string $context)
     {
-        foreach ($this->handlers as $p => $handlers) {
+        foreach ($this->handlers as $handlers) {
             foreach ($handlers as $handler) {
                 /** @var EntityEventHandlerInterface $handler */
                 $supported = $handler->supports();

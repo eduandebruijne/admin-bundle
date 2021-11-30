@@ -2,31 +2,27 @@
 
 namespace EDB\AdminBundle\Service;
 
-use Doctrine\ORM\EntityManagerInterface;
 use EDB\AdminBundle\Entity\Media;
 use EDB\AdminBundle\Util\StringUtils;
 use League\Flysystem\FilesystemOperator;
 use League\Glide\Server;
 use League\Glide\ServerFactory;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class MediaService
 {
     private Server $server;
     private FilesystemOperator $filesystem;
-    private EntityManagerInterface $entityManager;
     private string $sourcePrefix;
     private string $cachePrefix;
 
     public function __construct(
         FilesystemOperator $defaultFilesystem,
-        EntityManagerInterface $entityManager,
         string $sourcePrefix,
         string $cachePrefix
     )
     {
         $this->filesystem = $defaultFilesystem;
-        $this->entityManager = $entityManager;
         $this->sourcePrefix = $sourcePrefix;
         $this->cachePrefix = $cachePrefix;
 
@@ -42,15 +38,8 @@ class MediaService
         ]);
     }
 
-    public function createFromRequest(Request $request, ?string $field = null): ?Media
+    public function handleUploadedFile(UploadedFile $uploadedFile): ?Media
     {
-        if (count($request->files->all()) < 1) return null;
-        if (!$field) {
-            $uploadedFile = current(current($request->files->all()));
-        } else {
-            $uploadedFile = $request->files->get($field);
-        }
-
         $filename = $uploadedFile->getClientOriginalName();
         $mimetype = $uploadedFile->getClientMimeType();
         $size = $uploadedFile->getSize();
@@ -68,9 +57,6 @@ class MediaService
         $media->setExtension($extension);
         $media->setMimeType($mimetype);
         $media->setSize($size);
-
-        $this->entityManager->persist($media);
-        $this->entityManager->flush();
 
         return $media;
     }

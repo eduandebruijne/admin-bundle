@@ -92,7 +92,7 @@
             formContainer.on("updateValue", async function(event) {
                 const file = event.fileInput.files[0]
                 const formData = new FormData()
-                formData.append("image", file)
+                formData.append("media", file)
 
                 const response = await fetch("{{ path('media_upload') }}", {
                     method: "POST",
