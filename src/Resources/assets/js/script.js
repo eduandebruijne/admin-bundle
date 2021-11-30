@@ -35,6 +35,11 @@ function selectMaskedForm(formId, value) {
     const base_form_id = formId.split('_').slice(0, -1);
     const main_form_element = $('#' + base_form_id.join('_'));
 
+    if (!value) {
+        $('.masked-container-' + formId + ' button').first().trigger('click');
+        return
+    }
+
     $('.masked-container-' + formId + ' button').each((index, buttonElement) => {
         $(buttonElement).removeClass('active');
         $(buttonElement).data('form-ids').split(',').forEach((id) => {
