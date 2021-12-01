@@ -11,12 +11,12 @@
     "league/glide": "^2.0",
     "league/oauth2-google": "^4.0",
     "oneup/flysystem-bundle": "^4.1",
-    "symfony/asset": "5.3.*",
-    "symfony/form": "5.3.*",
-    "symfony/framework-bundle": "5.3.*",
-    "symfony/security-bundle": "5.3.*",
-    "symfony/translation": "5.3.*",
-    "symfony/twig-bundle": "5.3.*",
+    "symfony/asset": "5.4.*",
+    "symfony/form": "5.4.*",
+    "symfony/framework-bundle": "5.4.*",
+    "symfony/security-bundle": "5.4.*",
+    "symfony/translation": "5.4.*",
+    "symfony/twig-bundle": "5.4.*",
     "twig/twig": "^2.12|^3.0"
   },
   "config": {
