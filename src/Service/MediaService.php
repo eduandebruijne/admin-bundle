@@ -31,7 +31,7 @@ class MediaService
             'source_path_prefix' => $this->sourcePrefix,
             'cache' => $this->filesystem,
             'cache_path_prefix' => $this->cachePrefix,
-            'group_cache_in_folders' => true,
+            'group_cache_in_folders' => false,
             'watermarks' => $this->filesystem,
             'watermarks_path_prefix' => 'watermarks',
             'driver' => 'gd',
