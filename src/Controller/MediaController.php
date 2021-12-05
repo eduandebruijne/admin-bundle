@@ -105,7 +105,8 @@ class MediaController
 
         return new Response($this->twig->render('@EDBAdmin/media/list.html.twig', [
             'media' => $queryBuilder->getQuery()->getResult(),
-            'targetId' => $request->query->get('targetId')
+            'targetId' => $request->query->get('t'),
+            'params' => $request->query->all()
         ]));
     }
 

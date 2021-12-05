@@ -96,8 +96,12 @@
 			let query = searchInput.html()
 			query = query.replace(/[^a-z0-9áéíóúñü \.,_-]/gim,"");
 			query = query.trim();
-			const targetId = mediaModelBody.find('.targetId').html()
-			const response = await fetch("{{ path('media_modal_list') }}?q=" + query + "&targetId=" + targetId, {method: "GET"})
+
+			const targetId = mediaModelBody.find('.current').data('target-id')
+			const params = mediaModelBody.find('.current').data('params')
+			params['q'] = query
+
+			const response = await fetch("{{ path('media_modal_list') }}?" + jquery.param(params), {method: "GET"})
 			const html = await response.text()
 			mediaModelBody.html(html)
 		})

@@ -64,7 +64,16 @@ tinymce.PluginManager.add('media', function(editor, url) {
         onAction: async function() {
             mediaModalObject.show()
             const listUrl = jquery(editor.targetElm).data('list-url')
-            const response = await fetch(listUrl + "?targetId=" + editor.id, {method: "GET"})
+
+            let glue = "?"
+            if (listUrl.includes("?")) {
+                glue = "&"
+            }
+            const params = {
+                "t": editor.id
+            }
+
+            const response = await fetch(listUrl + glue + jquery.param(params), {method: "GET"})
             const html = await response.text()
             mediaModelBody.html(html)
         }
@@ -72,11 +81,16 @@ tinymce.PluginManager.add('media', function(editor, url) {
     editor.on('ObjectResized', async function(event) {
         if (!event.width || !event.height) return
 
-        const mediaId = jquery(event.target).data('id')
-        const resolution = "&w=" + event.width + "&h=" + event.height
+        const params = {
+            "id": jquery(event.target).data('id'),
+            "w": event.width,
+            "h": event.height
+        }
+
         const insertUrl = jquery(editor.targetElm).data('insert-url')
-        const response = await fetch(insertUrl + "?id=" + mediaId + resolution, {method: "GET"})
+        const response = await fetch(insertUrl + "?" + jquery.param(params), {method: "GET"})
         const html = await response.text()
+
         jquery(event.target).replaceWith(jquery(html))
     })
 })

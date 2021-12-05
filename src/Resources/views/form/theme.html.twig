@@ -77,7 +77,7 @@
 
             formContainer.on("open", async function() {
                 mediaModalObject.show()
-                const response = await fetch("{{ path('media_modal_list') }}?targetId={{ form.vars.id }}", {method: "GET"})
+                const response = await fetch("{{ path('media_modal_list') }}?t={{ form.vars.id }}", {method: "GET"})
                 const html = await response.text()
                 mediaModelBody.html(html)
             })
@@ -252,8 +252,14 @@
             document.addEventListener('pickMedia', async function(event) {
                 if (event.detail.targetId != "tinymce-{{ form.vars.id }}") return
                 mediaModalObject.hide()
-                const resolution = "&w=100&h=100"
-                const response = await fetch("{{ path('media_insert') }}?id=" + event.detail.value + resolution, {method: "GET"})
+
+                const params = {
+                    "w": 100,
+                    "h": 100,
+                    "id": event.detail.value
+                }
+
+                const response = await fetch("{{ path('media_insert') }}?" + jquery.param(params), {method: "GET"})
                 const html = await response.text()
                 const parentEditor = parent.tinyMCE.activeEditor;
                 parentEditor.execCommand('mceInsertRawHTML', false, html)
@@ -262,6 +268,6 @@
     </script>
     <div class="mb-3">
         {{ form_label(form) }}
-        <textarea name="{{ full_name }}" data-list-url="{{ path('media_modal_list') }}" data-insert-url="{{ path('media_insert') }}" id="tinymce-{{ form.vars.id }}">{{ value | raw }}</textarea>
+        <textarea name="{{ full_name }}" data-list-url="{{ path('media_modal_list') }}?m[]=image/jpeg" data-insert-url="{{ path('media_insert') }}" id="tinymce-{{ form.vars.id }}">{{ value | raw }}</textarea>
     </div>
 {% endblock %}
