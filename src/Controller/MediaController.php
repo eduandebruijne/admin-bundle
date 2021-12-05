@@ -84,12 +84,21 @@ class MediaController
         /** @var EntityRepository $repository */
         $repository = $this->entityManager->getRepository(Media::class);
         $queryBuilder = $repository->createQueryBuilder('m')->select('m');
-        $query = $request->get('q');
+
+        $query = $request->query->get('q');
         if (!empty($query)) {
             $queryBuilder
-                ->where('m.title LIKE :q')
+                ->andWhere('m.title LIKE :q')
                 ->setParameter('q', '%'.$query.'%');
         }
+
+        $mimeTypes = $request->query->all('m', []);
+        if (!empty($mimeTypes)) {
+            $queryBuilder
+                ->andWhere('m.mimeType IN (:m)')
+                ->setParameter('m', $mimeTypes);
+        }
+
         $queryBuilder
             ->orderBy('m.createdAt', 'DESC')
             ->setMaxResults(20);

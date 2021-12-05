@@ -33,6 +33,7 @@ class MediaExtension extends AbstractExtension
         return in_array($mimeType, [
             'image/bmp',
             'image/jpeg',
+            'image/jpg',
             'image/png',
         ]);
     }
