@@ -229,7 +229,12 @@
                 selector: "#tinymce-{{ form.vars.id }}",
                 height: {{ height }},
                 menubar: {{ show_menu ? 'true' : 'false' }},
-                plugins: "{{ form.vars.tinymce_plugins }}",
+                relative_urls: false,
+                remove_script_host : true,
+                document_base_url: "{{ app.request.getSchemeAndHttpHost() }}/",
+                plugins: [
+                    "{{ form.vars.tinymce_plugins }}",
+                ],
                 toolbar: "{{ form.vars.tinymce_toolbar }}",
                 {% if form.vars.editor_css %}
                 content_css: "{{ form.vars.editor_css }}",
@@ -240,6 +245,9 @@
                 {% if form.vars.tinymce_style_formats %}
                 style_formats: {{ form.vars.tinymce_style_formats | json_encode() | raw }},
                 {% endif %}
+                {% if form.vars.link_list %}
+                link_list: {{ form.vars.link_list | json_encode() | raw }},
+                {% endif %}
             });
             document.addEventListener('pickMedia', async function(event) {
                 if (event.detail.targetId != "tinymce-{{ form.vars.id }}") return
@@ -249,8 +257,8 @@
                 const html = await response.text()
                 const parentEditor = parent.tinyMCE.activeEditor;
                 parentEditor.execCommand('mceInsertRawHTML', false, html)
-            })
-        })
+            });
+        });
     </script>
     <div class="mb-3">
         {{ form_label(form) }}
