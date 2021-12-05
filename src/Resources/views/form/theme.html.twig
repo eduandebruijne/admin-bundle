@@ -268,6 +268,6 @@
     </script>
     <div class="mb-3">
         {{ form_label(form) }}
-        <textarea name="{{ full_name }}" data-list-url="{{ path('media_modal_list') }}?m[]=image/jpeg" data-insert-url="{{ path('media_insert') }}" id="tinymce-{{ form.vars.id }}">{{ value | raw }}</textarea>
+        <textarea name="{{ full_name }}" data-list-url="{{ path('media_modal_list') }}?m[]=image/jpeg&m[]=image/jpg&m[]=image/png&m[]=image/bmp" data-insert-url="{{ path('media_insert') }}" id="tinymce-{{ form.vars.id }}">{{ value | raw }}</textarea>
     </div>
 {% endblock %}
