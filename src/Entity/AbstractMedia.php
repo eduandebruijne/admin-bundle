@@ -35,7 +35,7 @@ class AbstractMedia extends BaseEntity
      */
     private ?int $size;
 
-    public ?UploadedFile $update;
+    public $update;
 
     public function __toString()
     {

@@ -49,6 +49,8 @@ class MediaAdmin extends AbstractAdmin
                 return $database;
             }, function($form) {
                 /** @var Media $form */
+                if (!$form->update) return $form;
+
                 $media = $this->mediaService->handleUploadedFile($form->update);
                 $form->setExtension($media->getExtension());
                 $form->setMimeType($media->getMimeType());
