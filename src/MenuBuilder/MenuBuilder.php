@@ -70,22 +70,19 @@ class MenuBuilder
         $groups = [];
         foreach ($all as $element) {
             $groupName = $element->getOption(MenuItem::OPTION_GROUP);
-            $orderName = $element->getOption(MenuItem::OPTION_ORDER_NAME) ?? $element->getName();
             if ($groupName) {
-                if (!key_exists($orderName, $groups[$groupName])) $groups[$groupName][$orderName] = [];
-                $groups[$groupName][$orderName][] = $element;
+                $groups[$groupName][$element->getOption(MenuItem::OPTION_ORDER_NAME) ?? $element->getName()] = $element;
             } else {
-                if (!key_exists($orderName, $elements)) $elements[$orderName] = [];
-                $elements[$orderName][] = $element;
+                $elements[$element->getOption(MenuItem::OPTION_ORDER_NAME) ?? $element->getName()] = $element;
             }
         }
+        ksort($elements);
 
         foreach ($groups as $groupName => $items) {
             ksort($items);
             $elements[$groupName] = new MenuGroup($groupName, [MenuGroup::OPTION_ITEMS => $items]);
         }
-        ksort($elements);
 
-        return array_merge(...array_values($elements));
+        return $elements;
     }
 }
