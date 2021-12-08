@@ -2,8 +2,8 @@
 
 namespace EDB\AdminBundle\Controller;
 
-use EDB\AdminBundle\Entity\Media;
 use Doctrine\ORM\EntityManagerInterface;
+use EDB\AdminBundle\Entity\AbstractMedia;
 use EDB\AdminBundle\Service\MediaService;
 use Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -18,13 +18,21 @@ class MediaController
     private EntityManagerInterface $entityManager;
     private Environment $twig;
     private string $mediaPath;
+    private string $mediaClass;
 
-    public function __construct(MediaService $mediaService, EntityManagerInterface $entityManager, Environment $twig, string $mediaPath)
+    public function __construct(
+        MediaService $mediaService,
+        EntityManagerInterface $entityManager,
+        Environment $twig,
+        string $mediaPath,
+        string $mediaClass
+    )
     {
         $this->mediaService = $mediaService;
         $this->entityManager = $entityManager;
         $this->twig = $twig;
         $this->mediaPath = $mediaPath;
+        $this->mediaClass = $mediaClass;
     }
 
     /**
@@ -37,7 +45,7 @@ class MediaController
             return new Response();
         }
 
-        $media = $this->entityManager->getRepository(Media::class)->find($id);
+        $media = $this->entityManager->getRepository($this->mediaClass)->find($id);
         return new Response($this->twig->render('@EDBAdmin/media/preview.html.twig', [
             'object' => $media
         ]));
@@ -82,7 +90,7 @@ class MediaController
     public function list(Request $request): Response
     {
         /** @var EntityRepository $repository */
-        $repository = $this->entityManager->getRepository(Media::class);
+        $repository = $this->entityManager->getRepository($this->mediaClass);
         $queryBuilder = $repository->createQueryBuilder('m')->select('m');
 
         $query = $request->query->get('q');
@@ -118,7 +126,7 @@ class MediaController
         try {
             $width = $request->query->get('w');
             $height = $request->query->get('h');
-            $media = $this->entityManager->getRepository(Media::class)->find(
+            $media = $this->entityManager->getRepository($this->mediaClass)->find(
                 $request->query->get('id')
             );
 
@@ -134,7 +142,7 @@ class MediaController
         return $response;
     }
 
-    private function createMedia(Request $request): Media
+    private function createMedia(Request $request): AbstractMedia
     {
         $uploadedFile = $request->files->get('media');
         $media = $this->mediaService->handleUploadedFile($uploadedFile);

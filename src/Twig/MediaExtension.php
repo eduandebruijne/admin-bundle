@@ -2,7 +2,7 @@
 
 namespace EDB\AdminBundle\Twig;
 
-use EDB\AdminBundle\Entity\Media;
+use EDB\AdminBundle\Entity\AbstractMedia;
 use EDB\AdminBundle\Service\MediaService;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -38,7 +38,7 @@ class MediaExtension extends AbstractExtension
         ]);
     }
 
-    public function renderMedia(?Media $media, int $width, int $height, string $fit = "crop")
+    public function renderMedia(?AbstractMedia $media, int $width, int $height, string $fit = "crop")
     {
         if (empty($media)) return null;
 
@@ -59,7 +59,7 @@ class MediaExtension extends AbstractExtension
         return $this->getFileUploadThumbnail();
     }
 
-    public function getMediaPath(?Media $media)
+    public function getMediaPath(?AbstractMedia $media)
     {
         if (empty($media)) return null;
 

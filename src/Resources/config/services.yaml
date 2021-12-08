@@ -7,6 +7,7 @@ parameters:
   media_path: "media"
   source_prefix: "source"
   cache_prefix: "cache"
+  media_class: EDB\AdminBundle\Entity\Media
 
 services:
   _defaults:
@@ -15,6 +16,7 @@ services:
     autoconfigure: true
     bind:
       $mediaPath: '%media_path%'
+      $mediaClass: '%media_class%'
       $sourcePrefix: '%source_prefix%'
       $cachePrefix: '%cache_prefix%'
 
@@ -28,7 +30,3 @@ services:
       - "../../../src/Admin/"
       - "../../../src/MenuBuilder/MenuGroup.php"
       - "../../../src/MenuBuilder/MenuItem.php"
-
-  _instanceof:
-    EDB\AdminBundle\EntityEvent\EntityEventHandlerInterface:
-      tags: ["app.entity_event_handler"]

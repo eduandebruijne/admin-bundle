@@ -6,8 +6,6 @@ namespace EDB\AdminBundle\Controller;
 
 use EDB\AdminBundle\Admin\AdminInterface;
 use EDB\AdminBundle\Admin\Pool as AdminPool;
-use EDB\AdminBundle\EntityEvent\Pool;
-use EDB\AdminBundle\EntityEvent\Pool as EntityEventHandlerPool;
 use EDB\AdminBundle\Entity\BaseEntity;
 use EDB\AdminBundle\FormBuilder\Dynamic;
 use EDB\AdminBundle\FormBuilder\FormCollection;
@@ -35,7 +33,6 @@ class CRUDController
 {
     protected Environment $twig;
     protected AdminPool $adminPool;
-    protected EntityEventHandlerPool $entityEventHandlerPool;
     protected FormFactoryInterface $formFactory;
     protected EntityManagerInterface $entityManager;
     protected AdminUrlHelper $adminUrlHelper;
@@ -44,7 +41,6 @@ class CRUDController
     public function __construct(
         Environment $twig,
         AdminPool $adminPool,
-        EntityEventHandlerPool $entityEventHandlerPool,
         FormFactoryInterface $formFactory,
         EntityManagerInterface $entityManager,
         AdminUrlHelper $adminUrlHelper,
@@ -52,7 +48,6 @@ class CRUDController
     ) {
         $this->twig = $twig;
         $this->adminPool = $adminPool;
-        $this->entityEventHandlerPool = $entityEventHandlerPool;
         $this->formFactory = $formFactory;
         $this->entityManager = $entityManager;
         $this->adminUrlHelper = $adminUrlHelper;
@@ -170,7 +165,6 @@ class CRUDController
 
                 $admin->prePersist($object);
                 $this->entityManager->persist($object);
-                $this->entityEventHandlerPool->handleEvents($object, Pool::CREATE_CONTEXT);
                 $admin->preFlush($object);
                 $this->entityManager->flush();
 
@@ -217,7 +211,6 @@ class CRUDController
                 $object = $form->getData();
 
                 $admin->preUpdate($object);
-                $this->entityEventHandlerPool->handleEvents($object, Pool::UPDATE_CONTEXT);
                 $admin->preFlush($object);
                 $this->entityManager->flush();
 
@@ -286,7 +279,6 @@ class CRUDController
         if(!$this->security->isGranted($admin->getRequiredRole())) throw new Exception('Access denied.');
 
         $object = $this->getObjectByRequest($admin, $request);
-        $this->entityEventHandlerPool->handleEvents($object, Pool::DELETE_CONTEXT);
         $this->entityManager->remove($object);
         $this->entityManager->flush();
 
@@ -310,7 +302,6 @@ class CRUDController
         $repository = $this->entityManager->getRepository($admin::getEntityClass());
         $object = $repository->find($id);
         if ($object instanceof BaseEntity) {
-            $this->entityEventHandlerPool->handleEvents($object, Pool::READ_CONTEXT);
             return $object;
         }
         throw new Exception(sprintf('Object with id #%d not found!', $id));

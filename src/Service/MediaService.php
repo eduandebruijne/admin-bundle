@@ -2,7 +2,7 @@
 
 namespace EDB\AdminBundle\Service;
 
-use EDB\AdminBundle\Entity\Media;
+use EDB\AdminBundle\Entity\AbstractMedia;
 use EDB\AdminBundle\Util\StringUtils;
 use League\Flysystem\FilesystemOperator;
 use League\Glide\Server;
@@ -15,16 +15,19 @@ class MediaService
     private FilesystemOperator $filesystem;
     private string $sourcePrefix;
     private string $cachePrefix;
+    private string $mediaClass;
 
     public function __construct(
         FilesystemOperator $defaultFilesystem,
         string $sourcePrefix,
-        string $cachePrefix
+        string $cachePrefix,
+        string $mediaClass
     )
     {
         $this->filesystem = $defaultFilesystem;
         $this->sourcePrefix = $sourcePrefix;
         $this->cachePrefix = $cachePrefix;
+        $this->mediaClass = $mediaClass;
 
         $this->server = ServerFactory::create([
             'source' => $this->filesystem,
@@ -38,7 +41,7 @@ class MediaService
         ]);
     }
 
-    public function handleUploadedFile(UploadedFile $uploadedFile): ?Media
+    public function handleUploadedFile(UploadedFile $uploadedFile): ?AbstractMedia
     {
         $filename = $uploadedFile->getClientOriginalName();
         $mimetype = $uploadedFile->getClientMimeType();
@@ -51,7 +54,7 @@ class MediaService
             file_get_contents($uploadedFile->getRealPath())
         );
 
-        $media = new Media();
+        $media = new $this->mediaClass();
         $media->setTitle($filename);
         $media->setFilename($newFilename);
         $media->setExtension($extension);

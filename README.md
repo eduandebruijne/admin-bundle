@@ -16,16 +16,11 @@ EDB\AdminBundle\Route\Loader:
 _instanceof:
     EDB\AdminBundle\Admin\AdminInterface:
         tags: [ "app.admin" ]
-    EDB\AdminBundle\EntityEvent\EntityEventHandlerInterface:
-        tags: [ "app.entity_event_handler" ]
     EDB\AdminBundle\MenuBuilder\MenuItemInterface:
         tags: [ "app.custom_menu_item" ]
 
 EDB\AdminBundle\Admin\Pool:
 	arguments: [ !tagged app.admin ]
-
-EDB\AdminBundle\EntityEvent\Pool:
-	arguments: [ !tagged app.entity_event_handler ]
 
 EDB\AdminBundle\MenuBuilder\MenuBuilder:
     arguments:
