@@ -2,7 +2,6 @@
 
 namespace EDB\AdminBundle\Form;
 
-use EDB\AdminBundle\Entity\Media;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormView;
@@ -11,6 +10,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MediaType extends AbstractType
 {
+    private string $mediaClass;
+
+    public function __construct(string $mediaClass)
+    {
+        $this->mediaClass = $mediaClass;
+    }
+
     public function getParent(): string
     {
         return EntityType::class;
@@ -20,7 +26,7 @@ class MediaType extends AbstractType
     {
         parent::configureOptions($resolver);
         $resolver->setDefaults([
-            'class' => Media::class,
+            'class' => $this->mediaClass,
             'preview_route_name' => 'media_preview'
         ]);
     }

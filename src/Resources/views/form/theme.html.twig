@@ -38,6 +38,11 @@
 {% block media_row %}
     <div class="mb-3">
         {{ form_label(form) }}
+        {% if form.vars.errors | length > 0 %}
+            {% for error in form.vars.errors %}
+                <div class="alert alert-sm alert-danger">{{ error.message }}</div>
+            {% endfor %}
+        {% endif %}
         <div id="{{ form.vars.id }}-media-form">
             <div id="{{ form.vars.id }}-media-preview" class="bg-light col-12 d-flex justify-content-center"></div>
             <div class="row mb-3">
