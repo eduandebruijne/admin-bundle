@@ -154,8 +154,9 @@ class CRUDController
         $admin = $this->getAdminFromRequest($request);
         if(!$this->security->isGranted($admin->getRequiredRole())) throw new Exception('Access denied.');
 
-        $form = $this->buildForm($admin);
-        $adminListUrl = $this->adminUrlHelper->generateAdminUrl($admin->getEntityClass(), AbstractAdmin::ROUTE_CONTEXT_LIST);
+        $class = $admin->getEntityClass();
+        $form = $this->buildForm($admin, new $class());
+        $adminListUrl = $this->adminUrlHelper->generateAdminUrl($class, AbstractAdmin::ROUTE_CONTEXT_LIST);
 
         if ($request->isMethod('POST')) {
             $form->handleRequest($request);
@@ -307,12 +308,15 @@ class CRUDController
         throw new Exception(sprintf('Object with id #%d not found!', $id));
     }
 
-    protected function buildForm(AdminInterface $admin, ?BaseEntity $data = null): FormInterface
+    protected function buildForm(AdminInterface $admin, BaseEntity $data): FormInterface
     {
         $formCollection = new FormCollection();
         $admin->buildForm($formCollection);
         $formUrl = (
-            $data ? $this->adminUrlHelper->generateAdminUrl($admin->getEntityClass(), AbstractAdmin::ROUTE_CONTEXT_UPDATE, $data->getId()) : $this->adminUrlHelper->generateAdminUrl($admin->getEntityClass(), AbstractAdmin::ROUTE_CONTEXT_CREATE)
+                $data->getId() ?
+                $this->adminUrlHelper->generateAdminUrl($admin->getEntityClass(), AbstractAdmin::ROUTE_CONTEXT_UPDATE, $data->getId()) :
+                $this->adminUrlHelper->generateAdminUrl($admin->getEntityClass(), AbstractAdmin::ROUTE_CONTEXT_CREATE
+            )
         );
 
         return $this->formFactory->create(Dynamic::class, $data, [
