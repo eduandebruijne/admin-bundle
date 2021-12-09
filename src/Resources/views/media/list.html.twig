@@ -7,11 +7,11 @@
         onclick="document.dispatchEvent(new CustomEvent('pickMedia', {'detail': {targetId: '{{ targetId }}', value: {{ instance.id }}}}))"
     >
         <div class="text-center bg-light p-3">
-            <div>
-                <img height="100" src="{{ render_media(instance, 100, 100) }}"/>
+            <div class="mb-2">
+                <img title="{{ instance }}" height="100" height="width" src="{{ render_media(instance, 100, 100) }}"/>
             </div>
-            <hr>
-            {{ instance }}
+            {% set max = 10 %}
+			{{ instance | length < max ? instance : instance | slice(0, max) ~ '...' }}
         </div>
     </div>
     {% endfor %}

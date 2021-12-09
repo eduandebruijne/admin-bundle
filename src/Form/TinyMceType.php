@@ -22,6 +22,7 @@ class TinyMceType extends AbstractType
             'editor_css' => false,
             'height' => 250,
             'show_menu' => false,
+            'media_mime_types' => ['image/png', 'image/jpg', 'image/jpeg'],
             'force_br_newlines' => false,
             'force_p_newlines' => false,
             'tinymce_formats' => false,

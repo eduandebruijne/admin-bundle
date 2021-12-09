@@ -82,7 +82,13 @@
 
             formContainer.on("open", async function() {
                 mediaModalObject.show()
-                const response = await fetch("{{ path('media_modal_list') }}?t={{ form.vars.id }}", {method: "GET"})
+
+                let params = {"t": '{{ form.vars.id }}'}
+                {% if mime_types | length > 0 %}
+                params["m"] = {{ mime_types | json_encode | raw }}
+                {% endif %}
+
+                const response = await fetch("{{ path('media_modal_list') }}?" + jquery.param(params), {method: "GET"})
                 const html = await response.text()
                 mediaModelBody.html(html)
             })
@@ -275,6 +281,6 @@
     </script>
     <div class="mb-3">
         {{ form_label(form) }}
-        <textarea name="{{ full_name }}" data-list-url="{{ path('media_modal_list') }}?m[]=image/jpeg&m[]=image/jpg&m[]=image/png&m[]=image/bmp" data-insert-url="{{ path('media_insert') }}" id="tinymce-{{ form.vars.id }}">{{ value | raw }}</textarea>
+        <textarea name="{{ full_name }}" data-list-url="{{ path('media_modal_list') }}?{% for mime in media_mime_types %}{{ loop.first ? '' : '&' }}m[]={{ mime }}{% endfor %}" data-insert-url="{{ path('media_insert') }}" id="tinymce-{{ form.vars.id }}">{{ value | raw }}</textarea>
     </div>
 {% endblock %}
