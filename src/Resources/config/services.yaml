@@ -4,7 +4,7 @@ parameters:
   admin_title: "%env(CMS_TITLE)%"
   google_client_id: "%env(OAUTH_GOOGLE_CLIENT_ID)%"
   google_client_secret: "%env(OAUTH_GOOGLE_CLIENT_SECRET)%"
-  media_path: "media"
+  media_path: "/media"
   source_prefix: "source"
   cache_prefix: "cache"
   media_class: EDB\AdminBundle\Entity\Media

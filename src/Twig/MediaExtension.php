@@ -50,8 +50,8 @@ class MediaExtension extends AbstractExtension
             ]);
 
             return sprintf(
-                '/%s/%s',
-                trim($this->mediaPath, '/'),
+                '%s/%s',
+                rtrim($this->mediaPath, '/'),
                 $imageUrl
             );
         }
@@ -64,8 +64,8 @@ class MediaExtension extends AbstractExtension
         if (empty($media)) return null;
 
         return sprintf(
-            '/%s/%s/%s',
-            trim($this->mediaPath, '/'),
+            '%s/%s/%s',
+            rtrim($this->mediaPath, '/'),
             trim($this->sourcePrefix, '/'),
             $media->getFilename()
         );
