@@ -172,7 +172,7 @@
             collectionHolder.data("index", index + 1);
 
             // Display the form in the page in an li, before the "Add a tag" link li
-            let newFormLi = jquery("<li class=\"form-collection-item\"><div class=\"row\"><div class=\"col-11\">"+newForm+"</div></div></li>");
+            let newFormLi = jquery("<li class=\"form-collection-item\"><div class=\"row\"><div class=\"col-md-11 col-10\">"+newForm+"</div></div></li>");
 
             // Add the new form at the end of the list
             collectionHolder.append(newFormLi)
@@ -182,7 +182,7 @@
         }
 
         function addTagFormDeleteLink(tagFormLi) {
-            let removeFormButton = jquery("<div class=\"col-1\"><button type=\"button\" class=\"btn btn-sm btn-danger\"><i class=\"fa fa-minus-circle\"></i></button></div>");
+            let removeFormButton = jquery("<div class=\"col-md-1 col-2\"><button type=\"button\" class=\"btn btn-sm btn-danger\"><i class=\"fa fa-minus-circle\"></i></button></div>");
             tagFormLi.find(".row:first-child").prepend(removeFormButton);
 
             removeFormButton.on("click", "button", function(e) {
