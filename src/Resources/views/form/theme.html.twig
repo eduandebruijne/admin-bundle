@@ -236,6 +236,8 @@
                 menubar: {{ show_menu ? 'true' : 'false' }},
                 relative_urls: false,
                 remove_script_host : true,
+                force_br_newlines: {{ force_br_newlines ? 'true' : 'false' }},
+                force_p_newlines: {{ force_p_newlines ? 'true' : 'false' }},
                 document_base_url: "{{ app.request.getSchemeAndHttpHost() }}/",
                 plugins: [
                     "{{ form.vars.tinymce_plugins }}",
