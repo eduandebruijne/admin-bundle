@@ -76,6 +76,23 @@ edb_admin_media:
 
 
 
+#### Add ENV variables
+
+------
+
+Append routes to `.env`
+
+```
+...
+CMS_ICON=
+CMS_TITLE=
+ADMIN_PATH=
+OAUTH_GOOGLE_CLIENT_ID=
+OAUTH_GOOGLE_CLIENT_SECRET=
+```
+
+
+
 #### Installing bundle assets and clearing cache
 
 ------
@@ -107,7 +124,6 @@ firewalls:
                 - EDB\AdminBundle\Security\GoogleAuthenticator
 
 access_control:
-    - { path: ^/%env(ADMIN_PATH)%/auth/google/connect, roles: PUBLIC_ACCESS }
     - { path: ^/%env(ADMIN_PATH)%/login, roles: PUBLIC_ACCESS }
     - { path: ^/%env(ADMIN_PATH)%, roles: ROLE_ADMIN }
 ```
@@ -136,7 +152,7 @@ knpu_oauth2_client:
 ------
 
 ```bash
-bin/console admin:create-user {email} ["ROLE_ADMIN"]
+bin/console admin:create-user example@gmail.com ROLE_ADMIN
 ```
 
 
