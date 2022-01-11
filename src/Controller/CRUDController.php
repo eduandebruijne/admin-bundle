@@ -92,7 +92,7 @@ class CRUDController
             $parts = explode('.', $columnName);
             $field = sprintf('%s.%s', $rootAlias, $parts[0]);
             if (in_array($parts[0], array_keys($associationMappings))) {
-                $alias = ClassUtils::getShortName($associationMappings[$columnName]["targetEntity"]);
+                $alias = ClassUtils::getShortName($associationMappings[$columnName]["targetEntity"]) . '_' . $columnName;
                 $queryBuilder->leftJoin($field, $alias);
                 $queryBuilder->addSelect($alias);
             }
