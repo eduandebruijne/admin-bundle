@@ -9,6 +9,7 @@ use EDB\AdminBundle\Entity\Media;
 use EDB\AdminBundle\FormBuilder\FormCollection;
 use EDB\AdminBundle\ListBuilder\ListCollection;
 use EDB\AdminBundle\Service\MediaService;
+use Exception;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -63,7 +64,7 @@ class MediaAdmin extends AbstractAdmin
 
     public static function getEntityClass(): string
     {
-        return Media::class;
+        throw new Exception('Create and extend this admin to use it for your own Media class.');
     }
 
     public static function getAdminMenuTitle(): string

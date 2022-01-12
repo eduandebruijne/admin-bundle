@@ -7,7 +7,8 @@ parameters:
   media_path: "/media"
   source_prefix: "source"
   cache_prefix: "cache"
-  media_class: EDB\AdminBundle\Entity\Media
+  media_class: ~
+  user_class: ~
 
 services:
   _defaults:
@@ -15,10 +16,11 @@ services:
     autowire: true
     autoconfigure: true
     bind:
-      $mediaPath: '%media_path%'
-      $mediaClass: '%media_class%'
       $sourcePrefix: '%source_prefix%'
       $cachePrefix: '%cache_prefix%'
+      $mediaPath: '%media_path%'
+      $mediaClass: '%media_class%'
+      $userClass: '%user_class%'
 
   EDB\AdminBundle\:
     resource: "../../../src/"

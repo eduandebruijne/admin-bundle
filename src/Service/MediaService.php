@@ -4,6 +4,7 @@ namespace EDB\AdminBundle\Service;
 
 use EDB\AdminBundle\Entity\AbstractMedia;
 use EDB\AdminBundle\Util\StringUtils;
+use Exception;
 use League\Flysystem\FilesystemOperator;
 use League\Glide\Server;
 use League\Glide\ServerFactory;
@@ -21,9 +22,13 @@ class MediaService
         FilesystemOperator $defaultFilesystem,
         string $sourcePrefix,
         string $cachePrefix,
-        string $mediaClass
+        ?string $mediaClass
     )
     {
+        if (!$mediaClass) {
+            throw new Exception('No media class is implemented in this project.');
+        }
+
         $this->filesystem = $defaultFilesystem;
         $this->sourcePrefix = $sourcePrefix;
         $this->cachePrefix = $cachePrefix;

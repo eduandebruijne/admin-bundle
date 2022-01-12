@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace EDB\AdminBundle\Admin;
 
 use EDB\AdminBundle\Admin\AbstractAdmin;
-use EDB\AdminBundle\Entity\User;
 use EDB\AdminBundle\FormBuilder\FormCollection;
 use EDB\AdminBundle\ListBuilder\ListCollection;
+use Exception;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
@@ -41,7 +41,7 @@ class UserAdmin extends AbstractAdmin
 
     public static function getEntityClass(): string
     {
-        return User::class;
+        throw new Exception('Create and extend this admin to use it for your own User class.');
     }
 
     public static function getAdminMenuTitle(): string

@@ -157,7 +157,55 @@ bin/console admin:create-user example@gmail.com ROLE_ADMIN
 
 
 
-#### Create entity
+In order to use the admin panel, both AbstractUser and AbstractMedia should be implemented within the project (TODO: Create Symfony recipe to automate this)
+
+
+
+#### Implement User class
+
+------
+
+```php
+<?php
+
+namespace App\Entity;
+
+use EDB\AdminBundle\Entity\AbstractUser;
+use Doctrine\ORM\Mapping as ORM;
+
+/** @ORM\Entity */
+class User extends AbstractUser
+{
+}
+```
+
+
+
+#### Implement Media class
+
+------
+
+```php
+<?php
+
+namespace App\Entity;
+
+use EDB\AdminBundle\Entity\AbstractMedia;
+use Doctrine\ORM\Mapping as ORM;
+
+/** @ORM\Entity */
+class Media extends AbstractMedia
+{
+}
+```
+
+
+
+At this point the admin panel should work completely. Now you can start added your own entities and admins to manage them.
+
+
+
+#### Create custom entity
 
 ---
 ```php
@@ -195,7 +243,7 @@ class Page extends BaseEntity
 
 
 
-#### Create admin
+#### Create custom admin
 
 ---
 ```php

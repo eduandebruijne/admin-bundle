@@ -2,6 +2,7 @@
 
 namespace EDB\AdminBundle\Form;
 
+use Exception;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormView;
@@ -14,6 +15,10 @@ class MediaType extends AbstractType
 
     public function __construct(string $mediaClass)
     {
+        if (!$mediaClass) {
+            throw new Exception('No media class is implemented in this project.');
+        }
+
         $this->mediaClass = $mediaClass;
     }
 

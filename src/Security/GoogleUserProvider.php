@@ -2,20 +2,26 @@
 
 namespace EDB\AdminBundle\Security;
 
-use EDB\AdminBundle\Entity\User;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 
 class GoogleUserProvider implements UserProviderInterface
 {
     private EntityManagerInterface $em;
+    private string $userClass;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, ?string $userClass)
     {
+        if (!$userClass) {
+            throw new Exception('No user class is implemented in this project.');
+        }
+
         $this->em = $em;
+        $this->userClass = $userClass;
     }
 
     /**
@@ -32,7 +38,7 @@ class GoogleUserProvider implements UserProviderInterface
      */
     public function loadUserByUsername($username)
     {
-        return $this->em->getRepository(User::class)->findOneBy([
+        return $this->em->getRepository($this->userClass)->findOneBy([
             'username' => $username
         ]);
     }

@@ -28,6 +28,10 @@ class MediaController
         string $mediaClass
     )
     {
+        if (!$mediaClass) {
+            throw new Exception('No media class is implemented in this project.');
+        }
+
         $this->mediaService = $mediaService;
         $this->entityManager = $entityManager;
         $this->twig = $twig;
