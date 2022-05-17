@@ -4,17 +4,14 @@ declare(strict_types=1);
 
 namespace EDB\AdminBundle\Admin;
 
-use EDB\AdminBundle\Admin\AbstractAdmin;
-use EDB\AdminBundle\Entity\Media;
 use EDB\AdminBundle\FormBuilder\FormCollection;
 use EDB\AdminBundle\ListBuilder\ListCollection;
 use EDB\AdminBundle\Service\MediaService;
-use Exception;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class MediaAdmin extends AbstractAdmin
+abstract class AbstractMediaAdmin extends AbstractAdmin
 {
     private MediaService $mediaService;
 
@@ -49,7 +46,6 @@ class MediaAdmin extends AbstractAdmin
             ->setModelTransformer(new CallbackTransformer(function($database) {
                 return $database;
             }, function($form) {
-                /** @var Media $form */
                 if (!$form->update) return $form;
 
                 $media = $this->mediaService->handleUploadedFile($form->update);
@@ -62,10 +58,7 @@ class MediaAdmin extends AbstractAdmin
             }));
     }
 
-    public static function getEntityClass(): string
-    {
-        throw new Exception('Create and extend this admin to use it for your own Media class.');
-    }
+    abstract public static function getEntityClass(): string;
 
     public static function getAdminMenuTitle(): string
     {

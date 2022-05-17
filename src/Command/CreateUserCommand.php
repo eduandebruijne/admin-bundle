@@ -3,7 +3,6 @@
 namespace EDB\AdminBundle\Command;
 
 use Doctrine\Persistence\ManagerRegistry;
-use EDB\AdminBundle\Entity\User;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -12,11 +11,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 class CreateUserCommand extends Command
 {
     private ManagerRegistry $doctrine;
+    private string $userClass;
 
-    public function __construct(ManagerRegistry $doctrine)
+    public function __construct(ManagerRegistry $doctrine, string $userClass)
     {
         parent::__construct();
         $this->doctrine = $doctrine;
+        $this->userClass = $userClass;
     }
 
     protected function configure()
@@ -36,7 +37,7 @@ class CreateUserCommand extends Command
             return trim($role);
         }, $roles);
 
-        $user = new User();
+        $user = new $this->userClass();
         $user->setUsername($username);
         $user->setRoles($roles);
 
