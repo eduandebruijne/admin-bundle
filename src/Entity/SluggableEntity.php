@@ -2,15 +2,14 @@
 
 namespace EDB\AdminBundle\Entity;
 
-use EDB\AdminBundle\Entity\BaseEntity;
 use Doctrine\ORM\Mapping as ORM;
 use EDB\AdminBundle\Util\StringUtils;
 
 /**
- * @ORM\MappedSuperclass
- * @ORM\HasLifecycleCallbacks
+ * IMPORTANT: Make sure that the entity who is using this trait has
+ * ORM\HasLifecycleCallbacks enabled!
  */
-class SluggableEntity extends BaseEntity
+trait SluggableEntity
 {
     /**
      * @ORM\Column
@@ -22,7 +21,7 @@ class SluggableEntity extends BaseEntity
         return $this->slug;
     }
 
-    public function setSlug(?string $slug)
+    public function setSlug(?string $slug): void
     {
         $this->slug = $slug;
     }
@@ -31,7 +30,7 @@ class SluggableEntity extends BaseEntity
      * @ORM\PrePersist
      * @ORM\PreUpdate
      */
-    public function updateSlug()
+    public function updateSlug(): void
     {
         if (empty($this->getSlug())) {
             $this->setSlug(StringUtils::createSlug((string)$this));

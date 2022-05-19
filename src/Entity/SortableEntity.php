@@ -2,13 +2,9 @@
 
 namespace EDB\AdminBundle\Entity;
 
-use EDB\AdminBundle\Entity\BaseEntity;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\MappedSuperclass
- */
-class SortableEntity extends BaseEntity
+trait SortableEntity
 {
     /**
      * @ORM\Column(type="integer")

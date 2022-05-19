@@ -7,6 +7,8 @@ namespace EDB\AdminBundle\Controller;
 use EDB\AdminBundle\Admin\AdminInterface;
 use EDB\AdminBundle\Admin\Pool as AdminPool;
 use EDB\AdminBundle\Entity\BaseEntity;
+use EDB\AdminBundle\Entity\EntityHierarchyInterface;
+use EDB\AdminBundle\Entity\SortableEntityInterface;
 use EDB\AdminBundle\FormBuilder\Dynamic;
 use EDB\AdminBundle\FormBuilder\FormCollection;
 use EDB\AdminBundle\ListBuilder\ListCollection;
@@ -14,7 +16,6 @@ use EDB\AdminBundle\Util\ClassUtils;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use EDB\AdminBundle\Admin\AbstractAdmin;
-use EDB\AdminBundle\Entity\SortableEntity;
 use EDB\AdminBundle\Helper\AdminUrlHelper;
 use Exception;
 use ReflectionException;
@@ -248,14 +249,33 @@ class CRUDController
 
         $object = $this->getObjectByRequest($admin, $request);
 
-        if (!$object instanceof SortableEntity) {
+        if (!$object instanceof SortableEntityInterface) {
             throw new Exception('Entity must extend SortableEntity');
         }
 
-        $orderBy = 'ASC';
+        $qb = $this->entityManager
+            ->getRepository($admin->getEntityClass())
+            ->createQueryBuilder('e')
+            ->select('e')
+            ->orderBy('e.position', 'ASC')
+        ;
+
+        $hierarchyEnabled = ($object instanceof EntityHierarchyInterface);
+        if (true === $hierarchyEnabled) {
+            if (null === $object->getParent()) {
+                $qb->where('e.parent IS NULL');
+            } else {
+                $qb->where('e.parent = :parentLevel');
+                $qb->setParameter('parentLevel', $object->getParent()->getId());
+            }
+        }
+
+        $resultSet = $qb->getQuery()->getResult();
+
         $positionMap = array_map(function($instance) {
             return $instance;
-        }, $this->entityManager->getRepository($admin->getEntityClass())->findBy([], ['position' => $orderBy]));
+        }, $resultSet);
+
         foreach ($positionMap as $position => $instance) {
             if ($object === $instance && isset($positionMap[$method($position)])) {
                 $positionMap[$position] = $positionMap[$method($position)];

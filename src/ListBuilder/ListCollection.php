@@ -35,6 +35,7 @@ class ListCollection extends AbstractCollection
         }
 
         $this->elements[] = new ActionGroup($actionObjects, $options);
+
         return $this;
     }
 

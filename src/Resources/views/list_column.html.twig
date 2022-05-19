@@ -6,8 +6,15 @@
 		{% if object is iterable %}
 			{{ object | join(', ') }}
 		{% else %}
-			{% set max = 50 %}
-			{{ object | length < max ? object : object | slice(0, max) ~ '...' }}
+            {% set max = 50 %}
+            {% if attribute(row, 'getParent') is defined and row.parentCount > 0%}
+                {% for i in range(1, row.parentCount) %}
+                    <span class="d-inline-block">
+                        <i class="fa fa-caret-right text-warning"></i>&nbsp;
+                    </span>
+                {% endfor %}
+            {% endif %}
+            {{ object | length < max ? object : object | slice(0, max) ~ '...' }}
 		{% endif %}
 	{% endblock %}
 </td>

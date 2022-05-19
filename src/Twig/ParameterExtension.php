@@ -13,7 +13,7 @@ class ParameterExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction('get_parameter', array($this, 'getParameter'))
+            new TwigFunction('get_parameter', [$this, 'getParameter'])
         ];
     }
     
