@@ -4,6 +4,7 @@
   "type": "symfony-bundle",
   "license": "MIT",
   "require": {
+    "php": ">=7.4",
     "doctrine/dbal": "^3.1",
     "doctrine/doctrine-bundle": "^2.4",
     "doctrine/orm": "^2.10",
