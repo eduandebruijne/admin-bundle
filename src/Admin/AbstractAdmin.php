@@ -44,6 +44,11 @@ abstract class AbstractAdmin implements AdminInterface
         return true;
     }
 
+    public function getSearchProperty(): string
+    {
+        return 'title';
+    }
+
     /**
      * @return array<string, string[][]>
      */

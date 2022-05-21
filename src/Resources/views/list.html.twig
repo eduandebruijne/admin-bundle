@@ -24,7 +24,7 @@
 						{% for element in list_collection.elements %}
 							<th>
 								{% set label = element.getOption('label') is not empty ? element.getOption('label') : element.name | humanize %}
-								{% if element.getOption('sortable') %}
+								{% if element.getOption('sortable') and not search %}
 									{% set sortedOnColumn = element.name == sort | replace({'!': ''}) %}
 									{% set sortedReverse = '!' in sort %}
 									<a href="{{ path(route, {'sort': (sortedOnColumn and not sortedReverse ? '!' : '') ~ element.name}) }}">

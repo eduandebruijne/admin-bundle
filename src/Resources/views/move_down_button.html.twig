@@ -1,3 +1,5 @@
+{% if not search %}
 <a class="btn btn-sm btn-outline-secondary" href="{{ generate_admin_url(admin.entityClass, 'move_down', object.id) }}">
     <i class="fa fa-arrow-circle-down"></i>
 </a>
+{% endif %}

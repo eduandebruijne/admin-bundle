@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace EDB\AdminBundle\Controller;
 
+use Doctrine\DBAL\Query;
+use Doctrine\ORM\QueryBuilder;
 use EDB\AdminBundle\Admin\AdminInterface;
 use EDB\AdminBundle\Admin\Pool as AdminPool;
 use EDB\AdminBundle\Entity\BaseEntity;
@@ -11,6 +13,7 @@ use EDB\AdminBundle\Entity\EntityHierarchyInterface;
 use EDB\AdminBundle\Entity\SortableEntityInterface;
 use EDB\AdminBundle\FormBuilder\Dynamic;
 use EDB\AdminBundle\FormBuilder\FormCollection;
+use EDB\AdminBundle\ListBuilder\Column;
 use EDB\AdminBundle\ListBuilder\ListCollection;
 use EDB\AdminBundle\Util\ClassUtils;
 use Doctrine\ORM\EntityManagerInterface;
@@ -77,6 +80,11 @@ class CRUDController
     public function list(Request $request): Response
     {
         $admin = $this->getAdminFromRequest($request);
+        $hierarchyEnabled = is_subclass_of(
+            $admin::getEntityClass(),
+            EntityHierarchyInterface::class
+        );
+
         if(!$this->security->isGranted($admin->getRequiredRole())) throw new Exception('Access denied.');
 
         $listCollection = new ListCollection();
@@ -101,9 +109,9 @@ class CRUDController
 
         $sort = $request->query->get('sort');
         if ($sort) {
-            $direction = str_contains($sort, '!') ? 'DESC' : 'ASC';
+            $direction = false !== strpos($sort, '!') ? 'DESC' : 'ASC';
             $cleanedUpSortField = str_replace('!', '', $sort);
-            if (!str_contains($sort, '.')) {
+            if (false === strpos($sort, '.')) {
                 $cleanedUpSortField = sprintf('%s.%s', $rootAlias, $cleanedUpSortField);
             }
             $queryBuilder->orderBy($cleanedUpSortField, $direction);
@@ -114,7 +122,7 @@ class CRUDController
         $search = $request->query->get('search');
         if ($search) {
             $likeValue = $search;
-            $field = 'title';
+            $field = $admin->getSearchProperty();
             $whereValues = [
                 implode("", ['%', $likeValue, '%']),
                 implode("", ['%', $likeValue]),
@@ -130,9 +138,21 @@ class CRUDController
             }
         }
 
+        if ($hierarchyEnabled) {
+            $listResults = [];
+            $this->addResultSetToListResults(
+                $listResults,
+                $this->executePartialListQuery($queryBuilder, $rootAlias, null),
+                $queryBuilder,
+                $rootAlias
+            );
+        } else {
+            $listResults = $queryBuilder->getQuery()->getResult();
+        }
+
         $crudContext = AbstractAdmin::ROUTE_CONTEXT_LIST;
         $templateArguments = [
-            'list' => $queryBuilder->getQuery()->getResult(),
+            'list' => $listResults,
             'list_collection' => $listCollection,
             'admin' => $admin,
             'sort' => $sort,
@@ -142,6 +162,42 @@ class CRUDController
         return new Response(
             $this->twig->render($admin->getTemplate(AbstractAdmin::ROUTE_CONTEXT_LIST), $templateArguments)
         );
+    }
+
+    private function addResultSetToListResults(
+        &$listResults,
+        array $resultSet,
+        QueryBuilder $queryBuilder,
+        string $rootAlias
+    ): void {
+        foreach ($resultSet as $result) {
+            $listResults[] = $result;
+
+            $this->addResultSetToListResults(
+                $listResults,
+                $this->executePartialListQuery(
+                    $queryBuilder,
+                    $rootAlias,
+                    $result->getId()
+                ),
+                $queryBuilder,
+                $rootAlias
+            );
+        }
+    }
+
+    protected function executePartialListQuery(QueryBuilder $queryBuilder, string $rootAlias, ?int $parentId): array
+    {
+        $qbClone = clone $queryBuilder;
+
+        if (null === $parentId) {
+            $qbClone->andWhere(sprintf('%s.parent IS NULL', $rootAlias));
+        } else {
+            $qbClone->andWhere(sprintf('%s.parent = :parentId', $rootAlias));
+            $qbClone->setParameter('parentId', $parentId);
+        }
+
+        return $qbClone->getQuery()->getResult();
     }
 
     /**
@@ -245,6 +301,11 @@ class CRUDController
     private function sort(Request $request, callable $method)
     {
         $admin = $this->getAdminFromRequest($request);
+        $hierarchyEnabled = is_subclass_of(
+            $admin::getEntityClass(),
+            EntityHierarchyInterface::class
+        );
+
         if(!$this->security->isGranted($admin->getRequiredRole())) throw new Exception('Access denied.');
 
         $object = $this->getObjectByRequest($admin, $request);
@@ -260,7 +321,6 @@ class CRUDController
             ->orderBy('e.position', 'ASC')
         ;
 
-        $hierarchyEnabled = ($object instanceof EntityHierarchyInterface);
         if (true === $hierarchyEnabled) {
             if (null === $object->getParent()) {
                 $qb->where('e.parent IS NULL');
@@ -272,20 +332,18 @@ class CRUDController
 
         $resultSet = $qb->getQuery()->getResult();
 
-        $positionMap = array_map(function($instance) {
-            return $instance;
-        }, $resultSet);
-
-        foreach ($positionMap as $position => $instance) {
-            if ($object === $instance && isset($positionMap[$method($position)])) {
-                $positionMap[$position] = $positionMap[$method($position)];
-                $positionMap[$method($position)] = $object;
+        foreach ($resultSet as $position => $instance) {
+            if ($object === $instance && isset($resultSet[$method($position)])) {
+                $resultSet[$position] = $resultSet[$method($position)];
+                $resultSet[$method($position)] = $object;
                 break;
             }
         }
-        foreach ($positionMap as $position => $instance) {
+
+        foreach ($resultSet as $position => $instance) {
             $instance->setPosition($position+1);
         }
+
         $this->entityManager->flush();
 
         return new RedirectResponse($this->adminUrlHelper->generateAdminUrl($admin->getEntityClass(), AbstractAdmin::ROUTE_CONTEXT_LIST));

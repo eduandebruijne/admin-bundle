@@ -24,14 +24,14 @@ class CreateUserCommand extends Command
     {
         $this->setName('admin:create-user')
             ->setDescription('Create a new admin user')
-            ->addArgument('username', InputArgument::REQUIRED)
-            ->addArgument('roles', InputArgument::REQUIRED);
+            ->addArgument('email', InputArgument::REQUIRED)
+            ->addArgument('role', InputArgument::REQUIRED);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $username = $input->getArgument('username');
-        $roles = explode(',', $input->getArgument('roles'));
+        $username = $input->getArgument('email');
+        $roles = explode(',', $input->getArgument('role'));
 
         $roles = array_map(function($role) {
             return trim($role);
