@@ -10,7 +10,7 @@ trait SortableEntity
      * @ORM\Column(type="integer")
      * @var ?int
      */
-    private $position = 0;
+    protected $position = 0;
 
     public function getPosition(): ?int
     {

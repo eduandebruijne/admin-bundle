@@ -14,7 +14,7 @@ trait SluggableEntity
     /**
      * @ORM\Column
      */
-    private $slug;
+    protected $slug;
 
     public function getSlug(): ?string
     {

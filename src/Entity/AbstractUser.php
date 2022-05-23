@@ -14,13 +14,13 @@ class AbstractUser extends BaseEntity implements UserInterface
      * @ORM\Column
      * @var ?string
      */
-    private $username;
+    protected $username;
 
     /**
      * @ORM\Column(type="json")
      * @var array
      */
-    private $roles = [];
+    protected $roles = [];
 
     public function __toString()
     {

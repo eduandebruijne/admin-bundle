@@ -18,17 +18,17 @@ abstract class BaseEntity
      * @ORM\Column(type="integer")
      * @var ?int
      */
-    private $id;
+    protected $id;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $createdAt;
+    protected $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $updatedAt;
+    protected $updatedAt;
 
     public function getId(): ?int
 	{

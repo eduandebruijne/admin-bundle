@@ -12,27 +12,27 @@ class AbstractMedia extends BaseEntity
     /**
      * @ORM\Column
      */
-    private ?string $title;
+    protected ?string $title;
 
     /**
      * @ORM\Column
      */
-    private ?string $filename;
+    protected ?string $filename;
 
     /**
      * @ORM\Column(nullable=true)
      */
-    private ?string $mimeType;
+    protected ?string $mimeType;
 
     /**
      * @ORM\Column(nullable=true)
      */
-    private ?string $extension;
+    protected ?string $extension;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $size;
+    protected ?int $size;
 
     public $update;
 
