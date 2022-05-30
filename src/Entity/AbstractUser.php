@@ -32,7 +32,7 @@ class AbstractUser extends BaseEntity implements UserInterface
         return md5($this->username);
     }
 
-    public function getUserIdentifier()
+    public function getUserIdentifier(): ?string
     {
         return $this->getUsername();
     }
@@ -61,11 +61,13 @@ class AbstractUser extends BaseEntity implements UserInterface
     {
     }
 
-    public function getPassword()
+    public function getPassword(): ?string
     {
+        return null;
     }
 
-    public function getSalt()
+    public function getSalt(): ?string
     {
+        return null;
     }
 }
