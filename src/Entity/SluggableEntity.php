@@ -6,8 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use EDB\AdminBundle\Util\StringUtils;
 
 /**
- * IMPORTANT: Make sure that the entity who is using this trait has
- * ORM\HasLifecycleCallbacks enabled!
+ * IMPORTANT: Make sure to add @ORM\HasLifecycleCallbacks when using this trait
  */
 trait SluggableEntity
 {

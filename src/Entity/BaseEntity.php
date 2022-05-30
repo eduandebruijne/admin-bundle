@@ -8,7 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\MappedSuperclass
- * @ORM\HasLifecycleCallbacks
+ *
+ * IMPORTANT: Make sure to add @ORM\HasLifecycleCallbacks when extending this class
  */
 abstract class BaseEntity
 {
