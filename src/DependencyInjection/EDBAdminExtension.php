@@ -28,10 +28,10 @@ class EDBAdminExtension extends Extension implements PrependExtensionInterface
 
         $twig = $container->getExtensionConfig('twig')[0];
         $twig['globals']['media_path'] = $container->getParameter('media_path');
-        $twig['form_themes'] = array_merge($twig['form_themes'], [
+        $twig['form_themes'] = [
             'bootstrap_5_layout.html.twig',
             '@EDBAdmin/form/theme.html.twig'
-        ]);
+        ];
         $container->prependExtensionConfig('twig', $twig);
 
         $loaderDefinition = new Definition(Loader::class);
