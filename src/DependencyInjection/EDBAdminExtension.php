@@ -35,7 +35,7 @@ class EDBAdminExtension extends Extension implements PrependExtensionInterface
         $container->prependExtensionConfig('twig', $twig);
 
         $loaderDefinition = new Definition(Loader::class);
-        $loaderDefinition->setTags(['routing.loader']);
+        $loaderDefinition->addTag('routing.loader');
         $container->setDefinition(Loader::class, $loaderDefinition);
 
         $servicesByInstanceOf = $container->getAutoconfiguredInstanceof();
