@@ -13,16 +13,16 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder('edb-admin');
 
-        $treeBuilder->getRootNode()
-            ->children()
-            ->arrayNode('twitter')
-            ->children()
-            ->integerNode('client_id')->end()
-            ->scalarNode('client_secret')->end()
-            ->end()
-            ->end() // twitter
-            ->end()
-        ;
+//        $treeBuilder->getRootNode()
+//            ->children()
+//            ->arrayNode('twitter')
+//            ->children()
+//            ->integerNode('client_id')->end()
+//            ->scalarNode('client_secret')->end()
+//            ->end()
+//            ->end() // twitter
+//            ->end()
+//        ;
 
         return $treeBuilder;
     }
