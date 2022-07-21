@@ -1,14 +1,6 @@
 parameters:
-  admin_icon: "%env(CMS_ICON)%"
-  admin_path: "%env(ADMIN_PATH)%"
-  admin_title: "%env(CMS_TITLE)%"
-  google_client_id: "%env(OAUTH_GOOGLE_CLIENT_ID)%"
-  google_client_secret: "%env(OAUTH_GOOGLE_CLIENT_SECRET)%"
-  media_path: "/media"
-  source_prefix: "source"
-  cache_prefix: "cache"
-  media_class: ~
-  user_class: ~
+  edb_admin_path: '%env(ADMIN_PATH)%'
+  edb_media_path: '%env(MEDIA_PATH)%'
 
 services:
   _defaults:
@@ -16,11 +8,11 @@ services:
     autowire: true
     autoconfigure: true
     bind:
-      $sourcePrefix: '%source_prefix%'
-      $cachePrefix: '%cache_prefix%'
-      $mediaPath: '%media_path%'
-      $mediaClass: '%media_class%'
-      $userClass: '%user_class%'
+      $sourcePrefix: '%edb_source_prefix%'
+      $cachePrefix: '%edb_cache_prefix%'
+      $mediaPath: '%edb_media_path%'
+      $mediaClass: '%edb_media_class%'
+      $userClass: '%edb_user_class%'
 
   EDB\AdminBundle\:
     resource: "../../../src/"
@@ -32,3 +24,7 @@ services:
       - "../../../src/Admin/"
       - "../../../src/MenuBuilder/MenuGroup.php"
       - "../../../src/MenuBuilder/MenuItem.php"
+
+  EDB\AdminBundle\Route\Loader:
+    tags:
+      - { name: routing.loader }

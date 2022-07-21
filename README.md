@@ -1,101 +1,74 @@
 # EDBAdminBundle
 *A simple to use Symfony based CMS*
 
-#### Add bundle services and auto tagging to your project
-
-------
-
-Append services to `config/services.yaml`
-
-```php
-...
-EDB\AdminBundle\Route\Loader:
-    tags:
-    	- { name: routing.loader }
-
-_instanceof:
-    EDB\AdminBundle\Admin\AdminInterface:
-        tags: [ "app.admin" ]
-    EDB\AdminBundle\MenuBuilder\MenuItemInterface:
-        tags: [ "app.custom_menu_item" ]
-
-EDB\AdminBundle\Admin\Pool:
-	arguments: [ !tagged app.admin ]
-
-EDB\AdminBundle\MenuBuilder\MenuBuilder:
-    arguments:
-        $customMenuItems: !tagged_iterator app.custom_menu_item
-```
-
-
+---
 
 #### Install the bundle via Composer
-
-------
 
 ```bash
 composer require eduandebruijne/admin-bundle
 ```
 
+---
 
+#### Configure
 
-#### Enable bundle form theme
-
-------
-
-Append form themes to `config/packages/twig.yaml`
+Add bundle config to `config/packages/edb_admin.yaml`
 
 ```yaml
-twig:
-    ...
-    form_themes:
-        - 'bootstrap_5_layout.html.twig'
-        - '@EDBAdmin/form/theme.html.twig'
-```
-
-
-
-#### Configure bundle routes
-
-------
-
-Append routes to `config/routes/annotation.yaml`
-
-```yaml
-...
 edb_admin:
-    resource: .
-    type: admin
-    prefix: "%admin_path%"
-
-edb_admin_media:
-    resource: '@EDBAdminBundle/Controller'
-    type: annotation
-    prefix: "%admin_path%"
+  admin_icon: "image"
+  admin_title: "BdB"
+  cache_prefix: "media_cache"
+  media_class: MEDIACLASS
+  source_prefix: "media_source"
+  user_class: App\Entity\User
 ```
 
+Add routes to `config/routes/edb_admin.yaml`
 
+```yaml
+edb_dynamic:
+  resource: .
+  type: admin
+  prefix: '%edb_admin_path%'
 
-#### Add ENV variables
+edb_admin:
+  resource: '@EDBAdminBundle/Resources/config/routes.yaml'
+  prefix: '%edb_admin_path%'
+```
 
-------
-
-Append routes to `.env`
+Make sure environment variables are available
 
 ```
-...
-CMS_ICON=
-CMS_TITLE=
 ADMIN_PATH=
+MEDIA_PATH=
 OAUTH_GOOGLE_CLIENT_ID=
 OAUTH_GOOGLE_CLIENT_SECRET=
 ```
 
+#### Configure security
 
+```yaml
+role_hierarchy:
+  ROLE_ADMIN: ~
 
-#### Installing bundle assets and clearing cache
+providers:
+  oauth:
+    id: EDB\AdminBundle\Security\GoogleUserProvider
 
-------
+firewalls:
+  main:
+    guard:
+      authenticators:
+        - EDB\AdminBundle\Security\GoogleAuthenticator
+
+access_control:
+  - { path: ^/%env(ADMIN_PATH)%/login, roles: PUBLIC_ACCESS }
+  - { path: ^/%env(ADMIN_PATH)%, roles: ROLE_ADMIN }
+```
+
+#### Install assets, update database and clear cache
 
 ```bash
 bin/console assets:install
@@ -103,67 +76,19 @@ bin/console doctrine:schema:update --force
 bin/console cache:clear
 ```
 
-
-
-#### Configure main firewall
-
-------
-
-```yaml
-role_hierarchy:
-    ROLE_ADMIN: ~
-
-providers:
-    oauth:
-        id: EDB\AdminBundle\Security\GoogleUserProvider
-
-firewalls:
-    main:
-        guard:
-            authenticators:
-                - EDB\AdminBundle\Security\GoogleAuthenticator
-
-access_control:
-    - { path: ^/%env(ADMIN_PATH)%/login, roles: PUBLIC_ACCESS }
-    - { path: ^/%env(ADMIN_PATH)%, roles: ROLE_ADMIN }
-```
-
-
-
-#### Add Google client to KnpUOAuth2ClientBundle configuration
-
-------
-
-```yaml
-knpu_oauth2_client:
-    clients:
-        google:
-            type: google
-            client_id: '%env(OAUTH_GOOGLE_CLIENT_ID)%'
-            client_secret: '%env(OAUTH_GOOGLE_CLIENT_SECRET)%'
-            redirect_route: connect_google_check
-            redirect_params: {}
-```
-
-
+---
 
 #### Create admin user
-
-------
 
 ```bash
 bin/console admin:create-user example@gmail.com ROLE_ADMIN
 ```
 
+---
 
-
-In order to use the admin panel, both AbstractUser and AbstractMedia should be implemented within the project (TODO: Create Symfony recipe to automate this)
-
-
+In order to use the admin panel, both AbstractUser and AbstractMedia should be implemented within the project
 
 #### Implement User class
-
-------
 
 ```php
 <?php
@@ -179,11 +104,7 @@ class User extends AbstractUser
 }
 ```
 
-
-
 #### Implement Media class
-
-------
 
 ```php
 <?php
@@ -199,15 +120,10 @@ class Media extends AbstractMedia
 }
 ```
 
+At this point the admin panel should work completely. Now you can start adding your own entities and admins.
 
+#### Example entity
 
-At this point the admin panel should work completely. Now you can start added your own entities and admins to manage them.
-
-
-
-#### Create custom entity
-
----
 ```php
 <?php
 
@@ -241,11 +157,8 @@ class Page extends BaseEntity
 }
 ```
 
+#### Example admin
 
-
-#### Create custom admin
-
----
 ```php
 <?php
 

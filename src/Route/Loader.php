@@ -6,6 +6,7 @@ namespace EDB\AdminBundle\Route;
 
 use EDB\AdminBundle\Admin\AdminInterface;
 use EDB\AdminBundle\Admin\Pool;
+use Symfony\Component\Config\Loader\Loader as BaseLoader;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Loader\LoaderResolverInterface;
 use Symfony\Component\Routing\Route;
@@ -13,7 +14,7 @@ use Symfony\Component\Routing\RouteCollection;
 use function sprintf;
 use function Symfony\Component\String\u;
 
-class Loader implements LoaderInterface
+class Loader extends BaseLoader implements LoaderInterface
 {
     private bool $loaded = false;
     private Pool $pool;
@@ -23,6 +24,7 @@ class Loader implements LoaderInterface
      */
     public function __construct(Pool $pool)
     {
+        parent::__construct();
         $this->pool = $pool;
     }
 
@@ -75,6 +77,7 @@ class Loader implements LoaderInterface
     public function getResolver()
     {
     }
+
     public function setResolver(LoaderResolverInterface $resolver)
     {
     }

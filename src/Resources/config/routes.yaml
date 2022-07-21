@@ -1,0 +1,36 @@
+login:
+  path: /login
+  controller: EDB\AdminBundle\Controller\AuthController::login
+
+connect_google:
+  path: /login/google/connect
+  controller: EDB\AdminBundle\Controller\AuthController::connect
+
+connect_google_check:
+  path: /login/google/connect/check
+  controller: EDB\AdminBundle\Controller\AuthController::check
+
+media_preview:
+  path: /media/preview
+  controller: EDB\AdminBundle\Controller\MediaController::renderPreview
+  methods: POST
+
+media_upload:
+  path: /media/upload
+  controller: EDB\AdminBundle\Controller\MediaController::uploadFile
+  methods: POST
+
+media_upload_original_path:
+  path: /media/render-original
+  controller: EDB\AdminBundle\Controller\MediaController::uploadFileGenerateOriginalPath
+  methods: POST
+
+media_modal_list:
+  path: /media/list-all
+  controller: EDB\AdminBundle\Controller\MediaController::list
+  methods: POST
+
+media_insert:
+  path: /media/insert-media
+  controller: EDB\AdminBundle\Controller\MediaController::insert
+  methods: GET

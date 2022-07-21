@@ -20,7 +20,7 @@ class CreateUserCommand extends Command
         $this->userClass = $userClass;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('admin:create-user')
             ->setDescription('Create a new admin user')
@@ -28,7 +28,7 @@ class CreateUserCommand extends Command
             ->addArgument('role', InputArgument::REQUIRED);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $username = $input->getArgument('email');
         $roles = explode(',', $input->getArgument('role'));
@@ -44,6 +44,6 @@ class CreateUserCommand extends Command
         $this->doctrine->getManager()->persist($user);
         $this->doctrine->getManager()->flush($user);
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

@@ -39,9 +39,6 @@ class MediaController
         $this->mediaClass = $mediaClass;
     }
 
-    /**
-     * @Route("/media/preview", name="media_preview", methods={"GET"})
-     */
     public function renderPreview(Request $request): Response
     {
         $id = $request->query->get('id');
@@ -55,9 +52,6 @@ class MediaController
         ]));
     }
 
-    /**
-     * @Route("/media/upload", name="media_upload", methods={"POST"})
-     */
     public function uploadFile(Request $request): JsonResponse
     {
         try {
@@ -72,9 +66,6 @@ class MediaController
         }
     }
 
-    /**
-     * @Route("/media/render-original", name="media_upload_original_path", methods={"POST"})
-     */
     public function uploadFileGenerateOriginalPath(Request $request): JsonResponse
     {
         $media = $this->createMedia($request);
@@ -88,12 +79,8 @@ class MediaController
         ], 200);
     }
 
-    /**
-     * @Route("/media/list-all", name="media_modal_list", methods={"GET"})
-     */
     public function list(Request $request): Response
     {
-        /** @var EntityRepository $repository */
         $repository = $this->entityManager->getRepository($this->mediaClass);
         $queryBuilder = $repository->createQueryBuilder('m')->select('m');
 
@@ -122,9 +109,6 @@ class MediaController
         ]));
     }
 
-    /**
-     * @Route("/media/insert-media", name="media_insert", methods={"GET"})
-     */
     public function insert(Request $request): Response
     {
         try {
