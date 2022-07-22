@@ -13,7 +13,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class MediaService
 {
     private Server $server;
-    private FilesystemOperator $filesystem;
+    private FilesystemOperator $publicFilesystem;
+    private FilesystemOperator $privateFilesystem;
     private string $sourcePrefix;
     private string $cachePrefix;
     private string $mediaClass;
@@ -22,25 +23,28 @@ class MediaService
         FilesystemOperator $defaultFilesystem,
         string $sourcePrefix,
         string $cachePrefix,
-        ?string $mediaClass
+        ?string $mediaClass,
+        ?FilesystemOperator $privateFilesystem = null
     )
     {
         if (!$mediaClass) {
             throw new Exception('No media class is implemented in this project.');
         }
 
-        $this->filesystem = $defaultFilesystem;
+        $this->publicFilesystem = $defaultFilesystem;
+        $this->privateFilesystem = $privateFilesystem ?? $defaultFilesystem;
+
         $this->sourcePrefix = $sourcePrefix;
         $this->cachePrefix = $cachePrefix;
         $this->mediaClass = $mediaClass;
 
         $this->server = ServerFactory::create([
-            'source' => $this->filesystem,
+            'source' => $this->privateFilesystem,
             'source_path_prefix' => $this->sourcePrefix,
-            'cache' => $this->filesystem,
+            'cache' => $this->publicFilesystem,
             'cache_path_prefix' => $this->cachePrefix,
             'group_cache_in_folders' => false,
-            'watermarks' => $this->filesystem,
+            'watermarks' => $this->privateFilesystem,
             'watermarks_path_prefix' => 'watermarks',
             'driver' => 'gd',
         ]);
@@ -54,8 +58,8 @@ class MediaService
         $extension = $uploadedFile->getClientOriginalExtension();
 
         $newFilename = StringUtils::generateRandomString();
-        $this->filesystem->write(
-            sprintf('%s/%s', 'source', $newFilename),
+        $this->privateFilesystem->write(
+            sprintf('%s/%s', $this->sourcePrefix, $newFilename),
             file_get_contents($uploadedFile->getRealPath())
         );
 
@@ -67,10 +71,6 @@ class MediaService
         $media->setSize($size);
 
         return $media;
-    }
-
-    public function getImageAsBase64($filename, ...$args) {
-        return $this->server->getImageAsBase64($filename, ...$args);
     }
 
     public function makeImage($filename, ...$args) {

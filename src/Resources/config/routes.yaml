@@ -13,7 +13,7 @@ connect_google_check:
 media_preview:
   path: /media/preview
   controller: EDB\AdminBundle\Controller\MediaController::renderPreview
-  methods: POST
+  methods: GET
 
 media_upload:
   path: /media/upload
@@ -28,7 +28,7 @@ media_upload_original_path:
 media_modal_list:
   path: /media/list-all
   controller: EDB\AdminBundle\Controller\MediaController::list
-  methods: POST
+  methods: GET
 
 media_insert:
   path: /media/insert-media
