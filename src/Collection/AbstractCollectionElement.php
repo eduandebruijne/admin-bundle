@@ -24,7 +24,7 @@ abstract class AbstractCollectionElement
         return $this->options;
     }
 
-    public function getOption(string $name): ?mixed
+    public function getOption(string $name)
     {
         if (isset($this->options[$name])) {
             return $this->options[$name];

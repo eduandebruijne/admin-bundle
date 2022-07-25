@@ -26,7 +26,7 @@ abstract class AbstractMediaAdmin extends AbstractAdmin
             ->add('title')
             ->add('mimeType')
             ->add('extension')
-            ->add('filename')
+            ->add('originalFilename')
             ->add('size')
             ->addActions([
                 'update' => [],

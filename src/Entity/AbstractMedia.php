@@ -20,6 +20,11 @@ class AbstractMedia extends BaseEntity
     protected ?string $filename;
 
     /**
+     * @ORM\Column
+     */
+    protected ?string $originalFilename;
+
+    /**
      * @ORM\Column(nullable=true)
      */
     protected ?string $mimeType;
@@ -59,6 +64,16 @@ class AbstractMedia extends BaseEntity
     public function setFilename(?string $filename): void
     {
         $this->filename = $filename;
+    }
+
+    public function getOriginalFilename(): ?string
+    {
+        return $this->originalFilename;
+    }
+
+    public function setOriginalFilename(?string $originalFilename): void
+    {
+        $this->originalFilename = $originalFilename;
     }
 
     public function getMimeType(): ?string

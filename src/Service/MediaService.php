@@ -52,10 +52,11 @@ class MediaService
 
     public function handleUploadedFile(UploadedFile $uploadedFile): ?AbstractMedia
     {
-        $filename = $uploadedFile->getClientOriginalName();
+        $originalFilename = $uploadedFile->getClientOriginalName();
         $mimetype = $uploadedFile->getClientMimeType();
         $size = $uploadedFile->getSize();
         $extension = $uploadedFile->getClientOriginalExtension();
+        $title = str_replace(sprintf('.%s', $extension), '',  $originalFilename);
 
         $newFilename = StringUtils::generateRandomString();
         $this->privateFilesystem->write(
@@ -64,8 +65,9 @@ class MediaService
         );
 
         $media = new $this->mediaClass();
-        $media->setTitle($filename);
+        $media->setTitle($title);
         $media->setFilename($newFilename);
+        $media->setOriginalFilename($originalFilename);
         $media->setExtension($extension);
         $media->setMimeType($mimetype);
         $media->setSize($size);
