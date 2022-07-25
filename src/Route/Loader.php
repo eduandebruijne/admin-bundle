@@ -53,7 +53,7 @@ class Loader extends BaseLoader implements LoaderInterface
                 $camelContext = u($context)->camel();
                 $adminRoute = new Route($fullUrl, [
                     '_controller' => sprintf('%s::%s', $admin::getCRUDControllerClass(), $camelContext),
-                    '_entity' => $admin::getEntityClass(),
+                    '_entity' => $admin->getEntityClass(),
                 ], $params, [], '', [], $methods);
 
                 $path = $admin->getPath($context);

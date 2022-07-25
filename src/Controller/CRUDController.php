@@ -67,7 +67,7 @@ class CRUDController
     {
         $admin = $this->getAdminFromRequest($request);
         $hierarchyEnabled = is_subclass_of(
-            $admin::getEntityClass(),
+            $admin->getEntityClass(),
             EntityHierarchyInterface::class
         );
 
@@ -77,10 +77,10 @@ class CRUDController
         $admin->buildList($listCollection);
 
         $rootAlias = 'o';
-        $queryBuilder = $this->entityManager->getRepository($admin::getEntityClass())->createQueryBuilder($rootAlias);
+        $queryBuilder = $this->entityManager->getRepository($admin->getEntityClass())->createQueryBuilder($rootAlias);
         $queryBuilder->select($rootAlias);
 
-        $associationMappings = $this->entityManager->getClassMetadata($admin::getEntityClass())->getAssociationMappings();
+        $associationMappings = $this->entityManager->getClassMetadata($admin->getEntityClass())->getAssociationMappings();
         $allColumns = $listCollection->getColumns();
 
         foreach ($allColumns as $column) {
@@ -279,7 +279,7 @@ class CRUDController
     {
         $admin = $this->getAdminFromRequest($request);
         $hierarchyEnabled = is_subclass_of(
-            $admin::getEntityClass(),
+            $admin->getEntityClass(),
             EntityHierarchyInterface::class
         );
 
@@ -348,7 +348,7 @@ class CRUDController
     private function getObjectByRequest(AdminInterface $admin, Request $request): ?BaseEntity
     {
         $id = $request->attributes->getInt('id');
-        $repository = $this->entityManager->getRepository($admin::getEntityClass());
+        $repository = $this->entityManager->getRepository($admin->getEntityClass());
         $object = $repository->find($id);
 
         if ($object instanceof BaseEntity) {
@@ -370,7 +370,7 @@ class CRUDController
         );
 
         return $this->formFactory->create(Dynamic::class, $data, [
-            'data_class' => $admin::getEntityClass(),
+            'data_class' => $admin->getEntityClass(),
             'form_collection' => $formCollection,
             'action' => $formUrl,
             'method' => 'POST'

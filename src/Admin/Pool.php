@@ -16,7 +16,7 @@ class Pool
     public function __construct($admins)
     {
         foreach ($admins as $admin) {
-            $this->admins[$admin::getEntityClass()] = $admin;
+            $this->admins[$admin->getEntityClass()] = $admin;
         }
     }
 
