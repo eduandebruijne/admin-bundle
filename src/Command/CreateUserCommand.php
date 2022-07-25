@@ -11,11 +11,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 class CreateUserCommand extends Command
 {
     private ManagerRegistry $doctrine;
+
     private string $userClass;
 
     public function __construct(ManagerRegistry $doctrine, string $userClass)
     {
         parent::__construct();
+
         $this->doctrine = $doctrine;
         $this->userClass = $userClass;
     }

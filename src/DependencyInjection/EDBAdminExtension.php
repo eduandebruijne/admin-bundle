@@ -22,10 +22,10 @@ class EDBAdminExtension extends Extension implements PrependExtensionInterface
 
         $container->setParameter('edb_admin_icon', $configs[0]['admin_icon']);
         $container->setParameter('edb_admin_title', $configs[0]['admin_title']);
-        $container->setParameter('edb_source_prefix', $configs[0]['source_prefix']);
         $container->setParameter('edb_cache_prefix', $configs[0]['cache_prefix']);
-        $container->setParameter('edb_user_class', $configs[0]['user_class']);
         $container->setParameter('edb_media_class', $configs[0]['media_class']);
+        $container->setParameter('edb_source_prefix', $configs[0]['source_prefix']);
+        $container->setParameter('edb_user_class', $configs[0]['user_class']);
     }
 
     public function prepend(ContainerBuilder $container)

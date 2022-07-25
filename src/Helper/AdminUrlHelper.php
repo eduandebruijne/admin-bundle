@@ -16,20 +16,9 @@ class AdminUrlHelper
         $this->router = $router;
     }
 
-    public function generateAdminUrl(string $class, string $action, ?int $id = null): string
+    public function generateAdminUrl(string $class, string $action, array $params = []): string
     {
         $shortName = ClassUtils::getShortName($class);
-        $params = [];
-
-        if (in_array($action, [
-            AbstractAdmin::ROUTE_CONTEXT_UPDATE,
-            AbstractAdmin::ROUTE_CONTEXT_DELETE,
-            AbstractAdmin::ROUTE_CONTEXT_MOVE_UP,
-            AbstractAdmin::ROUTE_CONTEXT_MOVE_DOWN,
-        ])) {
-            if (!$id) throw new Exception("Object 'id' is mandatory for route context '$action'");
-            $params = ['id' => $id];
-        }
 
         return $this->router->generate(sprintf('%s_%s', $shortName, $action), $params);
     }

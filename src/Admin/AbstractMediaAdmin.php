@@ -58,9 +58,14 @@ abstract class AbstractMediaAdmin extends AbstractAdmin
             }));
     }
 
-    abstract public static function getEntityClass(): string;
+    abstract public function getEntityClass(): string;
 
-    public static function getAdminMenuTitle(): string
+    public function getPluralClassName(): string
+    {
+        return 'media';
+    }
+
+    public function getAdminMenuTitle(): string
     {
         return 'Media';
     }

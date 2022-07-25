@@ -20,6 +20,7 @@ class EDBAdminCompilerPass implements CompilerPassInterface
     {
         $poolDefinition = new Definition(Pool::class);
         $poolDefinition->addArgument($this->getServicesByTag($container, 'edb.admin'));
+
         $container->setDefinition(Pool::class, $poolDefinition);
 
         $menuBuilderDefinition = new Definition(MenuBuilder::class, [
@@ -28,6 +29,7 @@ class EDBAdminCompilerPass implements CompilerPassInterface
             new Reference(Security::class),
             $container->findTaggedServiceIds('edb.menu_item')
         ]);
+
         $container->setDefinition(MenuBuilder::class, $menuBuilderDefinition);
     }
 

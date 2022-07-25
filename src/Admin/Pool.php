@@ -8,12 +8,11 @@ use Exception;
 
 class Pool
 {
-    /** @var AdminInterface[] */
+    /**
+     * @var AdminInterface
+     */
     private array $admins = [];
 
-    /**
-     * @param AdminInterface[]
-     */
     public function __construct($admins)
     {
         foreach ($admins as $admin) {
@@ -21,13 +20,10 @@ class Pool
         }
     }
 
-    /**
-     * @throws Exception
-     */
     public function getAdminForClass(string $class): AdminInterface
     {
         if (!isset($this->admins[$class])) {
-            throw new Exception(sprintf('Admin for "%s" not found.', $class));
+            throw new Exception(sprintf('No Admin found for class "%s".', $class));
         }
 
         return $this->admins[$class];

@@ -7,15 +7,17 @@ namespace EDB\AdminBundle\MenuBuilder;
 use EDB\AdminBundle\Admin\AbstractAdmin;
 use EDB\AdminBundle\Admin\Pool;
 use Exception;
-use ReflectionException;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Security;
 
 class MenuBuilder
 {
     private Pool $pool;
+
     private RouterInterface $router;
+
     private Security $security;
+
     private array $customMenuItems = [];
 
     public function __construct(Pool $pool, RouterInterface $router, Security $security, $customMenuItems = [])
@@ -29,9 +31,6 @@ class MenuBuilder
         }
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function getElements(): array
     {
         static $elements = [];
@@ -76,6 +75,7 @@ class MenuBuilder
                 $elements[$element->getOption(MenuItem::OPTION_ORDER_NAME) ?? $element->getName()] = $element;
             }
         }
+
         ksort($elements);
 
         foreach ($groups as $groupName => $items) {

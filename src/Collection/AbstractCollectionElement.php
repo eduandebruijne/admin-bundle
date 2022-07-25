@@ -5,6 +5,7 @@ namespace EDB\AdminBundle\Collection;
 abstract class AbstractCollectionElement
 {
     protected array $options;
+
     protected string $name;
 
     public function __construct(string $name, array $options)
@@ -23,11 +24,12 @@ abstract class AbstractCollectionElement
         return $this->options;
     }
 
-    public function getOption(string $name)
+    public function getOption(string $name): ?mixed
     {
         if (isset($this->options[$name])) {
             return $this->options[$name];
         }
+
         return null;
     }
 }

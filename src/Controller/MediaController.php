@@ -47,6 +47,7 @@ class MediaController
         }
 
         $media = $this->entityManager->getRepository($this->mediaClass)->find($id);
+
         return new Response($this->twig->render('@EDBAdmin/media/preview.html.twig', [
             'object' => $media
         ]));

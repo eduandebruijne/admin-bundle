@@ -14,11 +14,6 @@ class AuthController
     private Environment $twig;
     private RouterInterface $router;
 
-    /**
-     * @param ClientRegistry $clientRegistry
-     * @param Environment $twig
-     * @param RouterInterface $router
-     */
     public function __construct(ClientRegistry $clientRegistry, Environment $twig, RouterInterface $router)
     {
         $this->clientRegistry = $clientRegistry;

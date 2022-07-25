@@ -7,11 +7,12 @@ use Symfony\Component\String\ByteString;
 
 class StringUtils
 {
-    public static function createSlug(?string $value): string
+    public static function createSlug(?string $value): ?string
     {
         if (empty($value)) return null;
 
         $slugger = new AsciiSlugger();
+
         return $slugger
             ->slug($value, '-', 'bg')
             ->lower();

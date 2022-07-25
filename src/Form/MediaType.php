@@ -30,6 +30,7 @@ class MediaType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         parent::configureOptions($resolver);
+
         $resolver->setDefaults([
             'class' => $this->mediaClass,
             'preview_route_name' => 'media_preview',
@@ -40,6 +41,7 @@ class MediaType extends AbstractType
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
         parent::finishView($view, $form, $options);
+
         $view->vars['preview_route_name'] = $options['preview_route_name'];
         $view->vars['mime_types'] = $options['mime_types'];
     }

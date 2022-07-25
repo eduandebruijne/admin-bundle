@@ -16,11 +16,13 @@ class Configuration implements ConfigurationInterface
         $treeBuilder->getRootNode()
             ->children()
             ->scalarNode('admin_icon')->end()
+            ->scalarNode('admin_path')->end()
             ->scalarNode('admin_title')->end()
-            ->scalarNode('source_prefix')->end()
             ->scalarNode('cache_prefix')->end()
-            ->scalarNode('user_class')->end()
             ->scalarNode('media_class')->end()
+            ->scalarNode('media_path')->end()
+            ->scalarNode('source_prefix')->end()
+            ->scalarNode('user_class')->end()
             ->end()
         ;
 

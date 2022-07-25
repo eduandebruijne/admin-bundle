@@ -18,6 +18,7 @@ class Dynamic extends AbstractType
         }
 
         $modelTransformer = $options['form_collection']->getModelTransformer();
+
         if ($modelTransformer) $builder->addModelTransformer($modelTransformer);
     }
 

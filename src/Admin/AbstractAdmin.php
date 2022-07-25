@@ -19,7 +19,7 @@ abstract class AbstractAdmin implements AdminInterface
     public const ROUTE_CONTEXT_MOVE_UP = 'move_up';
     public const ROUTE_CONTEXT_MOVE_DOWN = 'move_down';
 
-    public static function getCRUDControllerClass(): string
+    public function getCRUDControllerClass(): string
     {
         return CRUDController::class;
     }
@@ -39,7 +39,7 @@ abstract class AbstractAdmin implements AdminInterface
         return [];
     }
 
-    public static function showInMenu(): bool
+    public function showInMenu(): bool
     {
         return true;
     }
@@ -52,7 +52,7 @@ abstract class AbstractAdmin implements AdminInterface
     /**
      * @return array<string, string[][]>
      */
-    public static function getRouteConfiguration(): array
+    public function getRouteConfiguration(): array
     {
         return [
             self::ROUTE_CONTEXT_LIST => [
@@ -119,17 +119,17 @@ abstract class AbstractAdmin implements AdminInterface
     {
     }
 
-    public static function getAdminMenuGroup(): ?string
+    public function getAdminMenuGroup(): ?string
     {
         return null;
     }
 
-    public static function getAdminMenuIcon(): ?string
+    public function getAdminMenuIcon(): ?string
     {
         return 'dot-circle';
     }
 
-    public static function getAdminMenuOrderName(): ?string
+    public function getAdminMenuOrderName(): ?string
     {
         return null;
     }

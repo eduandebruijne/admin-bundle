@@ -56,11 +56,6 @@ class CRUDController
         $this->security = $security;
     }
 
-    /**
-     * @throws RuntimeError
-     * @throws SyntaxError
-     * @throws LoaderError
-     */
     public function dashboard(): Response
     {
         if(!$this->security->isGranted('ROLE_ADMIN')) throw new Exception('Access denied.');
@@ -68,13 +63,6 @@ class CRUDController
         return new Response($this->twig->render('@EDBAdmin/layout.html.twig'));
     }
 
-    /**
-     * @throws SyntaxError
-     * @throws ReflectionException
-     * @throws RuntimeError
-     * @throws LoaderError
-     * @throws Exception
-     */
     public function list(Request $request): Response
     {
         $admin = $this->getAdminFromRequest($request);
@@ -94,6 +82,7 @@ class CRUDController
 
         $associationMappings = $this->entityManager->getClassMetadata($admin::getEntityClass())->getAssociationMappings();
         $allColumns = $listCollection->getColumns();
+
         foreach ($allColumns as $column) {
             $columnName = $column->getName();
             $parts = explode('.', $columnName);
@@ -109,9 +98,11 @@ class CRUDController
         if ($sort) {
             $direction = false !== strpos($sort, '!') ? 'DESC' : 'ASC';
             $cleanedUpSortField = str_replace('!', '', $sort);
+
             if (false === strpos($sort, '.')) {
                 $cleanedUpSortField = sprintf('%s.%s', $rootAlias, $cleanedUpSortField);
             }
+
             $queryBuilder->orderBy($cleanedUpSortField, $direction);
         }
 
@@ -198,15 +189,10 @@ class CRUDController
         return $qbClone->getQuery()->getResult();
     }
 
-    /**
-     * @throws SyntaxError
-     * @throws RuntimeError
-     * @throws LoaderError
-     * @throws Exception
-     */
     public function create(Request $request)
     {
         $admin = $this->getAdminFromRequest($request);
+
         if(!$this->security->isGranted($admin->getRequiredRole())) throw new Exception('Access denied.');
 
         $class = $admin->getEntityClass();
@@ -239,13 +225,6 @@ class CRUDController
         );
     }
 
-    /**
-     * @throws SyntaxError
-     * @throws RuntimeError
-     * @throws LoaderError
-     * @throws EntityNotFoundException
-     * @throws Exception
-     */
     public function update(Request $request)
     {
         $admin = $this->getAdminFromRequest($request);
@@ -334,6 +313,7 @@ class CRUDController
             if ($object === $instance && isset($resultSet[$method($position)])) {
                 $resultSet[$position] = $resultSet[$method($position)];
                 $resultSet[$method($position)] = $object;
+
                 break;
             }
         }
@@ -347,12 +327,10 @@ class CRUDController
         return new RedirectResponse($this->adminUrlHelper->generateAdminUrl($admin->getEntityClass(), AbstractAdmin::ROUTE_CONTEXT_LIST));
     }
 
-    /**
-     * @throws Exception
-     */
     public function delete(Request $request): RedirectResponse
     {
         $admin = $this->getAdminFromRequest($request);
+
         if(!$this->security->isGranted($admin->getRequiredRole())) throw new Exception('Access denied.');
 
         $object = $this->getObjectByRequest($admin, $request);
@@ -362,25 +340,21 @@ class CRUDController
         return new RedirectResponse($this->adminUrlHelper->generateAdminUrl($admin->getEntityClass(), AbstractAdmin::ROUTE_CONTEXT_LIST));
     }
 
-    /**
-     * @throws Exception
-     */
     private function getAdminFromRequest(Request $request): AdminInterface
     {
         return $this->adminPool->getAdminForClass($request->attributes->get('_entity'));
     }
 
-    /**
-     * @throws Exception
-     */
     private function getObjectByRequest(AdminInterface $admin, Request $request): ?BaseEntity
     {
         $id = $request->attributes->getInt('id');
         $repository = $this->entityManager->getRepository($admin::getEntityClass());
         $object = $repository->find($id);
+
         if ($object instanceof BaseEntity) {
             return $object;
         }
+
         throw new Exception(sprintf('Object with id #%d not found!', $id));
     }
 
@@ -388,11 +362,11 @@ class CRUDController
     {
         $formCollection = new FormCollection();
         $admin->buildForm($formCollection);
+
         $formUrl = (
-                $data->getId() ?
-                $this->adminUrlHelper->generateAdminUrl($admin->getEntityClass(), AbstractAdmin::ROUTE_CONTEXT_UPDATE, $data->getId()) :
-                $this->adminUrlHelper->generateAdminUrl($admin->getEntityClass(), AbstractAdmin::ROUTE_CONTEXT_CREATE
-            )
+            $data->getId() ?
+            $this->adminUrlHelper->generateAdminUrl($admin->getEntityClass(), AbstractAdmin::ROUTE_CONTEXT_UPDATE, ['id' => $data->getId()]) :
+            $this->adminUrlHelper->generateAdminUrl($admin->getEntityClass(), AbstractAdmin::ROUTE_CONTEXT_CREATE)
         );
 
         return $this->formFactory->create(Dynamic::class, $data, [

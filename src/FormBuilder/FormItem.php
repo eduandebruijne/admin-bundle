@@ -11,6 +11,7 @@ class FormItem extends AbstractCollectionElement
     public function __construct(string $name, string $type, array $options)
     {
         parent::__construct($name, $options);
+
         $this->type = $type;
     }
 

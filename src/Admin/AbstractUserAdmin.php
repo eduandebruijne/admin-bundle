@@ -37,9 +37,9 @@ abstract class AbstractUserAdmin extends AbstractAdmin
         ;
     }
 
-    abstract public static function getEntityClass(): string;
+    abstract public function getEntityClass(): string;
 
-    public static function getAdminMenuTitle(): string
+    public function getAdminMenuTitle(): string
     {
         return 'Users';
     }
