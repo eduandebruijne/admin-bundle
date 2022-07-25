@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EDB\AdminBundle\Admin;
 
+use EDB\AdminBundle\Entity\BaseEntity;
 use EDB\AdminBundle\FormBuilder\FormCollection;
 use EDB\AdminBundle\ListBuilder\ListCollection;
 use EDB\AdminBundle\Service\MediaService;
@@ -56,6 +57,14 @@ abstract class AbstractMediaAdmin extends AbstractAdmin
 
                 return $form;
             }));
+    }
+
+    public function preFlush(BaseEntity $entity)
+    {
+        // Because Symfony will serialize the user on every request,
+        // make sure there is no UploadedFile still in the User object
+        // when the User entity has a relationship with Media
+        $entity->update = null;
     }
 
     abstract public function getEntityClass(): string;

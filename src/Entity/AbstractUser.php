@@ -2,19 +2,35 @@
 
 namespace EDB\AdminBundle\Entity;
 
+use EDB\AdminBundle\Util\StringUtils;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\MappedSuperclass
  */
-class AbstractUser extends BaseEntity implements UserInterface
+class AbstractUser extends BaseEntity implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @ORM\Column
      * @var ?string
      */
     protected $username;
+
+    /**
+     * @ORM\Column(nullable=true)
+     * @var ?string
+     */
+    protected $password;
+
+    public $plainPassword;
+
+    /**
+     * @ORM\Column(nullable=true)
+     * @var ?string
+     */
+    protected $salt;
 
     /**
      * @ORM\Column(type="json")
@@ -57,17 +73,28 @@ class AbstractUser extends BaseEntity implements UserInterface
         $this->username = $username;
     }
 
-    public function eraseCredentials()
-    {
-    }
-
     public function getPassword(): ?string
     {
-        return null;
+        return $this->password;
+    }
+
+    public function setPassword(?string $password): void
+    {
+        $this->password = $password;
     }
 
     public function getSalt(): ?string
     {
-        return null;
+        return $this->salt;
+    }
+
+    public function setSalt(?string $salt): void
+    {
+        $this->salt = $salt;
+    }
+
+    public function eraseCredentials()
+    {
+        // Not needed, only the hashed password will be saved
     }
 }

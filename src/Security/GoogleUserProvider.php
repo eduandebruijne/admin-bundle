@@ -77,6 +77,6 @@ class GoogleUserProvider implements UserProviderInterface
      */
     public function supportsClass($class)
     {
-        return GoogleUser::class;
+        return GoogleUser::class === $class;
     }
 }

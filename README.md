@@ -17,11 +17,11 @@ Add bundle config to `config/packages/edb_admin.yaml`
 
 ```yaml
 edb_admin:
-  admin_icon: "image"
-  admin_title: "BdB"
-  cache_prefix: "media_cache"
-  media_class: MEDIACLASS
+  admin_icon: "code" #  See https://fontawesome.com/icons/categories
+  admin_title: "Admin"
   source_prefix: "media_source"
+  cache_prefix: "media_cache"
+  media_class: App\Entity\Media
   user_class: App\Entity\User
 ```
 
@@ -54,12 +54,23 @@ role_hierarchy:
   ROLE_ADMIN: ~
 
 providers:
+  user:
+    entity:
+      class: App\Entity\User
+      property: username
   oauth:
     id: EDB\AdminBundle\Security\GoogleUserProvider
 
 firewalls:
   main:
+    entry_point: EDB\AdminBundle\Security\GoogleAuthenticator
+    form_login:
+      provider: user
+      login_path: login
+      check_path: check_form_login
+      default_target_path: dashboard
     guard:
+      provider: oauth
       authenticators:
         - EDB\AdminBundle\Security\GoogleAuthenticator
 
@@ -81,7 +92,7 @@ bin/console cache:clear
 #### Create admin user
 
 ```bash
-bin/console admin:create-user example@gmail.com ROLE_ADMIN
+bin/console admin:create-user example@gmail.com ROLE_ADMIN optional_password
 ```
 
 ---

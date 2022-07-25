@@ -9,12 +9,22 @@
 						<i class="fa fa-user-alt fa-2x"></i>
 					</div>
 					<div class="mb-4 mt-5">
-						Login
+						<div class="col col-lg-8 m-auto">
+							<form method="post" action="{{ path('check_form_login') }}">
+								<div class="form-group">
+									<input type="text" name="_username" class="form-control mb-1 text-center" placeholder="{{ 'Username' | trans }}">
+									<input type="password" name="_password" class="form-control mb-3 text-center" placeholder="{{ 'Password' | trans }}">
+									<button class="btn btn-primary d-block w-100" type="submit">{{ 'Login' | trans }}</button>
+								</div>
+							</form>
+							<hr>
+							<a class="login-method" href="{{ path('connect_google') }}">
+								<i class="fab fa-google"></i>
+								{{ 'Login with Google' | trans }}
+							</a>
+						</div>
 					</div>
-					<a class="login-method" href="{{ path('connect_google') }}">
-						<i class="fab fa-google"></i>
-						Google
-					</a>
+
 				</div>
 			</div>
 		</div>

@@ -10,6 +10,11 @@ connect_google_check:
   path: /login/google/connect/check
   controller: EDB\AdminBundle\Controller\AuthController::check
 
+check_form_login:
+  path: /check-form-login
+  controller: EDB\AdminBundle\Controller\AuthController::check
+  methods: POST
+
 media_preview:
   path: /media/preview
   controller: EDB\AdminBundle\Controller\MediaController::renderPreview
