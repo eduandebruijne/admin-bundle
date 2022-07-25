@@ -2,6 +2,7 @@
 
 namespace EDB\AdminBundle\Security;
 
+use League\OAuth2\Client\Provider\GoogleUser;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -12,6 +13,7 @@ use Exception;
 class GoogleUserProvider implements UserProviderInterface
 {
     private EntityManagerInterface $em;
+
     private string $userClass;
 
     public function __construct(EntityManagerInterface $em, ?string $userClass)

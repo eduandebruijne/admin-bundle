@@ -22,7 +22,9 @@ class GoogleAuthenticator extends SocialAuthenticator
     const REDIRECT_SESSION_KEY = 'edb-admin-bundle-attempt-uri';
 
     private ClientRegistry $clientRegistry;
+
     private RouterInterface $router;
+
     private SessionInterface $session;
 
     public function __construct(ClientRegistry $clientRegistry, RouterInterface $router, SessionInterface $session)
