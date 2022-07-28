@@ -46,10 +46,12 @@ class EDBAdminExtension extends Extension implements PrependExtensionInterface
 
         $twig = $container->getExtensionConfig('twig')[0];
         $twig['globals']['media_path'] = '%env(MEDIA_PATH)%';
-        $twig['form_themes'] = [
+
+        $existingThemes = isset($twig['form_themes']) ? $twig['form_themes'] : [];
+        $twig['form_themes'] = array_merge($existingThemes, [
             'bootstrap_5_layout.html.twig',
             '@EDBAdmin/form/theme.html.twig'
-        ];
+        ]);
 
         $container->prependExtensionConfig('twig', $twig);
     }

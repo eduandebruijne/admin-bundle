@@ -27,7 +27,7 @@ class EDBAdminCompilerPass implements CompilerPassInterface
             new Reference(Pool::class),
             new Reference(RouterInterface::class),
             new Reference(Security::class),
-            $container->findTaggedServiceIds('edb.menu_item')
+            $this->getServicesByTag($container, 'edb.menu_item')
         ]);
 
         $container->setDefinition(MenuBuilder::class, $menuBuilderDefinition);
