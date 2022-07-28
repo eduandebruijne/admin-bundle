@@ -11,80 +11,29 @@ composer require eduandebruijne/admin-bundle
 
 ---
 
-#### Configure
-
-Add bundle config to `config/packages/edb_admin.yaml`
-
-```yaml
-edb_admin:
-  admin_icon: "code" #  See https://fontawesome.com/icons/categories
-  admin_title: "Admin"
-  source_prefix: "media_source"
-  cache_prefix: "media_cache"
-  media_class: App\Entity\Media
-  user_class: App\Entity\User
-```
-
-Add routes to `config/routes/edb_admin.yaml`
-
-```yaml
-edb_dynamic:
-  resource: .
-  type: admin
-  prefix: '%edb_admin_path%'
-
-edb_admin:
-  resource: '@EDBAdminBundle/Resources/config/routes.yaml'
-  prefix: '%edb_admin_path%'
-```
-
-Make sure environment variables are available
-
-```
-ADMIN_PATH=
-MEDIA_PATH=
-OAUTH_GOOGLE_CLIENT_ID=
-OAUTH_GOOGLE_CLIENT_SECRET=
-```
-
-#### Configure security
+#### Config for security.yaml
 
 ```yaml
 role_hierarchy:
-  ROLE_ADMIN: ~
+    ROLE_ADMIN: ~
 
 providers:
-  user:
-    entity:
-      class: App\Entity\User
-      property: username
-  oauth:
-    id: EDB\AdminBundle\Security\GoogleUserProvider
+    user:
+        entity:
+            class: App\Entity\User
+            property: username
 
 firewalls:
-  main:
-    entry_point: EDB\AdminBundle\Security\GoogleAuthenticator
-    form_login:
-      provider: user
-      login_path: login
-      check_path: check_form_login
-      default_target_path: dashboard
-    guard:
-      provider: oauth
-      authenticators:
-        - EDB\AdminBundle\Security\GoogleAuthenticator
+    main:
+        form_login:
+            provider: user
+            login_path: login
+            check_path: check_form_login
+            default_target_path: dashboard
 
 access_control:
-  - { path: ^/%env(ADMIN_PATH)%/login, roles: PUBLIC_ACCESS }
-  - { path: ^/%env(ADMIN_PATH)%, roles: ROLE_ADMIN }
-```
-
-#### Install assets, update database and clear cache
-
-```bash
-bin/console assets:install
-bin/console doctrine:schema:update --force
-bin/console cache:clear
+    - { path: ^/%env(ADMIN_PATH)%/login, roles: PUBLIC_ACCESS }
+    - { path: ^/%env(ADMIN_PATH)%, roles: ROLE_ADMIN }
 ```
 
 ---
@@ -92,43 +41,7 @@ bin/console cache:clear
 #### Create admin user
 
 ```bash
-bin/console admin:create-user example@gmail.com ROLE_ADMIN optional_password
-```
-
----
-
-In order to use the admin panel, both AbstractUser and AbstractMedia should be implemented within the project
-
-#### Implement User class
-
-```php
-<?php
-
-namespace App\Entity;
-
-use EDB\AdminBundle\Entity\AbstractUser;
-use Doctrine\ORM\Mapping as ORM;
-
-/** @ORM\Entity */
-class User extends AbstractUser
-{
-}
-```
-
-#### Implement Media class
-
-```php
-<?php
-
-namespace App\Entity;
-
-use EDB\AdminBundle\Entity\AbstractMedia;
-use Doctrine\ORM\Mapping as ORM;
-
-/** @ORM\Entity */
-class Media extends AbstractMedia
-{
-}
+bin/console admin:create-user <username> <password> ROLE_ADMIN
 ```
 
 At this point the admin panel should work completely. Now you can start adding your own entities and admins.
@@ -143,7 +56,9 @@ namespace App\Entity;
 use EDB\AdminBundle\Entity\BaseEntity;
 use Doctrine\ORM\Mapping as ORM;
 
-/** @ORM\Entity */
+/** 
+ * @ORM\Entity 
+ */
 class Page extends BaseEntity
 {
     /**

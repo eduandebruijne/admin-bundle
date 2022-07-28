@@ -1,9 +1,10 @@
 login:
   path: /login
   controller: EDB\AdminBundle\Controller\AuthController::login
+  methods: GET
 
 check_form_login:
-  path: /check-form-login
+  path: /login-check
   controller: EDB\AdminBundle\Controller\AuthController::check
   methods: POST
 
