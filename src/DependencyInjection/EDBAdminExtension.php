@@ -30,20 +30,6 @@ class EDBAdminExtension extends Extension implements PrependExtensionInterface
 
     public function prepend(ContainerBuilder $container)
     {
-        $authClients = [
-            'clients' => [
-                'google' => [
-                    'type' => 'google',
-                    'client_id' => '%env(GOOGLE_CLIENT_ID)%',
-                    'client_secret' => '%env(GOOGLE_CLIENT_SECRET)%',
-                    'redirect_route' => 'connect_google_check',
-                    'redirect_params' => [],
-                ]
-            ]
-        ];
-
-        $container->prependExtensionConfig('knpu_oauth2_client', $authClients);
-
         $twig = $container->getExtensionConfig('twig')[0];
         $twig['globals']['media_path'] = '%env(MEDIA_PATH)%';
 

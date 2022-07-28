@@ -32,15 +32,15 @@ class CreateUserCommand extends Command
         $this->setName('admin:create-user')
             ->setDescription('Create a new admin user')
             ->addArgument('username', InputArgument::REQUIRED)
-            ->addArgument('role', InputArgument::REQUIRED)
-            ->addArgument('password', InputArgument::OPTIONAL);
+            ->addArgument('password', InputArgument::REQUIRED)
+            ->addArgument('role', InputArgument::REQUIRED);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $username = $input->getArgument('username');
-        $plainPassword = $input->getArgument('password');
         $roles = explode(',', $input->getArgument('role'));
+        $plainPassword = $input->getArgument('password');
 
         $roles = array_map(function($role) {
             return trim($role);
@@ -49,11 +49,8 @@ class CreateUserCommand extends Command
         $user = new $this->userClass();
         $user->setUsername($username);
         $user->setRoles($roles);
-
-        if ($plainPassword) {
-            $user->setSalt(StringUtils::generateRandomString());
-            $user->setPassword($this->passwordHasher->hashPassword($user, $plainPassword));
-        }
+        $user->setSalt(StringUtils::generateRandomString());
+        $user->setPassword($this->passwordHasher->hashPassword($user, $plainPassword));
 
         $this->doctrine->getManager()->persist($user);
         $this->doctrine->getManager()->flush($user);

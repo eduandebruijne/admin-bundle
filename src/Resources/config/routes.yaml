@@ -2,14 +2,6 @@ login:
   path: /login
   controller: EDB\AdminBundle\Controller\AuthController::login
 
-connect_google:
-  path: /login/google/connect
-  controller: EDB\AdminBundle\Controller\AuthController::connect
-
-connect_google_check:
-  path: /login/google/connect/check
-  controller: EDB\AdminBundle\Controller\AuthController::check
-
 check_form_login:
   path: /check-form-login
   controller: EDB\AdminBundle\Controller\AuthController::check
