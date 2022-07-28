@@ -8,7 +8,6 @@ use EDB\AdminBundle\Admin\AdminInterface;
 use EDB\AdminBundle\Admin\Pool;
 use Symfony\Component\Config\Loader\Loader as BaseLoader;
 use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\Config\Loader\LoaderResolverInterface;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 use function sprintf;
@@ -72,14 +71,6 @@ class Loader extends BaseLoader implements LoaderInterface
     public function supports($resource, string $type = null): bool
     {
         return 'admin' === $type;
-    }
-
-    public function getResolver()
-    {
-    }
-
-    public function setResolver(LoaderResolverInterface $resolver)
-    {
     }
 
     private function addDashboardRoute(RouteCollection $routes): void
