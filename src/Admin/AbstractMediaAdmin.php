@@ -53,6 +53,7 @@ abstract class AbstractMediaAdmin extends AbstractAdmin
                 $form->setExtension($media->getExtension());
                 $form->setMimeType($media->getMimeType());
                 $form->setFilename($media->getFilename());
+                $form->setOriginalFilename($media->getOriginalFilename());
                 $form->setSize($media->getSize());
 
                 return $form;
