@@ -45,7 +45,7 @@ class GoogleUserProvider implements UserProviderInterface
         ]);
     }
 
-    public function loadUserByIdentifier(string $identifier)
+    public function loadUserByIdentifier(string $identifier): UserInterface
     {
         return $this->loadUserByUsername($identifier);
     }
