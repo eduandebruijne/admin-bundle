@@ -14,7 +14,7 @@ class AbstractUser extends BaseEntity implements UserInterface, PasswordAuthenti
 {
     /**
      * @ORM\Column
-     * @var ?string
+     * @var string
      */
     protected $username;
 
@@ -48,7 +48,7 @@ class AbstractUser extends BaseEntity implements UserInterface, PasswordAuthenti
         return md5($this->username);
     }
 
-    public function getUserIdentifier(): ?string
+    public function getUserIdentifier(): string
     {
         return $this->getUsername();
     }
@@ -63,7 +63,7 @@ class AbstractUser extends BaseEntity implements UserInterface, PasswordAuthenti
         $this->roles = $roles;
     }
 
-    public function getUsername(): ?string
+    public function getUsername(): string
     {
         return $this->username;
     }
