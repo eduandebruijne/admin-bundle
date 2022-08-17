@@ -8,6 +8,16 @@ check_form_login:
   controller: EDB\AdminBundle\Controller\AuthController::check
   methods: POST
 
+login_with_google:
+  path: /login-with-google
+  controller: EDB\AdminBundle\Controller\AuthController::startGoogleLogin
+  methods: GET
+
+logout:
+  path: /logout
+  controller: EDB\AdminBundle\Controller\AuthController::logout
+  methods: GET
+
 media_preview:
   path: /media/preview
   controller: EDB\AdminBundle\Controller\MediaController::renderPreview

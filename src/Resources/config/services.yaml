@@ -1,6 +1,8 @@
 parameters:
   edb_admin_path: '%env(ADMIN_PATH)%'
   edb_media_path: '%env(MEDIA_PATH)%'
+  edb_google_id: '%env(GOOGLE_CLIENT_ID)%'
+  edb_google_secret: '%env(GOOGLE_CLIENT_SECRET)%'
 
 services:
   _defaults:
@@ -13,6 +15,8 @@ services:
       $mediaPath: '%edb_media_path%'
       $mediaClass: '%edb_media_class%'
       $userClass: '%edb_user_class%'
+      $googleId: '%edb_google_id%'
+      $googleSecret: '%edb_google_secret%'
 
   EDB\AdminBundle\:
     resource: "../../../src/"

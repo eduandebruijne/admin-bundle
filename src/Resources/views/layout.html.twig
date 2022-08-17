@@ -33,31 +33,33 @@
 				{% endfor %}
 			</ul>
 			<div class="user text-center">
-				<img src="https://gravatar.com/avatar/{{ app.user.avatarHash }}?s=50" class="mb-3 d-inline-block">
-				<div class="badge bg-secondary w-100">{{ app.user.username | length > 42 ? app.user.username | slice(0,42) ~ '...' : app.user.username }}</div>
+				<div class="align-center">
+					<img src="https://gravatar.com/avatar/{{ app.user.avatarHash }}?s=50" class="mb-3">
+				</div>
+				<a class="d-block btn btn-primary" href="{{ path('logout') }}">Uitloggen</a>
 			</div>
 		</div>
 		<div class="content">
 			<div class="inner-content">
-			{% block content_header %}
-				<div class="row">
-					<div class="col">
-						{% if list is defined %}
-							<div class="block">
-								<form action="{{ path(route, {'sort': sort}) }}" method="GET">
-									<i class="fas fa-search"></i>
-									<input id="global-search" name="search" type="text" value="{{ search }}" placeholder="{{ "Search" | trans }}">
-								</form>
-							</div>
-						{% endif %}
+				{% block content_header %}
+					<div class="row">
+						<div class="col">
+							{% if list is defined %}
+								<div class="block">
+									<form action="{{ path(route, {'sort': sort}) }}" method="GET">
+										<i class="fas fa-search"></i>
+										<input id="global-search" name="search" type="text" value="{{ search }}" placeholder="{{ "Search" | trans }}">
+									</form>
+								</div>
+							{% endif %}
+						</div>
 					</div>
-				</div>
-			{% endblock %}
-			{% block content %}
-				<div class="block">
-					{{ 'Dashboard' | trans }}
-				</div>
-			{% endblock %}
+				{% endblock %}
+				{% block content %}
+					<div class="block">
+						{{ 'Dashboard' | trans }}
+					</div>
+				{% endblock %}
 			</div>
 		</div>
 	</div>
@@ -75,13 +77,13 @@
 						</span>
 						<div class="form-control" contenteditable="true"></div>
 					</div>
-                    <div class="media-list">
-                        <div class="d-flex justify-content-center">
-                            <div class="spinner-border" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-                        </div>
-                    </div>
+					<div class="media-list">
+						<div class="d-flex justify-content-center">
+							<div class="spinner-border" role="status">
+								<span class="visually-hidden">Loading...</span>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

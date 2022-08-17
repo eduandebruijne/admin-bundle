@@ -15,6 +15,8 @@
 									<input type="text" name="_username" class="form-control mb-1 text-center" placeholder="{{ 'Username' | trans }}">
 									<input type="password" name="_password" class="form-control mb-3 text-center" placeholder="{{ 'Password' | trans }}">
 									<button class="btn btn-primary d-block w-100" type="submit">{{ 'Login' | trans }}</button>
+									<hr>
+									<a class="btn btn-primary d-block w-100" href="{{ path('login_with_google') }}"><i class="fab fa-google"></i> Google</a>
 								</div>
 							</form>
 						</div>
