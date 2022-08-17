@@ -6,8 +6,8 @@ namespace EDB\AdminBundle\Security;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -20,14 +20,14 @@ class GoogleAuthenticator extends AbstractAuthenticator
 {
     private GoogleUserLoader $loader;
     private RouterInterface $router;
-    private SessionInterface $session;
+    private RequestStack $requestStack;
     private GoogleHelper $googleHelper;
 
-    public function __construct(GoogleUserLoader $loader, RouterInterface $router, SessionInterface $session, GoogleHelper $googleHelper)
+    public function __construct(GoogleUserLoader $loader, RouterInterface $router, RequestStack $requestStack, GoogleHelper $googleHelper)
     {
         $this->loader = $loader;
         $this->router = $router;
-        $this->session = $session;
+        $this->requestStack = $requestStack;
         $this->googleHelper = $googleHelper;
     }
 
@@ -48,7 +48,7 @@ class GoogleAuthenticator extends AbstractAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        $targetPath = $this->session->get('_security.main.target_path');
+        $targetPath = $this->requestStack->getSession()->get('_security.main.target_path');
 
         return new RedirectResponse($targetPath ?? $this->router->generate('dashboard'));
     }

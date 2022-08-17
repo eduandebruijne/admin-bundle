@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace EDB\AdminBundle\Security;
 
 use EDB\AdminBundle\Util\StringUtils;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -18,15 +18,15 @@ class GoogleHelper
     private string $googleSecret;
     private string $googleId;
     private RouterInterface $router;
-    private SessionInterface $session;
+    private RequestStack $requestStack;
     private HttpClientInterface $client;
 
-    public function __construct(string $googleSecret, string $googleId, RouterInterface $router, SessionInterface $session, HttpClientInterface $client)
+    public function __construct(string $googleSecret, string $googleId, RouterInterface $router, RequestStack $requestStack, HttpClientInterface $client)
     {
         $this->googleSecret = $googleSecret;
         $this->googleId = $googleId;
         $this->router = $router;
-        $this->session = $session;
+        $this->requestStack = $requestStack;
         $this->client = $client;
     }
 
@@ -34,14 +34,14 @@ class GoogleHelper
     {
         $authorizeURL = self::GOOGLE_ACCOUNT_BASE . '/o/oauth2/v2/auth?';
 
-        $this->session->set('state', StringUtils::generateRandomString());
+        $this->requestStack->getSession()->set('state', StringUtils::generateRandomString());
 
         $params = array(
             'response_type' => 'code',
             'client_id' => $this->googleId,
             'redirect_uri' => $this->getAppBaseUrl(),
             'scope' => 'openid email',
-            'state' => $this->session->get('state')
+            'state' => $this->requestStack->getSession()->get('state')
         );
 
         return $authorizeURL . http_build_query($params);
