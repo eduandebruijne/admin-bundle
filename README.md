@@ -25,11 +25,16 @@ providers:
 
 firewalls:
     main:
+        custom_authenticators:
+            - EDB\AdminBundle\Security\GoogleAuthenticator
         form_login:
             provider: user
             login_path: login
             check_path: check_form_login
             default_target_path: dashboard
+        entry_point: form_login
+        logout:
+            path: logout
 
 access_control:
     - { path: ^/%env(ADMIN_PATH)%/login, roles: PUBLIC_ACCESS }
@@ -38,18 +43,19 @@ access_control:
 
 ---
 
-#### Create admin user
+#### Command to create first admin user
 
 ```bash
-bin/console admin:create-user <username> <password> ROLE_ADMIN
+bin/console admin:create-user <required:role> <required:username/email> <optional:password>
 ```
 
-At this point the admin panel should work completely. Now you can start adding your own entities and admins.
 
 #### Example entity
 
 ```php
 <?php
+
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -66,7 +72,7 @@ class Page extends BaseEntity
      */
     private ?string $title;
 
-    public function __toString()
+    public function __toString(): ?string
     {
         return $this->title;
     }
@@ -76,7 +82,7 @@ class Page extends BaseEntity
         return $this->title;
     }
 
-    public function setTitle(?string $title)
+    public function setTitle(?string $title): void
     {
         $this->title = $title;
     }
@@ -87,6 +93,8 @@ class Page extends BaseEntity
 
 ```php
 <?php
+
+declare(strict_types=1);
 
 namespace App\Admin;
 
@@ -99,12 +107,12 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class PageAdmin extends AbstractAdmin implements AdminInterface
 {
-    public function buildForm(FormCollection $collection)
+    public function buildForm(FormCollection $collection): void
     {
         $collection->add('title', TextType::class);
     }
 
-    public function buildList(ListCollection $collection)
+    public function buildList(ListCollection $collection): void
     {
         $collection->add('title');
     }
