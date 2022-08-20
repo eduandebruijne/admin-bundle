@@ -9,7 +9,7 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use function array_merge;
 
-class TinyMceType extends AbstractType
+class EdbTinyMceType extends AbstractType
 {
     public function getParent()
     {

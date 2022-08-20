@@ -1,4 +1,4 @@
-{% block masked_row %}
+{% block edb_masked_row %}
     {{ form_label(form) }}
     {{ form_widget(form) }}
     <div class="masked-container masked-container-{{ form.vars.id }}">
@@ -17,25 +17,25 @@
     </script>
 {% endblock %}
 
-{% block datetime_row %}
+{% block edb_date_time_row %}
     <div class="datetime-form">
         {{ form_row(form) }}
     </div>
 {% endblock %}
 
-{% block date_row %}
+{% block edb_date_row %}
     <div class="datetime-form">
         {{ form_row(form) }}
     </div>
 {% endblock %}
 
-{% block time_row %}
+{% block edb_time_row %}
     <div class="datetime-form">
         {{ form_row(form) }}
     </div>
 {% endblock %}
 
-{% block media_row %}
+{% block edb_media_row %}
     <div class="mb-3">
         {{ form_label(form) }}
         {% if form.vars.errors | length > 0 %}
@@ -124,7 +124,7 @@
     </script>
 {% endblock %}
 
-{% block collection_row %}
+{% block edb_collection_row %}
     <div class="mb-3">
         <label for="{{ form.vars.id }}" class="form-label">{{ form.vars.name | humanize | trans }}</label>
         <div class="form-collection-wrapper bg-light">
@@ -214,7 +214,7 @@
     </script>
 {% endblock %}
 
-{% block slug_row %}
+{% block edb_slug_row %}
     <div class="mb-3">
         {{ form_label(form) }}
 
@@ -233,7 +233,7 @@
     </div>
 {% endblock %}
 
-{% block tiny_mce_row %}
+{% block edb_tiny_mce_row %}
     <script type="text/javascript">
         jquery(function() {
             tinymce.init({

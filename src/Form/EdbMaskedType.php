@@ -8,7 +8,7 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class MaskedType extends AbstractType
+class EdbMaskedType extends AbstractType
 {
     public function getParent()
     {
