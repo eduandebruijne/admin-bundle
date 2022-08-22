@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace EDB\AdminBundle\Admin;
 
 use EDB\AdminBundle\Entity\BaseEntity;
+use EDB\AdminBundle\Form\EdbCollectionType;
 use EDB\AdminBundle\FormBuilder\FormCollection;
 use EDB\AdminBundle\ListBuilder\ListCollection;
 use EDB\AdminBundle\Util\StringUtils;
-use League\OAuth2\Client\Grant\Password;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -36,7 +35,7 @@ abstract class AbstractUserAdmin extends AbstractAdmin
         $collection
             ->add('username', TextType::class)
             ->add('plainPassword', PasswordType::class)
-            ->add('roles', CollectionType::class, [
+            ->add('roles', EdbCollectionType::class, [
                 'allow_add' => true,
                 'allow_delete' => true,
                 'entry_type' => TextType::class,
