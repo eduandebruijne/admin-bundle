@@ -47,7 +47,7 @@
             <div id="{{ form.vars.id }}-media-preview" class="bg-light col-12"></div>
             <div class="mb-3">
                 <button type="button" class="btn btn-sm btn-secondary" onclick="jquery(this).trigger('open')">
-                    <i class="fa fa-th-large"></i> {{ 'Select media' | trans }}
+                    {{ 'Select media' | trans }}
                 </button>
                 <input type="hidden" id="{{ form.vars.id }}" name="{{ form.vars.full_name }}" value="{{ value }}">
                 <input type="file" onchange="jquery('#{{ form.vars.id }}-media-form').trigger({type: 'updateValue', fileInput: this})" class="d-none">
