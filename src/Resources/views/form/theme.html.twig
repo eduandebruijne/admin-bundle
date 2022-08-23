@@ -44,13 +44,11 @@
             {% endfor %}
         {% endif %}
         <div id="{{ form.vars.id }}-media-form">
-            <div id="{{ form.vars.id }}-media-preview" class="bg-light col-12 d-flex justify-content-center"></div>
-            <div class="row mb-3">
-                <div class="col-6">
-                    <button type="button" class="btn btn-sm btn-secondary w-100" onclick="jquery(this).trigger('open')">
-                        {{ 'Select media' | trans }}
-                    </button>
-                </div>
+            <div id="{{ form.vars.id }}-media-preview" class="bg-light col-12"></div>
+            <div class="mb-3">
+                <button type="button" class="btn btn-sm btn-secondary" onclick="jquery(this).trigger('open')">
+                    {{ 'Select media' | trans }}
+                </button>
                 <div class="col-6">
                     <input type="hidden" id="{{ form.vars.id }}" name="{{ form.vars.full_name }}" value="{{ value }}">
                     <input type="file" onchange="jquery('#{{ form.vars.id }}-media-form').trigger({type: 'updateValue', fileInput: this})" class="d-none">
