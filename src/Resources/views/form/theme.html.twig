@@ -47,13 +47,11 @@
             <div id="{{ form.vars.id }}-media-preview" class="bg-light col-12"></div>
             <div class="mb-3">
                 <button type="button" class="btn btn-sm btn-secondary" onclick="jquery(this).trigger('open')">
-                    {{ 'Select media' | trans }}
+                    <i class="fa fa-th-large"></i> {{ 'Select media' | trans }}
                 </button>
-                <div class="col-6">
-                    <input type="hidden" id="{{ form.vars.id }}" name="{{ form.vars.full_name }}" value="{{ value }}">
-                    <input type="file" onchange="jquery('#{{ form.vars.id }}-media-form').trigger({type: 'updateValue', fileInput: this})" class="d-none">
-                    <label onclick="jquery(this).prev().trigger('click')" for="{{ form.vars.full_name }}" class="custom-upload-label btn btn-sm btn-secondary"></label>
-                </div>
+                <input type="hidden" id="{{ form.vars.id }}" name="{{ form.vars.full_name }}" value="{{ value }}">
+                <input type="file" onchange="jquery('#{{ form.vars.id }}-media-form').trigger({type: 'updateValue', fileInput: this})" class="d-none">
+                <label onclick="jquery(this).prev().trigger('click')" for="{{ form.vars.full_name }}" class="custom-upload-label btn btn-sm btn-secondary"></label>
             </div>
         </div>
     </div>
