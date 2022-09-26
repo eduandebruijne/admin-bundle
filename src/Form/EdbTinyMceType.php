@@ -27,11 +27,12 @@ class EdbTinyMceType extends AbstractType
             'force_p_newlines' => false,
             'tinymce_formats' => false,
             'forced_root_block' => 'p',
-            'tinymce_plugins' => 'media link lists autolink table wordcount',
+            'tinymce_plugins' => 'media link lists autolink table wordcount paste',
             'tinymce_style_formats' => false,
             'tinymce_toolbar' => 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect styleselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | link media',
             'link_list' => [],
             'document_base_url' => '/',
+            'paste_as_text' => true,
         ]);
     }
 
