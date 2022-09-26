@@ -16,6 +16,11 @@ import 'tinymce/plugins/lists';
 import 'tinymce/plugins/link';
 import 'tinymce/plugins/table';
 import 'tinymce/plugins/wordcount';
+import 'tinymce/plugins/paste';
+import 'tinymce/plugins/code';
+import 'tinymce/plugins/emoticons';
+import 'tinymce/plugins/fullpage';
+import 'tinymce/plugins/fullscreen';
 
 import './scss/style.scss'
 import {confirmUrl, showAlert, selectMaskedForm} from './js/script';
