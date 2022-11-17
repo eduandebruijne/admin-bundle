@@ -45,16 +45,20 @@
         {% endif %}
         <div id="{{ form.vars.id }}-media-form">
             <div id="{{ form.vars.id }}-media-preview" class="bg-light col-12"></div>
-            {% if form.vars.attr.readonly is not defined %}
-                <div class="mb-3">
+            <div class="mb-3">
+                {% if form.vars.attr.readonly is not defined %}
                     <button type="button" class="btn btn-sm btn-secondary" onclick="jquery(this).trigger('open')">
                         {{ 'Select media' | trans }}
                     </button>
-                    <input type="hidden" id="{{ form.vars.id }}" name="{{ form.vars.full_name }}" value="{{ value }}">
-                    <input type="file" onchange="jquery('#{{ form.vars.id }}-media-form').trigger({type: 'updateValue', fileInput: this})" class="d-none">
+                {% endif %}
+
+                <input type="hidden" id="{{ form.vars.id }}" name="{{ form.vars.full_name }}" value="{{ value }}">
+                <input type="file" onchange="jquery('#{{ form.vars.id }}-media-form').trigger({type: 'updateValue', fileInput: this})" class="d-none">
+
+                {% if form.vars.attr.readonly is not defined %}
                     <label onclick="jquery(this).prev().trigger('click')" for="{{ form.vars.full_name }}" class="custom-upload-label btn btn-sm btn-secondary"></label>
-                </div>
-            {% endif %}
+                {% endif %}
+            </div>
         </div>
     </div>
 
