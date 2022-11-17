@@ -4,9 +4,9 @@
     <div class="masked-container masked-container-{{ form.vars.id }}">
         <div class="btn-group">
             {% for button_name, config in choices %}
-            <button type="button" class="btn btn-sm btn-primary mb-3" data-value="{{ config.value }}" data-form-ids="{{ config.forms | join(',') }}" onclick="selectMaskedForm('{{ form.vars.id }}', '{{ config.value }}')">
-                {{ button_name }}
-            </button>
+                <button type="button" class="btn btn-sm btn-primary mb-3" data-value="{{ config.value }}" data-form-ids="{{ config.forms | join(',') }}" onclick="selectMaskedForm('{{ form.vars.id }}', '{{ config.value }}')">
+                    {{ button_name }}
+                </button>
             {% endfor %}
         </div>
     </div>
@@ -45,14 +45,16 @@
         {% endif %}
         <div id="{{ form.vars.id }}-media-form">
             <div id="{{ form.vars.id }}-media-preview" class="bg-light col-12"></div>
-            <div class="mb-3">
-                <button type="button" class="btn btn-sm btn-secondary" onclick="jquery(this).trigger('open')">
-                    {{ 'Select media' | trans }}
-                </button>
-                <input type="hidden" id="{{ form.vars.id }}" name="{{ form.vars.full_name }}" value="{{ value }}">
-                <input type="file" onchange="jquery('#{{ form.vars.id }}-media-form').trigger({type: 'updateValue', fileInput: this})" class="d-none">
-                <label onclick="jquery(this).prev().trigger('click')" for="{{ form.vars.full_name }}" class="custom-upload-label btn btn-sm btn-secondary"></label>
-            </div>
+            {% if form.vars.attr.readonly is not defined %}
+                <div class="mb-3">
+                    <button type="button" class="btn btn-sm btn-secondary" onclick="jquery(this).trigger('open')">
+                        {{ 'Select media' | trans }}
+                    </button>
+                    <input type="hidden" id="{{ form.vars.id }}" name="{{ form.vars.full_name }}" value="{{ value }}">
+                    <input type="file" onchange="jquery('#{{ form.vars.id }}-media-form').trigger({type: 'updateValue', fileInput: this})" class="d-none">
+                    <label onclick="jquery(this).prev().trigger('click')" for="{{ form.vars.full_name }}" class="custom-upload-label btn btn-sm btn-secondary"></label>
+                </div>
+            {% endif %}
         </div>
     </div>
 
@@ -125,11 +127,11 @@
         <label for="{{ form.vars.id }}" class="form-label">{{ form.vars.name | humanize | trans }}</label>
         <div class="form-collection-wrapper bg-light">
             <div class="form-collection-inner">
-                <ul class="form-collection {{ form.vars.id }}" data-prototype="{{ form_row(form.vars.prototype)|e('html_attr') }}">
+                <ul class="form-collection {{ form.vars.id }}" data-allow-add="{{ form.vars.allow_add ? 'true' : 'false' }}" data-allow-delete="{{ form.vars.allow_delete ? 'true' : 'false' }}" {% if form.vars.allow_add %}data-prototype="{{ form_row(form.vars.prototype)|e('html_attr') }}"{% endif %}>
                     {% for childForm in form.children %}
                         <li class="form-collection-item">
                             <div class="row">
-                                <div class="col-md-11 col-10">
+                                <div class="col">
                                     {{ form_row(childForm) }}
                                 </div>
                             </div>
@@ -137,14 +139,18 @@
                     {% endfor %}
                 </ul>
             </div>
-            <button type="button" class="add_item_link_{{ form.vars.id }} btn btn-sm btn-success" data-collection-holder-class="{{ form.vars.id }}">
-                <i class="fa fa-plus-circle"></i>
-            </button>
+            {% if form.vars.allow_add %}
+                <button type="button" class="add_item_link_{{ form.vars.id }} btn btn-sm btn-success" data-collection-holder-class="{{ form.vars.id }}">
+                    <i class="fa fa-plus-circle"></i>
+                </button>
+            {% endif %}
         </div>
     </div>
 
     <script>
-        function addFormToCollection(collectionHolderClass) {
+        function addFormToCollection(collectionHolderClass, allowAdd, allowDelete) {
+            if (!allowAdd) return;
+
             // Get the ul that holds the collection of tags
             let collectionHolder = jquery("." + collectionHolderClass);
 
@@ -168,20 +174,22 @@
             collectionHolder.data("index", index + 1);
 
             // Display the form in the page in an li, before the "Add a tag" link li
-            let newFormLi = jquery("<li class=\"form-collection-item\"><div class=\"row\"><div class=\"col-md-11 col-10\">"+newForm+"</div></div></li>");
+            let newFormLi = jquery("<li class=\"form-collection-item\"><div class=\"row\"><div class=\"col\">"+newForm+"</div></div></li>");
 
             // Add the new form at the end of the list
             collectionHolder.append(newFormLi)
 
             // add a delete link to the new form
-            addTagFormDeleteLink(newFormLi);
+            addTagFormDeleteLink(newFormLi, allowAdd, allowDelete);
         }
 
-        function addTagFormDeleteLink(tagFormLi) {
+        function addTagFormDeleteLink(tagFormLi, allowAdd, allowDelete) {
+            if (!allowDelete) return;
+
             let removeFormButton = jquery("<div class=\"col-md-1 col-2\"><button type=\"button\" class=\"btn btn-sm btn-danger\"><i class=\"fa fa-minus-circle\"></i></button></div>");
             tagFormLi.find(".row:first-child").prepend(removeFormButton);
 
-            removeFormButton.on("click", "button", function(e) {
+            removeFormButton.on("click", "button", function (e) {
                 tagFormLi.remove();
             });
         }
@@ -190,9 +198,12 @@
             // Get the ul that holds the collection of tags
             let collectionHolder = jquery("ul.{{ form.vars.id }}");
 
+            let allowAdd = collectionHolder.data('allowAdd');
+            let allowDelete = collectionHolder.data('allowDelete');
+
             // add a delete link to all of the existing tag form li elements
             collectionHolder.find("li").each(function() {
-                addTagFormDeleteLink(jquery(this));
+                addTagFormDeleteLink(jquery(this), allowAdd, allowDelete);
             });
 
             // Get the ul that holds the collection of tags
@@ -204,7 +215,7 @@
             jquery("body").on("click", ".add_item_link_{{ form.vars.id }}", function(e) {
                 let collectionHolderClass = jquery(e.currentTarget).data("collectionHolderClass");
                 // add a new tag form (see next code block)
-                addFormToCollection(collectionHolderClass);
+                addFormToCollection(collectionHolderClass, allowAdd, allowDelete);
             })
         });
     </script>
