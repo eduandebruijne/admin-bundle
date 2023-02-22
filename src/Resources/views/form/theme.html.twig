@@ -293,8 +293,9 @@
             });
         });
     </script>
-    <div class="mb-3">
+    <div class="mb-3 {% if form.vars.errors | length > 0 %}invalid-tinymce{% endif %}">
         {{ form_label(form) }}
         <textarea name="{{ full_name }}" data-list-url="{{ path('media_modal_list') }}?{% for mime in media_mime_types %}{{ loop.first ? '' : '&' }}m[]={{ mime }}{% endfor %}" data-insert-url="{{ path('media_insert') }}" id="tinymce-{{ form.vars.id }}">{{ value | raw }}</textarea>
+        {{ form_errors(form) }}
     </div>
 {% endblock %}

@@ -228,6 +228,12 @@ a {
         margin-left: 5px;
       }
     }
+
+    .invalid-tinymce {
+      .tox-tinymce {
+        border: 1px solid #a62317;
+      }
+    }
   }
 }
 
