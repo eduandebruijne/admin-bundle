@@ -1,4 +1,4 @@
-{% if not search %}
+{% if not search and not sort %}
 <a class="btn btn-sm btn-outline-secondary" href="{{ generate_admin_url(admin.entityClass, 'move_down', {'id': object.id}) }}">
     <i class="fa fa-arrow-circle-down"></i>
 </a>
