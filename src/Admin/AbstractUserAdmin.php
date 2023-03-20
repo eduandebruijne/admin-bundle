@@ -30,7 +30,7 @@ abstract class AbstractUserAdmin extends AbstractAdmin
         ]);
     }
 
-    public function buildForm(FormCollection $collection)
+    public function buildForm(FormCollection $collection, BaseEntity $entity)
     {
         $collection
             ->add('username', TextType::class)

@@ -35,7 +35,7 @@ abstract class AbstractMediaAdmin extends AbstractAdmin
             ]);
     }
 
-    public function buildForm(FormCollection $collection)
+    public function buildForm(FormCollection $collection, BaseEntity $entity)
     {
         $collection
             ->add('title', TextType::class)

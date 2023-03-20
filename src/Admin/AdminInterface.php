@@ -11,7 +11,7 @@ use Doctrine\ORM\QueryBuilder;
 
 interface AdminInterface
 {
-    public function buildForm(FormCollection $collection);
+    public function buildForm(FormCollection $collection, BaseEntity $entity);
     public function buildList(ListCollection $collection);
     public function extendQuery(QueryBuilder $queryBuilder);
     public function getAdminMenuGroup(): ?string;

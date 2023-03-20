@@ -361,7 +361,7 @@ class CRUDController
     protected function buildForm(AdminInterface $admin, BaseEntity $data): FormInterface
     {
         $formCollection = new FormCollection();
-        $admin->buildForm($formCollection);
+        $admin->buildForm($formCollection, $data);
 
         $formUrl = (
             $data->getId() ?
