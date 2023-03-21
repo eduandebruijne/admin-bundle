@@ -214,7 +214,7 @@ class CRUDController
             }
         }
 
-        $crudContext = AbstractAdmin::ROUTE_CONTEXT_UPDATE;
+        $crudContext = AbstractAdmin::ROUTE_CONTEXT_CREATE;
         $templateArguments = [
             'form' => $form->createView(),
             'back' => $adminListUrl
@@ -228,6 +228,7 @@ class CRUDController
     public function update(Request $request)
     {
         $admin = $this->getAdminFromRequest($request);
+
         if(!$this->security->isGranted($admin->getRequiredRole())) throw new Exception('Access denied.');
 
         $object = $this->getObjectByRequest($admin, $request);
