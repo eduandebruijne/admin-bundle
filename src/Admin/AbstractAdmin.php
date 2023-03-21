@@ -31,7 +31,14 @@ abstract class AbstractAdmin implements AdminInterface
 
     public function getTemplate(string $context): string
     {
-        return self::ROUTE_CONTEXT_UPDATE === $context ? '@EDBAdmin/update.html.twig' : '@EDBAdmin/list.html.twig';
+        if (in_array($context, [
+            self::ROUTE_CONTEXT_CREATE,
+            self::ROUTE_CONTEXT_UPDATE
+        ])) {
+            return '@EDBAdmin/update.html.twig';
+        }
+
+        return '@EDBAdmin/list.html.twig';
     }
 
     public function getTemplateArguments(string $context, ?BaseEntity $entity = null): array
