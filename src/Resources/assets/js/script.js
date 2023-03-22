@@ -33,7 +33,7 @@ function selectMaskedForm(formId, value) {
     $('#' + formId).val(value);
 
     const base_form_id = formId.split('_').slice(0, -1);
-    const main_form_element = $('#' + base_form_id.join('_'));
+    const main_form_element = $('form[name="' + base_form_id + '"]');
 
     if (!value) {
         $('.masked-container-' + formId + ' button').first().trigger('click');
