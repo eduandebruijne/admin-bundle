@@ -128,7 +128,13 @@
 
 {% block edb_collection_row %}
     <div class="mb-3">
-        <label for="{{ form.vars.id }}" class="form-label">{{ form.vars.name | humanize | trans }}</label>
+        <label for="{{ form.vars.id }}" class="form-label">
+            {% if form.vars.label is not empty %}
+            {{ form.vars.label }}
+            {% else %}
+            {{ form.vars.name | humanize | trans }}
+            {% endif %}
+        </label>
         <div class="form-collection-wrapper bg-light">
             <div class="form-collection-inner">
                 <ul class="form-collection {{ form.vars.id }}" data-allow-add="{{ form.vars.allow_add ? 'true' : 'false' }}" data-allow-delete="{{ form.vars.allow_delete ? 'true' : 'false' }}" {% if form.vars.allow_add %}data-prototype="{{ form_row(form.vars.prototype)|e('html_attr') }}"{% endif %}>
