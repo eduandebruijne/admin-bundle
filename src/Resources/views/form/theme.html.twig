@@ -2,13 +2,11 @@
     {{ form_label(form) }}
     {{ form_widget(form) }}
     <div class="masked-container masked-container-{{ form.vars.id }}">
-        <div class="btn-group">
-            {% for button_name, config in choices %}
-                <button type="button" class="btn btn-sm btn-primary mb-3" data-value="{{ config.value }}" data-form-ids="{{ config.forms | join(',') }}" onclick="selectMaskedForm('{{ form.vars.id }}', '{{ config.value }}')">
-                    {{ button_name }}
-                </button>
-            {% endfor %}
-        </div>
+        {% for button_name, config in choices %}
+            <button type="button" class="btn btn-sm btn-primary mb-3" data-value="{{ config.value }}" data-form-ids="{{ config.forms | join(',') }}" onclick="selectMaskedForm('{{ form.vars.id }}', '{{ config.value }}')">
+                {{ button_name }}
+            </button>
+        {% endfor %}
     </div>
     <script>
         jquery(function() {
