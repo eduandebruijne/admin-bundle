@@ -8,10 +8,12 @@
 		<div class="col-sm-6">
 			<div class="m-3 float-sm-end">
 			{% block create %}
+				{% if 'create' in admin.routeConfiguration | keys %}
 				<a href="{{ generate_admin_url(admin.entityClass, 'create') }}" class="btn btn btn-primary">
 					<i class="fa fa-plus-circle"></i>
 					{{ 'Create new' | trans }}
 				</a>
+				{% endif %}
 			{% endblock %}
 			</div>
 		</div>
@@ -57,7 +59,6 @@
 				<div class="card w-50">
 					<div class="card-body">
 						<h5 class="card-title">{{ non_found_text }}</h5>
-						<p class="card-text">{{ 'Click the button below to start adding content' | trans }}</p>
 						{{ block('create') }}
 					</div>
 				</div>
