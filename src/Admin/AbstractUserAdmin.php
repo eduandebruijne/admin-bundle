@@ -63,4 +63,9 @@ abstract class AbstractUserAdmin extends AbstractAdmin
     {
         return 'Users';
     }
+
+    public function getSearchProperty(): string
+    {
+        return 'username';
+    }
 }
