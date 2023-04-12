@@ -42,6 +42,10 @@ class MediaExtension extends AbstractExtension
     {
         if (empty($media)) return null;
 
+        if ('crop' === $fit) {
+            $fit .= sprintf('-%d-%d', $media->getFocusPoint()['x'], $media->getFocusPoint()['y']);
+        }
+
         if ($this->isImage($media->getMimeType())) {
             $imageUrl = $this->mediaService->makeImage($media->getFilename(), [
                 'w' => $width,

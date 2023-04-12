@@ -310,3 +310,69 @@
         {{ form_errors(form) }}
     </div>
 {% endblock %}
+
+{% block edb_media_focus_point_row %}
+    {{ form_label(form) }}
+    {{ form_rest(form) }}
+
+    <div class="edb-media-focus-point-canvas">
+        <div class="edb-media-focus-point-canvas-selection">
+            <i class="fa fa-crosshairs"></i>
+        </div>
+        <img class="{{ form.vars.id }}" src="{{ render_media(form.vars.mediaInstance, 250, 250, 'size') }}" alt="{{ form.vars.mediaInstance }}">
+    </div>
+
+    <style>
+        .edb-media-focus-point-canvas {
+            cursor: crosshair;
+            position: relative;
+            user-select: none;
+            display: inline-block;
+        }
+        .edb-media-focus-point-canvas-selection {
+            position: absolute;
+            box-shadow: white 0 0 20px 20px;
+        }
+        .edb-media-focus-point-canvas-selection i {
+            position: absolute;
+            left: -8px;
+            top: -8px;
+        }
+    </style>
+
+    <script>
+        document.getElementsByClassName('{{ form.vars.id }}')[0].addEventListener('load', (event) => {
+            const x = document.getElementById('{{ form.x.vars.id }}').value
+            const y = document.getElementById('{{ form.y.vars.id }}').value
+
+            const canvasWidth = event.target.width
+            const canvasHeight = event.target.height
+
+            const selector = event.target.previousElementSibling
+
+            selector.style.left = Math.ceil(canvasWidth * (x / 100)) + 'px'
+            selector.style.top = Math.ceil(canvasHeight * (y / 100)) + 'px'
+        })
+
+        document.getElementsByClassName('{{ form.vars.id }}')[0].addEventListener('click', (event) => {
+            const canvasLeft = event.target.getBoundingClientRect().left
+            const canvasTop = event.target.getBoundingClientRect().top
+            const canvasWidth = event.target.width
+            const canvasHeight = event.target.height
+
+            const selector = event.target.previousElementSibling
+
+            const newX = Math.ceil(event.clientX - canvasLeft)
+            const newY = Math.ceil(event.clientY - canvasTop)
+
+            selector.style.left = newX + 'px'
+            selector.style.top = newY + 'px'
+
+            const x = Math.floor((newX / canvasWidth) * 100)
+            const y = Math.floor((newY / canvasHeight) * 100)
+
+            document.getElementById('{{ form.x.vars.id }}').value = x
+            document.getElementById('{{ form.y.vars.id }}').value = y
+        })
+    </script>
+{% endblock %}

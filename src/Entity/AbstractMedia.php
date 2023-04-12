@@ -39,6 +39,11 @@ class AbstractMedia extends BaseEntity
      */
     protected ?int $size;
 
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    protected array $focusPoint;
+
     public $update;
 
     public function __toString()
@@ -104,5 +109,19 @@ class AbstractMedia extends BaseEntity
     public function setSize(?int $size): void
     {
         $this->size = $size;
+    }
+
+    public function getFocusPoint(): array
+    {
+        if (empty($this->focusPoint)) {
+            return ['x' => 50, 'y' => 50];
+        }
+
+        return $this->focusPoint;
+    }
+
+    public function setFocusPoint(array $focusPoint): void
+    {
+        $this->focusPoint = $focusPoint;
     }
 }

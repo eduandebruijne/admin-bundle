@@ -4,21 +4,28 @@ declare(strict_types=1);
 
 namespace EDB\AdminBundle\Admin;
 
+use Doctrine\ORM\EntityManagerInterface;
 use EDB\AdminBundle\Entity\BaseEntity;
 use EDB\AdminBundle\FormBuilder\FormCollection;
+use EDB\AdminBundle\Form\EdbMediaFocusPointType;
 use EDB\AdminBundle\ListBuilder\ListCollection;
 use EDB\AdminBundle\Service\MediaService;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 abstract class AbstractMediaAdmin extends AbstractAdmin
 {
     private MediaService $mediaService;
+    private EntityManagerInterface $entityManager;
+    private RequestStack $requestStack;
 
-    public function __construct(MediaService $mediaService)
+    public function __construct(MediaService $mediaService, EntityManagerInterface $entityManager, RequestStack $requestStack)
     {
         $this->mediaService = $mediaService;
+        $this->entityManager = $entityManager;
+        $this->requestStack = $requestStack;
     }
 
     public function buildList(ListCollection $collection)
@@ -44,6 +51,9 @@ abstract class AbstractMediaAdmin extends AbstractAdmin
             ->add('filename', TextType::class, ['disabled' => true])
             ->add('size', TextType::class, ['disabled' => true])
             ->add('update', FileType::class)
+            ->add('focusPoint', EdbMediaFocusPointType::class, [
+                'mediaInstance' => $this->getObjectByRequest()
+            ])
             ->setModelTransformer(new CallbackTransformer(function($database) {
                 return $database;
             }, function($form) {
@@ -78,5 +88,18 @@ abstract class AbstractMediaAdmin extends AbstractAdmin
     public function getAdminMenuTitle(): string
     {
         return 'Media';
+    }
+
+    private function getObjectByRequest(): ?BaseEntity
+    {
+        $id = $this->requestStack->getCurrentRequest()->attributes->getInt('id');
+        $repository = $this->entityManager->getRepository($this->getEntityClass());
+        $object = $repository->find($id);
+
+        if ($object instanceof BaseEntity) {
+            return $object;
+        }
+
+        throw new Exception(sprintf('Object with id #%d not found!', $id));
     }
 }

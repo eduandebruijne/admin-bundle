@@ -6,26 +6,28 @@ namespace EDB\AdminBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class EdbMaskedType extends AbstractType
+class EdbMediaFocusPointType extends AbstractType
 {
-    public function getParent()
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        return HiddenType::class;
+        $builder
+            ->add('x', HiddenType::class)
+            ->add('y', HiddenType::class)
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'choices' => [],
-        ]);
+        $resolver->setDefault('mediaInstance', null);
     }
 
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
-        $view->vars['choices'] = $options['choices'];
+        $view->vars['mediaInstance'] = $options['mediaInstance'];
     }
 }
