@@ -92,14 +92,13 @@ abstract class AbstractMediaAdmin extends AbstractAdmin
 
     private function getObjectByRequest(): ?BaseEntity
     {
-        $id = $this->requestStack->getCurrentRequest()->attributes->getInt('id');
-        $repository = $this->entityManager->getRepository($this->getEntityClass());
-        $object = $repository->find($id);
-
-        if ($object instanceof BaseEntity) {
-            return $object;
+        try {
+            $objectId = $this->requestStack->getCurrentRequest()->attributes->get('id');
+            $object = $this->entityManager->getRepository($this->getEntityClass())->find($objectId);
+        } catch (\Throwable $exception) {
+            $object = null;
         }
 
-        throw new Exception(sprintf('Object with id #%d not found!', $id));
+        return $object;
     }
 }

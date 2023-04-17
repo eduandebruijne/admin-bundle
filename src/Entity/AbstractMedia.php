@@ -113,7 +113,7 @@ class AbstractMedia extends BaseEntity
 
     public function getFocusPoint(): array
     {
-        if (empty($this->focusPoint)) {
+        if (empty($this->focusPoint) || null === $this->focusPoint['x']) {
             return ['x' => 50, 'y' => 50];
         }
 

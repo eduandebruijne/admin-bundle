@@ -312,6 +312,8 @@
 {% endblock %}
 
 {% block edb_media_focus_point_row %}
+    {% if form.vars.mediaInstance %}
+
     {{ form_label(form) }}
     {{ form_rest(form) }}
 
@@ -375,4 +377,6 @@
             document.getElementById('{{ form.y.vars.id }}').value = y
         })
     </script>
+
+    {% endif %}
 {% endblock %}
