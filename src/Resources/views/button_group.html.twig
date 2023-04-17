@@ -1,7 +1,9 @@
 <td>
     <div class="btn-group">
         {% for action in element.actions %}
-            {% include action.getOption('template') %}
+            {% if is_granted(admin.requiredRoleForRoute(action.name)) %}
+                {% include action.getOption('template') %}
+            {% endif %}
         {% endfor %}
     </div>
 </td>

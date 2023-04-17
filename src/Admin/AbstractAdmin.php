@@ -56,6 +56,21 @@ abstract class AbstractAdmin implements AdminInterface
         return 'title';
     }
 
+    public function getRequiredRoleForRoute(string $routeContext): string
+    {
+        $routeConfiguration = $this->getRouteConfiguration();
+
+        if (isset($routeConfiguration[$routeContext])) {
+            $contextConfiguration = $routeConfiguration[$routeContext];
+
+            if (isset($contextConfiguration['role'])) {
+                return $contextConfiguration['role'];
+            }
+        }
+
+        return $this->getRequiredRole();
+    }
+
     /**
      * @return array<string, string[][]>
      */

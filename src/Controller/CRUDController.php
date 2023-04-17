@@ -71,7 +71,9 @@ class CRUDController
             EntityHierarchyInterface::class
         );
 
-        if(!$this->security->isGranted($admin->getRequiredRole())) throw new Exception('Access denied.');
+        if(!$this->security->isGranted($admin->getRequiredRoleForRoute(AbstractAdmin::ROUTE_CONTEXT_LIST))) {
+            throw new Exception('Access denied.');
+        }
 
         $listCollection = new ListCollection();
         $admin->buildList($listCollection);
@@ -193,7 +195,9 @@ class CRUDController
     {
         $admin = $this->getAdminFromRequest($request);
 
-        if(!$this->security->isGranted($admin->getRequiredRole())) throw new Exception('Access denied.');
+        if(!$this->security->isGranted($admin->getRequiredRoleForRoute(AbstractAdmin::ROUTE_CONTEXT_CREATE))) {
+            throw new Exception('Access denied.');
+        }
 
         $class = $admin->getEntityClass();
         $form = $this->buildForm($admin, new $class());
@@ -229,7 +233,9 @@ class CRUDController
     {
         $admin = $this->getAdminFromRequest($request);
 
-        if(!$this->security->isGranted($admin->getRequiredRole())) throw new Exception('Access denied.');
+        if(!$this->security->isGranted($admin->getRequiredRoleForRoute(AbstractAdmin::ROUTE_CONTEXT_UPDATE))) {
+            throw new Exception('Access denied.');
+        }
 
         $object = $this->getObjectByRequest($admin, $request);
         $adminListUrl = $this->adminUrlHelper->generateAdminUrl($admin->getEntityClass(), AbstractAdmin::ROUTE_CONTEXT_LIST);
@@ -268,11 +274,19 @@ class CRUDController
 
     public function moveDown(Request $request)
     {
+        if(!$this->security->isGranted($admin->getRequiredRoleForRoute(AbstractAdmin::ROUTE_CONTEXT_MOVE_DOWN))) {
+            throw new Exception('Access denied.');
+        }
+
         return $this->sort($request, function($position) { return $position + 1; });
     }
 
     public function moveUp(Request $request)
     {
+        if(!$this->security->isGranted($admin->getRequiredRoleForRoute(AbstractAdmin::ROUTE_CONTEXT_MOVE_UP))) {
+            throw new Exception('Access denied.');
+        }
+
         return $this->sort($request, function($position) { return $position - 1; });
     }
 
@@ -283,8 +297,6 @@ class CRUDController
             $admin->getEntityClass(),
             EntityHierarchyInterface::class
         );
-
-        if(!$this->security->isGranted($admin->getRequiredRole())) throw new Exception('Access denied.');
 
         $object = $this->getObjectByRequest($admin, $request);
 
@@ -332,7 +344,9 @@ class CRUDController
     {
         $admin = $this->getAdminFromRequest($request);
 
-        if(!$this->security->isGranted($admin->getRequiredRole())) throw new Exception('Access denied.');
+        if(!$this->security->isGranted($admin->getRequiredRoleForRoute(AbstractAdmin::ROUTE_CONTEXT_DELETE))) {
+            throw new Exception('Access denied.');
+        }
 
         $object = $this->getObjectByRequest($admin, $request);
         $this->entityManager->remove($object);
