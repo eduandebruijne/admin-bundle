@@ -50,7 +50,9 @@ abstract class AbstractMediaAdmin extends AbstractAdmin
             ->add('extension', TextType::class, ['disabled' => true])
             ->add('filename', TextType::class, ['disabled' => true])
             ->add('size', TextType::class, ['disabled' => true])
-            ->add('update', FileType::class)
+            ->add('update', FileType::class, [
+                'label' => 'Choose file'
+            ])
             ->add('focusPoint', EdbMediaFocusPointType::class, [
                 'mediaInstance' => $this->getObjectByRequest()
             ])

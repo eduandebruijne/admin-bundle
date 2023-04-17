@@ -5,7 +5,7 @@ Create new: Nieuwe toevoegen
 No items found: Geen resultaten gevonden
 Create: Toevoegen
 Search: Zoeken
-Edit: Bewerk
+Update: Bewerk
 Delete: Verwijderen
 Confirm: Bevestigen
 Delete forever: Definitief verwijderen
@@ -18,7 +18,7 @@ Actions: Acties
 Title: Titel
 Extension: Extensie
 Filename: Bestandsnaam
-Update: Vervangen
+Choose file: Bestand kiezen
 Original filename: Originele bestandsnaam
 Size: Grootte
 Mime type: Bestandstype
