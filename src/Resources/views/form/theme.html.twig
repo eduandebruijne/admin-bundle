@@ -135,9 +135,9 @@
     <div class="mb-3">
         <label for="{{ form.vars.id }}" class="form-label">
             {% if form.vars.label is not empty %}
-            {{ form.vars.label }}
+                {{ form.vars.label }}
             {% else %}
-            {{ form.vars.name | humanize | trans }}
+                {{ form.vars.name | humanize | trans }}
             {% endif %}
         </label>
         <div class="form-collection-wrapper bg-light">
@@ -194,11 +194,16 @@
             // Add the new form at the end of the list
             collectionHolder.append(newFormLi)
 
-            // add a delete link to the new form
-            addTagFormDeleteLink(newFormLi, allowAdd, allowDelete)
+            // Add buttons to the new form
+            addRowButtons(newFormLi, allowAdd, allowDelete)
+
+            // Calculate order if available
+            collectionHolder.find('.edb_admin_position').each((element, index) => {
+                element.value = index
+            })
         }
 
-        function addTagFormDeleteLink(tagFormLi, allowAdd, allowDelete) {
+        function addRowButtons(tagFormLi, allowAdd, allowDelete) {
             if (!allowDelete) return
 
             let rowButtonsHTML = "<div class=\"col-md-1 col-2\">";
@@ -274,7 +279,7 @@
 
             // add a delete link to all of the existing tag form li elements
             collectionHolder.find("li").each(function() {
-                addTagFormDeleteLink(jquery(this), allowAdd, allowDelete)
+                addRowButtons(jquery(this), allowAdd, allowDelete)
             })
 
             // Get the ul that holds the collection of tags
@@ -370,69 +375,69 @@
 {% block edb_media_focus_point_row %}
     {% if form.vars.mediaInstance %}
 
-    {{ form_label(form) }}
-    {{ form_rest(form) }}
+        {{ form_label(form) }}
+        {{ form_rest(form) }}
 
-    <div class="edb-media-focus-point-canvas">
-        <div class="edb-media-focus-point-canvas-selection">
-            <i class="fa fa-crosshairs"></i>
+        <div class="edb-media-focus-point-canvas">
+            <div class="edb-media-focus-point-canvas-selection">
+                <i class="fa fa-crosshairs"></i>
+            </div>
+            <img class="{{ form.vars.id }}" src="{{ render_media(form.vars.mediaInstance, 250, 250, 'size') }}" alt="{{ form.vars.mediaInstance }}">
         </div>
-        <img class="{{ form.vars.id }}" src="{{ render_media(form.vars.mediaInstance, 250, 250, 'size') }}" alt="{{ form.vars.mediaInstance }}">
-    </div>
 
-    <style>
-        .edb-media-focus-point-canvas {
-            cursor: crosshair;
-            position: relative;
-            user-select: none;
-            display: inline-block;
-        }
-        .edb-media-focus-point-canvas-selection {
-            position: absolute;
-            box-shadow: white 0 0 20px 20px;
-        }
-        .edb-media-focus-point-canvas-selection i {
-            position: absolute;
-            left: -8px;
-            top: -8px;
-        }
-    </style>
+        <style>
+            .edb-media-focus-point-canvas {
+                cursor: crosshair;
+                position: relative;
+                user-select: none;
+                display: inline-block;
+            }
+            .edb-media-focus-point-canvas-selection {
+                position: absolute;
+                box-shadow: white 0 0 20px 20px;
+            }
+            .edb-media-focus-point-canvas-selection i {
+                position: absolute;
+                left: -8px;
+                top: -8px;
+            }
+        </style>
 
-    <script>
-        document.getElementsByClassName('{{ form.vars.id }}')[0].addEventListener('load', (event) => {
-            const x = document.getElementById('{{ form.x.vars.id }}').value
-            const y = document.getElementById('{{ form.y.vars.id }}').value
+        <script>
+            document.getElementsByClassName('{{ form.vars.id }}')[0].addEventListener('load', (event) => {
+                const x = document.getElementById('{{ form.x.vars.id }}').value
+                const y = document.getElementById('{{ form.y.vars.id }}').value
 
-            const canvasWidth = event.target.width
-            const canvasHeight = event.target.height
+                const canvasWidth = event.target.width
+                const canvasHeight = event.target.height
 
-            const selector = event.target.previousElementSibling
+                const selector = event.target.previousElementSibling
 
-            selector.style.left = Math.ceil(canvasWidth * (x / 100)) + 'px'
-            selector.style.top = Math.ceil(canvasHeight * (y / 100)) + 'px'
-        })
+                selector.style.left = Math.ceil(canvasWidth * (x / 100)) + 'px'
+                selector.style.top = Math.ceil(canvasHeight * (y / 100)) + 'px'
+            })
 
-        document.getElementsByClassName('{{ form.vars.id }}')[0].addEventListener('click', (event) => {
-            const canvasLeft = event.target.getBoundingClientRect().left
-            const canvasTop = event.target.getBoundingClientRect().top
-            const canvasWidth = event.target.width
-            const canvasHeight = event.target.height
+            document.getElementsByClassName('{{ form.vars.id }}')[0].addEventListener('click', (event) => {
+                const canvasLeft = event.target.getBoundingClientRect().left
+                const canvasTop = event.target.getBoundingClientRect().top
+                const canvasWidth = event.target.width
+                const canvasHeight = event.target.height
 
-            const selector = event.target.previousElementSibling
+                const selector = event.target.previousElementSibling
 
-            const newX = Math.ceil(event.clientX - canvasLeft)
-            const newY = Math.ceil(event.clientY - canvasTop)
+                const newX = Math.ceil(event.clientX - canvasLeft)
+                const newY = Math.ceil(event.clientY - canvasTop)
 
-            selector.style.left = newX + 'px'
-            selector.style.top = newY + 'px'
+                selector.style.left = newX + 'px'
+                selector.style.top = newY + 'px'
 
-            const x = Math.floor((newX / canvasWidth) * 100)
-            const y = Math.floor((newY / canvasHeight) * 100)
+                const x = Math.floor((newX / canvasWidth) * 100)
+                const y = Math.floor((newY / canvasHeight) * 100)
 
-            document.getElementById('{{ form.x.vars.id }}').value = x
-            document.getElementById('{{ form.y.vars.id }}').value = y
-        })
-    </script>
+                document.getElementById('{{ form.x.vars.id }}').value = x
+                document.getElementById('{{ form.y.vars.id }}').value = y
+            })
+        </script>
 
     {% endif %}
 {% endblock %}
