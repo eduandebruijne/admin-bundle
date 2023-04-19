@@ -52,17 +52,7 @@
 				</tbody>
 			</table>
 		{% else %}
-			{% set non_found_text = 'No items found' | trans %}
-			{% if search is not empty %}
-				<div class="alert alert-warning mb-0">{{ non_found_text }}</div>
-			{% else %}
-				<div class="card w-50">
-					<div class="card-body">
-						<h5 class="card-title">{{ non_found_text }}</h5>
-						{{ block('create') }}
-					</div>
-				</div>
-			{% endif %}
+			<div class="alert alert-warning mb-0">{{ 'No items found' | trans }}</div>
 		{% endif %}
 	</div>
 {% endblock %}
