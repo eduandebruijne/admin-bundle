@@ -19,7 +19,6 @@ use Doctrine\ORM\EntityNotFoundException;
 use EDB\AdminBundle\Admin\AbstractAdmin;
 use EDB\AdminBundle\Helper\AdminUrlHelper;
 use Exception;
-use ReflectionException;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -27,9 +26,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Security;
 use Twig\Environment;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
 
 class CRUDController
 {
@@ -274,6 +270,7 @@ class CRUDController
 
     public function moveDown(Request $request)
     {
+        $admin = $this->getAdminFromRequest($request);
         if(!$this->security->isGranted($admin->getRequiredRoleForRoute(AbstractAdmin::ROUTE_CONTEXT_MOVE_DOWN))) {
             throw new Exception('Access denied.');
         }
@@ -283,6 +280,7 @@ class CRUDController
 
     public function moveUp(Request $request)
     {
+        $admin = $this->getAdminFromRequest($request);
         if(!$this->security->isGranted($admin->getRequiredRoleForRoute(AbstractAdmin::ROUTE_CONTEXT_MOVE_UP))) {
             throw new Exception('Access denied.');
         }
