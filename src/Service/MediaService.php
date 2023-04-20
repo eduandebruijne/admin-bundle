@@ -19,14 +19,14 @@ class MediaService
         private ?string $mediaClass,
         private ?FilesystemOperator $privateFilesystem = null
     ) {
-        if (!$this->privateFilesystem) {
-            $this->privateFilesystem = $this->publicFilesystem;
+        if (null === $this->privateFilesystem) {
+            $this->privateFilesystem = $this->defaultFilesystem;
         }
 
         $this->server = ServerFactory::create([
             'source' => $this->privateFilesystem,
             'source_path_prefix' => $this->sourcePrefix,
-            'cache' => $this->publicFilesystem,
+            'cache' => $this->defaultFilesystem,
             'cache_path_prefix' => $this->cachePrefix,
             'group_cache_in_folders' => false,
             'watermarks' => $this->privateFilesystem,
