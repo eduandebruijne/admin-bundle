@@ -4,25 +4,25 @@
   "type": "symfony-bundle",
   "license": "MIT",
   "require": {
-    "php": "^8.0",
+    "php": "^7.4 || ^8.0",
     "doctrine/dbal": "^3.1",
     "doctrine/doctrine-bundle": "^2.4",
     "doctrine/annotations": "^2.0",
     "doctrine/orm": "^2.10",
     "league/glide": "^2.0",
     "oneup/flysystem-bundle": "^4.1",
-    "symfony/asset": "^6.0",
-    "symfony/form": "^6.0",
-    "symfony/framework-bundle": "^6.0",
-    "symfony/http-client": "^6.0",
-    "symfony/security-bundle": "^6.0",
-    "symfony/translation": "^6.0",
-    "symfony/twig-bundle": "^6.0",
+    "symfony/asset": "^5.4 || ^6.0",
+    "symfony/form": "^5.4 || ^6.0",
+    "symfony/framework-bundle": "^5.4 || ^6.0",
+    "symfony/http-client": "^5.4 || ^6.0",
+    "symfony/security-bundle": "^5.4 || ^6.0",
+    "symfony/translation": "^5.4 || ^6.0",
+    "symfony/twig-bundle": "^5.4 || ^6.0",
     "twig/twig": "^2.12|^3.0"
   },
   "config": {
     "platform": {
-      "php": "8.0"
+      "php": "7.4"
     }
   },
   "autoload": {
