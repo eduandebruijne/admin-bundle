@@ -82,12 +82,59 @@ access_control:
     - { path: ^/%env(EDB_ADMIN_PATH)%, roles: ROLE_ADMIN }
 ```
 
----
+#### Use entities in edb_admin.yaml
+
+```yaml
+edb_admin:
+    media_class: App\Entity\Media
+    user_class: App\Entity\User
+```
 
 #### Create admin user
 
 ```bash
 bin/console admin:create-user <required:role> <required:username/email> <optional:password>
+```
+
+#### Optionally: Create Admins
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Admin;
+
+use App\Entity\Media;
+use EDB\AdminBundle\Admin\AbstractMediaAdmin;
+
+class MediaAdmin extends AbstractMediaAdmin
+{
+    public function getEntityClass(): string
+    {
+        return Media::class;
+    }
+}
+```
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Admin;
+
+use App\Entity\User;
+use EDB\AdminBundle\Admin\AbstractUserAdmin;
+
+class UserAdmin extends AbstractUserAdmin
+{
+    public function getEntityClass(): string
+    {
+        return User::class;
+    }
+}
+
 ```
 
 ## Examples
