@@ -4,6 +4,7 @@ namespace EDB\AdminBundle\Command;
 
 use Doctrine\Persistence\ManagerRegistry;
 use EDB\AdminBundle\Util\StringUtils;
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
