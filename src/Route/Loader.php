@@ -16,11 +16,15 @@ use function Symfony\Component\String\u;
 class Loader extends BaseLoader implements LoaderInterface
 {
     private bool $loaded = false;
+    private Pool $pool;
 
-    public function __construct(
-        private Pool $pool
-    ) {
+    /**
+     * @param Pool $pool
+     */
+    public function __construct(Pool $pool)
+    {
         parent::__construct();
+        $this->pool = $pool;
     }
 
     public function load($resource, string $type = null): RouteCollection

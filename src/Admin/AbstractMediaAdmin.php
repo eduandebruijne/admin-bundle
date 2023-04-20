@@ -17,11 +17,15 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 abstract class AbstractMediaAdmin extends AbstractAdmin
 {
-    public function __construct(
-        protected MediaService $mediaService,
-        protected EntityManagerInterface $entityManager,
-        protected RequestStack $requestStack
-    ) {
+    private MediaService $mediaService;
+    private EntityManagerInterface $entityManager;
+    private RequestStack $requestStack;
+
+    public function __construct(MediaService $mediaService, EntityManagerInterface $entityManager, RequestStack $requestStack)
+    {
+        $this->mediaService = $mediaService;
+        $this->entityManager = $entityManager;
+        $this->requestStack = $requestStack;
     }
 
     public function buildList(ListCollection $collection)

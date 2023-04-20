@@ -8,10 +8,7 @@ use Twig\TwigFunction;
 
 class ParameterExtension extends AbstractExtension
 {
-    public function __construct(
-        protected ParameterBagInterface $params
-    ) {
-    }
+    protected $params; 
 
     public function getFunctions()
     {
@@ -19,6 +16,11 @@ class ParameterExtension extends AbstractExtension
             new TwigFunction('get_parameter', [$this, 'getParameter'])
         ];
     }
+    
+    public function __construct(ParameterBagInterface $params)
+    {
+        $this->params = $params;
+    }     
 
     public function getParameter($parameter)
     {

@@ -12,21 +12,32 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class MediaService
 {
+    private Server $server;
+    private FilesystemOperator $publicFilesystem;
+    private FilesystemOperator $privateFilesystem;
+    private string $sourcePrefix;
+    private string $cachePrefix;
+    private ?string $mediaClass;
+
     public function __construct(
-        private FilesystemOperator $defaultFilesystem,
-        private string $sourcePrefix,
-        private string $cachePrefix,
-        private ?string $mediaClass,
-        private ?FilesystemOperator $privateFilesystem = null
-    ) {
-        if (null === $this->privateFilesystem) {
-            $this->privateFilesystem = $this->defaultFilesystem;
-        }
+        FilesystemOperator $defaultFilesystem,
+        string $sourcePrefix,
+        string $cachePrefix,
+        ?string $mediaClass,
+        ?FilesystemOperator $privateFilesystem = null
+    )
+    {
+        $this->publicFilesystem = $defaultFilesystem;
+        $this->privateFilesystem = $privateFilesystem ?? $defaultFilesystem;
+
+        $this->sourcePrefix = $sourcePrefix;
+        $this->cachePrefix = $cachePrefix;
+        $this->mediaClass = $mediaClass;
 
         $this->server = ServerFactory::create([
             'source' => $this->privateFilesystem,
             'source_path_prefix' => $this->sourcePrefix,
-            'cache' => $this->defaultFilesystem,
+            'cache' => $this->publicFilesystem,
             'cache_path_prefix' => $this->cachePrefix,
             'group_cache_in_folders' => false,
             'watermarks' => $this->privateFilesystem,
@@ -37,7 +48,7 @@ class MediaService
 
     private function checkMediaClass()
     {
-        if (null === $this->mediaClass) {
+        if (empty($this->mediaClass)) {
             throw new Exception('No media class defined for project.');
         }
     }
@@ -69,7 +80,8 @@ class MediaService
         return $media;
     }
 
-    public function makeImage($filename, ...$args) {
+    public function makeImage($filename, ...$args)
+    {
         $this->checkMediaClass();
 
         return $this->server->makeImage($filename, ...$args);

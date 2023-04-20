@@ -5,22 +5,20 @@ declare(strict_types=1);
 namespace EDB\AdminBundle\Security;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 
 class GoogleUserLoader
 {
-    public function __construct(
-        private EntityManagerInterface $entityManager,
-        private ?string $userClass
-    ) {
+    private EntityManagerInterface $entityManager;
+    private string $userClass;
+
+    public function __construct(EntityManagerInterface $entityManager, string $userClass)
+    {
+        $this->entityManager = $entityManager;
+        $this->userClass = $userClass;
     }
 
     public function load(string $emailAddress)
     {
-        if (null === $this->userClass) {
-            throw new Exception('No user class defined for project.');
-        }
-
         $repo = $this->entityManager->getRepository($this->userClass);
 
         return $repo->findOneBy(['username' => $emailAddress]);

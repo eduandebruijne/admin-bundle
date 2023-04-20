@@ -4,10 +4,14 @@ namespace EDB\AdminBundle\Collection;
 
 abstract class AbstractCollectionElement
 {
-    public function __construct(
-        protected string $name,
-        protected array $options
-    ) {
+    protected array $options;
+
+    protected string $name;
+
+    public function __construct(string $name, array $options)
+    {
+        $this->name = $name;
+        $this->options = $options;
     }
 
     public function getName(): string

@@ -64,7 +64,7 @@ abstract class AbstractAdmin implements AdminInterface
             $contextConfiguration = $routeConfiguration[$routeContext];
 
             if (isset($contextConfiguration['role'])) {
-                return (string) $contextConfiguration['role'];
+                return $contextConfiguration['role'];
             }
         }
 

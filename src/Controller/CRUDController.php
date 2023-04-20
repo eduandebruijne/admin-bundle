@@ -29,14 +29,27 @@ use Twig\Environment;
 
 class CRUDController
 {
+    protected Environment $twig;
+    protected AdminPool $adminPool;
+    protected FormFactoryInterface $formFactory;
+    protected EntityManagerInterface $entityManager;
+    protected AdminUrlHelper $adminUrlHelper;
+    protected Security $security;
+
     public function __construct(
-        protected Environment $twig,
-        protected AdminPool $adminPool,
-        protected FormFactoryInterface $formFactory,
-        protected EntityManagerInterface $entityManager,
-        protected AdminUrlHelper $adminUrlHelper,
-        protected Security $security
+        Environment $twig,
+        AdminPool $adminPool,
+        FormFactoryInterface $formFactory,
+        EntityManagerInterface $entityManager,
+        AdminUrlHelper $adminUrlHelper,
+        Security $security
     ) {
+        $this->twig = $twig;
+        $this->adminPool = $adminPool;
+        $this->formFactory = $formFactory;
+        $this->entityManager = $entityManager;
+        $this->adminUrlHelper = $adminUrlHelper;
+        $this->security = $security;
     }
 
     public function dashboard(): Response

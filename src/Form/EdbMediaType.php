@@ -13,12 +13,15 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EdbMediaType extends AbstractType
 {
-    public function __construct(
-        private ?string $mediaClass
-    ) {
-        if (null === $this->mediaClass) {
+    private ?string $mediaClass;
+
+    public function __construct(?string $mediaClass)
+    {
+        if (empty($mediaClass)) {
             throw new Exception('No media class defined for project.');
         }
+
+        $this->mediaClass = $mediaClass;
     }
 
     public function getParent(): string

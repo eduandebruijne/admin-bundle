@@ -10,9 +10,11 @@ use Twig\TwigFunction;
 
 class MenuExtension extends AbstractExtension
 {
-    public function __construct(
-        private MenuBuilder $menuBuilder
-    ) {
+    private MenuBuilder $menuBuilder;
+
+    public function __construct(MenuBuilder $menuBuilder)
+    {
+        $this->menuBuilder = $menuBuilder;
     }
 
     public function getFunctions(): array

@@ -15,13 +15,19 @@ class GoogleHelper
     const GOOGLE_API_BASE = 'https://www.googleapis.com';
     const GOOGLE_ACCOUNT_BASE = 'https://accounts.google.com';
 
-    public function __construct(
-        private string $googleSecret,
-        private string $googleId,
-        private RouterInterface $router,
-        private RequestStack $requestStack,
-        private HttpClientInterface $client
-    ) {
+    private string $googleSecret;
+    private string $googleId;
+    private RouterInterface $router;
+    private RequestStack $requestStack;
+    private HttpClientInterface $client;
+
+    public function __construct(string $googleSecret, string $googleId, RouterInterface $router, RequestStack $requestStack, HttpClientInterface $client)
+    {
+        $this->googleSecret = $googleSecret;
+        $this->googleId = $googleId;
+        $this->router = $router;
+        $this->requestStack = $requestStack;
+        $this->client = $client;
     }
 
     public function getLoginUrl()
