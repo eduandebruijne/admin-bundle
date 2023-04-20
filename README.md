@@ -1,7 +1,8 @@
 # EDBAdminBundle
 *A simple to use Symfony based CMS*
 
----
+
+## Installation Instructions
 
 #### Install using Composer
 
@@ -89,6 +90,7 @@ access_control:
 bin/console admin:create-user <required:role> <required:username/email> <optional:password>
 ```
 
+## Examples
 
 #### Example Page Entity
 
