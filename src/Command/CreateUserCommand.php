@@ -13,9 +13,9 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class CreateUserCommand extends Command
 {
     public function __construct(
-        ManagerRegistry $doctrine,
-        UserPasswordHasherInterface $passwordHasher,
-        ?string $userClass
+        private ManagerRegistry $doctrine,
+        private UserPasswordHasherInterface $passwordHasher,
+        private ?string $userClass
     ) {
         parent::__construct();
     }
@@ -33,7 +33,7 @@ class CreateUserCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (null === $this->mediaClass) {
+        if (null === $this->userClass) {
             throw new Exception('No user class defined for project.');
         }
 
