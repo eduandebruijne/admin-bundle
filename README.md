@@ -52,7 +52,7 @@ class Media extends AbstractMedia
 }
 ```
 
-#### Update config in security.yaml
+#### Update config in config/packages/security.yaml
 
 ```yaml
 role_hierarchy:
@@ -82,7 +82,7 @@ access_control:
     - { path: ^/%env(EDB_ADMIN_PATH)%, roles: ROLE_ADMIN }
 ```
 
-#### Use entities in edb_admin.yaml
+#### Use entities in config/packages/edb_admin.yaml
 
 ```yaml
 edb_admin:
