@@ -31,7 +31,7 @@ class EDBAdminExtension extends Extension implements PrependExtensionInterface
     public function prepend(ContainerBuilder $container)
     {
         $twig = $container->getExtensionConfig('twig')[0];
-        $twig['globals']['media_path'] = '%env(MEDIA_PATH)%';
+        $twig['globals']['media_path'] = '%env(EDB_MEDIA_PATH)%';
 
         $existingThemes = isset($twig['form_themes']) ? $twig['form_themes'] : [];
         $twig['form_themes'] = array_merge($existingThemes, [

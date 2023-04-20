@@ -1,8 +1,8 @@
 parameters:
-  edb_admin_path: '%env(ADMIN_PATH)%'
-  edb_media_path: '%env(MEDIA_PATH)%'
-  edb_google_id: '%env(GOOGLE_CLIENT_ID)%'
-  edb_google_secret: '%env(GOOGLE_CLIENT_SECRET)%'
+  edb_admin_path: '%env(EDB_ADMIN_PATH)%'
+  edb_media_path: '%env(EDB_MEDIA_PATH)%'
+  edb_google_id: '%env(EDB_GOOGLE_CLIENT_ID)%'
+  edb_google_secret: '%env(EDB_GOOGLE_CLIENT_SECRET)%'
 
 services:
   _defaults:

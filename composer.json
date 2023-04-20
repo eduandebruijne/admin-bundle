@@ -4,7 +4,7 @@
   "type": "symfony-bundle",
   "license": "MIT",
   "require": {
-    "php": "^7.4 || ^8.0",
+    "php": "^8.0",
     "doctrine/dbal": "^3.1",
     "doctrine/doctrine-bundle": "^2.4",
     "doctrine/annotations": "^2.0",
@@ -22,15 +22,12 @@
   },
   "config": {
     "platform": {
-      "php": "7.4"
+      "php": "8.0"
     }
   },
   "autoload": {
     "psr-4": {
       "EDB\\AdminBundle\\": "src"
     }
-  },
-  "require-dev": {
-    "symfony/webpack-encore-bundle": "^1.13"
   }
 }

@@ -37,8 +37,8 @@ firewalls:
             path: logout
 
 access_control:
-    - { path: ^/%env(ADMIN_PATH)%/login, roles: PUBLIC_ACCESS }
-    - { path: ^/%env(ADMIN_PATH)%, roles: ROLE_ADMIN }
+    - { path: ^/%env(EDB_ADMIN_PATH)%/login, roles: PUBLIC_ACCESS }
+    - { path: ^/%env(EDB_ADMIN_PATH)%, roles: ROLE_ADMIN }
 ```
 
 ---
