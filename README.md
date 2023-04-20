@@ -93,7 +93,7 @@ edb_admin:
 #### Create admin user
 
 ```bash
-bin/console admin:create-user <required:role> <required:username/email> <optional:password>
+bin/console admin:create-user ROLE_ADMIN <required:username/email> <optional:password>
 ```
 
 #### Optionally: Create Admins
