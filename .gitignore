@@ -1,4 +1,5 @@
-vendor/**
-.vscode
 .idea
+.vscode
+composer.lock
 node_modules/**
+vendor/**
