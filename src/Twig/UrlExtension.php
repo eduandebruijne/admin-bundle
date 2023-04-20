@@ -10,11 +10,9 @@ use Twig\TwigFunction;
 
 class UrlExtension extends AbstractExtension
 {
-    private AdminUrlHelper $adminUrlHelper;
-
-    public function __construct(AdminUrlHelper $adminUrlHelper)
-    {
-        $this->adminUrlHelper = $adminUrlHelper;
+    public function __construct(
+        private AdminUrlHelper $adminUrlHelper
+    ) {
     }
 
     public function getFunctions(): array

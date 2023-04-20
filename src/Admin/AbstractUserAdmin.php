@@ -15,11 +15,9 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 abstract class AbstractUserAdmin extends AbstractAdmin
 {
-    private UserPasswordHasherInterface $passwordHasher;
-
-    public function __construct(UserPasswordHasherInterface $passwordHasher)
-    {
-        $this->passwordHasher = $passwordHasher;
+    public function __construct(
+        protected UserPasswordHasherInterface $passwordHasher
+    ) {
     }
 
     public function buildList(ListCollection $collection)

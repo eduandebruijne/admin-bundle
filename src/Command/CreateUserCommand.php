@@ -12,24 +12,18 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class CreateUserCommand extends Command
 {
-    private ManagerRegistry $doctrine;
-
-    private UserPasswordHasherInterface $passwordHasher;
-
-    private string $userClass;
-
-    public function __construct(ManagerRegistry $doctrine, UserPasswordHasherInterface $passwordHasher, string $userClass)
-    {
+    public function __construct(
+        ManagerRegistry $doctrine,
+        UserPasswordHasherInterface $passwordHasher,
+        ?string $userClass
+    ) {
         parent::__construct();
-
-        $this->doctrine = $doctrine;
-        $this->passwordHasher = $passwordHasher;
-        $this->userClass = $userClass;
     }
 
     protected function configure(): void
     {
-        $this->setName('admin:create-user')
+        $this
+            ->setName('admin:create-user')
             ->setDescription('Create a new admin user')
             ->addArgument('role', InputArgument::REQUIRED)
             ->addArgument('username', InputArgument::REQUIRED)
@@ -39,6 +33,10 @@ class CreateUserCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        if (null === $this->mediaClass) {
+            throw new Exception('No user class defined for project.');
+        }
+
         $username = $input->getArgument('username');
         $roles = explode(',', $input->getArgument('role'));
         $plainPassword = $input->getArgument('password');

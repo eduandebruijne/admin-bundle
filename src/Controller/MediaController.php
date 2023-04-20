@@ -14,33 +14,26 @@ use Twig\Environment;
 
 class MediaController
 {
-    private MediaService $mediaService;
-    private EntityManagerInterface $entityManager;
-    private Environment $twig;
-    private string $mediaPath;
-    private string $mediaClass;
-
     public function __construct(
-        MediaService $mediaService,
-        EntityManagerInterface $entityManager,
-        Environment $twig,
-        string $mediaPath,
-        string $mediaClass
-    )
-    {
-        if (!$mediaClass) {
-            throw new Exception('No media class is implemented in this project.');
-        }
+        protected MediaService $mediaService,
+        protected EntityManagerInterface $entityManager,
+        protected Environment $twig,
+        protected string $mediaPath,
+        protected ?string $mediaClass
+    ) {
+    }
 
-        $this->mediaService = $mediaService;
-        $this->entityManager = $entityManager;
-        $this->twig = $twig;
-        $this->mediaPath = $mediaPath;
-        $this->mediaClass = $mediaClass;
+    private function checkMediaClass()
+    {
+        if (null === $this->mediaClass) {
+            throw new Exception('No media class defined for project.');
+        }
     }
 
     public function renderPreview(Request $request): Response
     {
+        $this->checkMediaClass();
+
         $id = $request->query->get('id');
         if (empty($id)) {
             return new Response();
@@ -55,6 +48,8 @@ class MediaController
 
     public function uploadFile(Request $request): JsonResponse
     {
+        $this->checkMediaClass();
+
         try {
             return new JsonResponse([
                 'mediaId' => $this->createMedia($request)->getId()
@@ -69,6 +64,8 @@ class MediaController
 
     public function uploadFileGenerateOriginalPath(Request $request): JsonResponse
     {
+        $this->checkMediaClass();
+
         $media = $this->createMedia($request);
         $imageUrl = $this->server->makeImage($media->getFilename(), [
             'w' => 0,
@@ -82,6 +79,8 @@ class MediaController
 
     public function list(Request $request): Response
     {
+        $this->checkMediaClass();
+
         $repository = $this->entityManager->getRepository($this->mediaClass);
         $queryBuilder = $repository->createQueryBuilder('m')->select('m');
 
@@ -112,6 +111,8 @@ class MediaController
 
     public function insert(Request $request): Response
     {
+        $this->checkMediaClass();
+
         try {
             $width = $request->query->get('w');
             $height = $request->query->get('h');
@@ -133,6 +134,8 @@ class MediaController
 
     private function createMedia(Request $request): AbstractMedia
     {
+        $this->checkMediaClass();
+
         $uploadedFile = $request->files->get('media');
         $media = $this->mediaService->handleUploadedFile($uploadedFile);
         $this->entityManager->persist($media);

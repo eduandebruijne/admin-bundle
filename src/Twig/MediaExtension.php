@@ -9,15 +9,11 @@ use Twig\TwigFunction;
 
 class MediaExtension extends AbstractExtension
 {
-    private MediaService $mediaService;
-    private string $mediaPath;
-    private string $sourcePrefix;
-
-    public function __construct(MediaService $mediaService, string $mediaPath, string $sourcePrefix)
-    {
-        $this->mediaService = $mediaService;
-        $this->mediaPath = $mediaPath;
-        $this->sourcePrefix = $sourcePrefix;
+    public function __construct(
+        private MediaService $mediaService,
+        private string $mediaPath,
+        private string $sourcePrefix
+    ) {
     }
 
     public function getFunctions(): array
