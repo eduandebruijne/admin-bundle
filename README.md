@@ -3,15 +3,55 @@
 
 ---
 
-#### Install the bundle via Composer
+#### Install using Composer
 
 ```bash
 composer require eduandebruijne/admin-bundle
 ```
 
----
+#### Create User Entity
 
-#### Config for security.yaml
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use EDB\AdminBundle\Entity\AbstractUser;
+
+/**
+ * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
+ */
+class User extends AbstractUser
+{
+}
+```
+
+#### Create Media Entity
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use EDB\AdminBundle\Entity\AbstractMedia;
+
+/**
+ * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
+ */
+class Media extends AbstractMedia
+{
+}
+```
+
+#### Update config in security.yaml
 
 ```yaml
 role_hierarchy:
@@ -43,14 +83,14 @@ access_control:
 
 ---
 
-#### Command to create first admin user
+#### Create admin user
 
 ```bash
 bin/console admin:create-user <required:role> <required:username/email> <optional:password>
 ```
 
 
-#### Example entity
+#### Example Page Entity
 
 ```php
 <?php
@@ -63,7 +103,8 @@ use EDB\AdminBundle\Entity\BaseEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /** 
- * @ORM\Entity 
+ * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  */
 class Page extends BaseEntity
 {
@@ -89,7 +130,7 @@ class Page extends BaseEntity
 }
 ```
 
-#### Example admin
+#### Example Page Admin
 
 ```php
 <?php
