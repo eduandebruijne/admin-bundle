@@ -96,26 +96,7 @@ edb_admin:
 bin/console admin:create-user ROLE_ADMIN <required:username/email> <optional:password>
 ```
 
-#### Optionally: Create Admins
-
-```php
-<?php
-
-declare(strict_types=1);
-
-namespace App\Admin;
-
-use App\Entity\Media;
-use EDB\AdminBundle\Admin\AbstractMediaAdmin;
-
-class MediaAdmin extends AbstractMediaAdmin
-{
-    public function getEntityClass(): string
-    {
-        return Media::class;
-    }
-}
-```
+#### Optionally: Create User Admin
 
 ```php
 <?php
@@ -137,7 +118,28 @@ class UserAdmin extends AbstractUserAdmin
 
 ```
 
-## Examples
+#### Optionally: Create Media Admin
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Admin;
+
+use App\Entity\Media;
+use EDB\AdminBundle\Admin\AbstractMediaAdmin;
+
+class MediaAdmin extends AbstractMediaAdmin
+{
+    public function getEntityClass(): string
+    {
+        return Media::class;
+    }
+}
+```
+
+## Other examples
 
 #### Example Page Entity
 
