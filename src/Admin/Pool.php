@@ -11,7 +11,7 @@ class Pool
     /**
      * @var AdminInterface
      */
-    private array $admins = [];
+    protected array $admins = [];
 
     public function __construct($admins)
     {

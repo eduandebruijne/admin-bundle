@@ -10,9 +10,9 @@ use Twig\Environment;
 
 class AuthController
 {
-    private Environment $twig;
-    private RouterInterface $router;
-    private GoogleHelper $googleHelper;
+    protected Environment $twig;
+    protected RouterInterface $router;
+    protected GoogleHelper $googleHelper;
 
     public function __construct(Environment $twig, RouterInterface $router, GoogleHelper $googleHelper)
     {

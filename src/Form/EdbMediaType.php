@@ -13,7 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EdbMediaType extends AbstractType
 {
-    private ?string $mediaClass;
+    protected ?string $mediaClass;
 
     public function __construct(?string $mediaClass)
     {

@@ -14,11 +14,11 @@ use Twig\Environment;
 
 class MediaController
 {
-    private MediaService $mediaService;
-    private EntityManagerInterface $entityManager;
-    private Environment $twig;
-    private string $mediaPath;
-    private ?string $mediaClass;
+    protected MediaService $mediaService;
+    protected EntityManagerInterface $entityManager;
+    protected Environment $twig;
+    protected string $mediaPath;
+    protected ?string $mediaClass;
 
     public function __construct(
         MediaService $mediaService,
@@ -130,7 +130,7 @@ class MediaController
         return $response;
     }
 
-    private function createMedia(Request $request): AbstractMedia
+    protected function createMedia(Request $request): AbstractMedia
     {
         $uploadedFile = $request->files->get('media');
         $media = $this->mediaService->handleUploadedFile($uploadedFile);

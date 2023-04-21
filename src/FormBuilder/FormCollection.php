@@ -9,7 +9,7 @@ use Symfony\Component\Form\CallbackTransformer;
 
 class FormCollection extends AbstractCollection
 {
-    private $modelTransformer;
+    protected $modelTransformer;
 
     public function add($name, $type, $options = []): FormCollection
     {

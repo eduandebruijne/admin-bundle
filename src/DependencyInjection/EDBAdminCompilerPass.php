@@ -33,7 +33,7 @@ class EDBAdminCompilerPass implements CompilerPassInterface
         $container->setDefinition(MenuBuilder::class, $menuBuilderDefinition);
     }
 
-    private function getServicesByTag(ContainerInterface $container, string $tag): array
+    protected function getServicesByTag(ContainerInterface $container, string $tag): array
     {
         $services = [];
         foreach (array_keys($container->findTaggedServiceIds($tag)) as $service) {

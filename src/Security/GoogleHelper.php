@@ -15,11 +15,11 @@ class GoogleHelper
     const GOOGLE_API_BASE = 'https://www.googleapis.com';
     const GOOGLE_ACCOUNT_BASE = 'https://accounts.google.com';
 
-    private string $googleSecret;
-    private string $googleId;
-    private RouterInterface $router;
-    private RequestStack $requestStack;
-    private HttpClientInterface $client;
+    protected string $googleSecret;
+    protected string $googleId;
+    protected RouterInterface $router;
+    protected RequestStack $requestStack;
+    protected HttpClientInterface $client;
 
     public function __construct(string $googleSecret, string $googleId, RouterInterface $router, RequestStack $requestStack, HttpClientInterface $client)
     {
@@ -75,7 +75,7 @@ class GoogleHelper
         return $responseData['email'];
     }
 
-    private function getAppBaseUrl(): string
+    protected function getAppBaseUrl(): string
     {
         return $this->router->generate('dashboard', [], UrlGeneratorInterface::ABSOLUTE_URL);
     }

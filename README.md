@@ -90,9 +90,15 @@ edb_admin:
     user_class: App\Entity\User
 ```
 
-#### Create admin user
+#### Get ready
+
+* Make sure your `DATABASE_URL` in .env is correct
+* Create and update the database schema
+* Create your first admin user
 
 ```bash
+bin/console doctrine:database:create --if-not-exists
+bin/console doctrine:schema:update --complete --force
 bin/console admin:create-user ROLE_ADMIN <required:username/email> <optional:password>
 ```
 

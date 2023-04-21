@@ -151,7 +151,7 @@ class CRUDController
         );
     }
 
-    private function addResultSetToListResults(
+    protected function addResultSetToListResults(
         &$listResults,
         array $resultSet,
         QueryBuilder $queryBuilder,
@@ -288,7 +288,7 @@ class CRUDController
         return $this->sort($request, function($position) { return $position - 1; });
     }
 
-    private function sort(Request $request, callable $method)
+    protected function sort(Request $request, callable $method)
     {
         $admin = $this->getAdminFromRequest($request);
         $hierarchyEnabled = is_subclass_of(
@@ -353,12 +353,12 @@ class CRUDController
         return new RedirectResponse($this->adminUrlHelper->generateAdminUrl($admin->getEntityClass(), AbstractAdmin::ROUTE_CONTEXT_LIST));
     }
 
-    private function getAdminFromRequest(Request $request): AdminInterface
+    protected function getAdminFromRequest(Request $request): AdminInterface
     {
         return $this->adminPool->getAdminForClass($request->attributes->get('_entity'));
     }
 
-    private function getObjectByRequest(AdminInterface $admin, Request $request): ?BaseEntity
+    protected function getObjectByRequest(AdminInterface $admin, Request $request): ?BaseEntity
     {
         $id = $request->attributes->getInt('id');
         $repository = $this->entityManager->getRepository($admin->getEntityClass());

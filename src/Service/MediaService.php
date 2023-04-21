@@ -12,41 +12,41 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class MediaService
 {
-    private Server $server;
-    private FilesystemOperator $publicFilesystem;
-    private FilesystemOperator $privateFilesystem;
-    private string $sourcePrefix;
-    private string $cachePrefix;
-    private ?string $mediaClass;
+    protected Server $server;
+    protected FilesystemOperator $publicFilesystem;
+    protected FilesystemOperator $protectedFilesystem;
+    protected string $sourcePrefix;
+    protected string $cachePrefix;
+    protected ?string $mediaClass;
 
     public function __construct(
         FilesystemOperator $defaultFilesystem,
         string $sourcePrefix,
         string $cachePrefix,
         ?string $mediaClass,
-        ?FilesystemOperator $privateFilesystem = null
+        ?FilesystemOperator $protectedFilesystem = null
     )
     {
         $this->publicFilesystem = $defaultFilesystem;
-        $this->privateFilesystem = $privateFilesystem ?? $defaultFilesystem;
+        $this->protectedFilesystem = $protectedFilesystem ?? $defaultFilesystem;
 
         $this->sourcePrefix = $sourcePrefix;
         $this->cachePrefix = $cachePrefix;
         $this->mediaClass = $mediaClass;
 
         $this->server = ServerFactory::create([
-            'source' => $this->privateFilesystem,
+            'source' => $this->protectedFilesystem,
             'source_path_prefix' => $this->sourcePrefix,
             'cache' => $this->publicFilesystem,
             'cache_path_prefix' => $this->cachePrefix,
             'group_cache_in_folders' => false,
-            'watermarks' => $this->privateFilesystem,
+            'watermarks' => $this->protectedFilesystem,
             'watermarks_path_prefix' => 'watermarks',
             'driver' => 'gd',
         ]);
     }
 
-    private function checkMediaClass()
+    protected function checkMediaClass()
     {
         if (empty($this->mediaClass)) {
             throw new Exception('No media class defined for project.');
@@ -64,7 +64,7 @@ class MediaService
         $title = str_replace(sprintf('.%s', $extension), '',  $originalFilename);
 
         $newFilename = StringUtils::generateRandomString();
-        $this->privateFilesystem->write(
+        $this->protectedFilesystem->write(
             sprintf('%s/%s', $this->sourcePrefix, $newFilename),
             file_get_contents($uploadedFile->getRealPath())
         );

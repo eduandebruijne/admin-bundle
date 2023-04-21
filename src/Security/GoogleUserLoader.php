@@ -8,8 +8,8 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class GoogleUserLoader
 {
-    private EntityManagerInterface $entityManager;
-    private ?string $userClass;
+    protected EntityManagerInterface $entityManager;
+    protected ?string $userClass;
 
     public function __construct(
         EntityManagerInterface $entityManager,

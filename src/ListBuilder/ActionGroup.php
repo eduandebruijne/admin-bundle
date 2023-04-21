@@ -8,7 +8,7 @@ class ActionGroup extends AbstractCollectionElement
 {
     public const OPTION_TEMPLATE = 'template';
 
-    private array $actions;
+    protected array $actions;
 
     public function __construct(array $actions, array $options = [], string $name = 'Actions')
     {

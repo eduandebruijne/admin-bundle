@@ -6,7 +6,7 @@ use EDB\AdminBundle\Collection\AbstractCollectionElement;
 
 class FormItem extends AbstractCollectionElement
 {
-    private string $type;
+    protected string $type;
 
     public function __construct(string $name, string $type, array $options)
     {

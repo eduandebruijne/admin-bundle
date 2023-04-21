@@ -12,13 +12,13 @@ use Symfony\Component\Security\Core\Security;
 
 class MenuBuilder
 {
-    private Pool $pool;
+    protected Pool $pool;
 
-    private RouterInterface $router;
+    protected RouterInterface $router;
 
-    private Security $security;
+    protected Security $security;
 
-    private array $customMenuItems = [];
+    protected array $customMenuItems = [];
 
     public function __construct(Pool $pool, RouterInterface $router, Security $security, $customMenuItems = [])
     {

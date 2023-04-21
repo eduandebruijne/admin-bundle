@@ -15,8 +15,8 @@ use function Symfony\Component\String\u;
 
 class Loader extends BaseLoader implements LoaderInterface
 {
-    private bool $loaded = false;
-    private Pool $pool;
+    protected bool $loaded = false;
+    protected Pool $pool;
 
     /**
      * @param Pool $pool
@@ -73,7 +73,7 @@ class Loader extends BaseLoader implements LoaderInterface
         return 'admin' === $type;
     }
 
-    private function addDashboardRoute(RouteCollection $routes): void
+    protected function addDashboardRoute(RouteCollection $routes): void
     {
         $route = new Route(
             '',

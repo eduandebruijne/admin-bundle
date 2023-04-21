@@ -17,12 +17,15 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 abstract class AbstractMediaAdmin extends AbstractAdmin
 {
-    private MediaService $mediaService;
-    private EntityManagerInterface $entityManager;
-    private RequestStack $requestStack;
+    protected MediaService $mediaService;
+    protected EntityManagerInterface $entityManager;
+    protected RequestStack $requestStack;
 
-    public function __construct(MediaService $mediaService, EntityManagerInterface $entityManager, RequestStack $requestStack)
-    {
+    public function __construct(
+        MediaService $mediaService,
+        EntityManagerInterface $entityManager,
+        RequestStack $requestStack
+    ) {
         $this->mediaService = $mediaService;
         $this->entityManager = $entityManager;
         $this->requestStack = $requestStack;
@@ -92,7 +95,7 @@ abstract class AbstractMediaAdmin extends AbstractAdmin
         return 'Media';
     }
 
-    private function getObjectByRequest(): ?BaseEntity
+    protected function getObjectByRequest(): ?BaseEntity
     {
         try {
             $objectId = $this->requestStack->getCurrentRequest()->attributes->get('id');
