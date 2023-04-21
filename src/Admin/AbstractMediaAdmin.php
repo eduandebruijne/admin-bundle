@@ -14,6 +14,7 @@ use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 abstract class AbstractMediaAdmin extends AbstractAdmin
 {
@@ -48,7 +49,9 @@ abstract class AbstractMediaAdmin extends AbstractAdmin
     public function buildForm(FormCollection $collection)
     {
         $collection
-            ->add('title', TextType::class)
+            ->add('title', TextType::class, [
+                'constraints' => new NotBlank()
+            ])
             ->add('mimeType', TextType::class, ['disabled' => true])
             ->add('extension', TextType::class, ['disabled' => true])
             ->add('filename', TextType::class, ['disabled' => true])
