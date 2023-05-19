@@ -41,7 +41,8 @@ function selectMaskedForm(formId, value) {
     }
 
     $('.masked-container-' + formId + ' button').each((index, buttonElement) => {
-        $(buttonElement).removeClass('active');
+        $(buttonElement).addClass('btn-secondary');
+        $(buttonElement).removeClass('btn-primary');
         $(buttonElement).data('form-ids').split(',').forEach((id) => {
             const sub_form_id = base_form_id.concat([id]).join('_');
             main_form_element.find('label[for="' + sub_form_id + '"]').parent().hide();
@@ -55,7 +56,8 @@ function selectMaskedForm(formId, value) {
         const sub_form_id = base_form_id.concat([name]).join('_');
         main_form_element.find('label[for="' + sub_form_id + '"]').parent().show();
     });
-    element.addClass('active');
+    element.addClass('btn-primary');
+    element.removeClass('btn-secondary');
 }
 
 tinymce.PluginManager.add('media', function(editor, url) {
