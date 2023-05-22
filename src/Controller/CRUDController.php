@@ -84,9 +84,10 @@ class CRUDController
         foreach ($allColumns as $column) {
             $columnName = $column->getName();
             $parts = explode('.', $columnName);
-            $field = sprintf('%s.%s', $rootAlias, $parts[0]);
-            if (in_array($parts[0], array_keys($associationMappings))) {
-                $alias = ClassUtils::getShortName($associationMappings[$columnName]["targetEntity"]) . '_' . $columnName;
+            $relationshipName = $parts[0];
+            $field = sprintf('%s.%s', $rootAlias, $relationshipName);
+            if (in_array($relationshipName, array_keys($associationMappings))) {
+                $alias = ClassUtils::getShortName($associationMappings[$relationshipName]["targetEntity"]) . '_' . str_replace('.', '_', $columnName);
                 $queryBuilder->leftJoin($field, $alias);
                 $queryBuilder->addSelect($alias);
             }
