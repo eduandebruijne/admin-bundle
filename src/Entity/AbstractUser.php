@@ -43,11 +43,6 @@ class AbstractUser extends BaseEntity implements UserInterface, PasswordAuthenti
         return $this->getUserIdentifier();
     }
 
-    public function getAvatarHash(): string
-    {
-        return md5($this->username);
-    }
-
     public function getUserIdentifier(): string
     {
         return $this->getUsername();

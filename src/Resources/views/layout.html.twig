@@ -32,11 +32,10 @@
 					{% endif %}
 				{% endfor %}
 			</ul>
-			<div class="user text-center">
-				<div class="align-center">
-					<img src="https://gravatar.com/avatar/{{ app.user.avatarHash }}?s=50" class="mb-3">
-				</div>
-				<a class="d-block btn btn-primary" href="{{ path('logout') }}">{{ 'Logout' | trans }}</a>
+			<div class="user">
+				<a class="btn btn-primary ms-2 mb-5 mt-3" href="{{ path('logout') }}">
+					<i class="fa fa-power-off"></i> <span>{{ 'Logout' | trans }}</span>
+				</a>
 			</div>
 		</div>
 		<div class="content">

@@ -1,6 +1,6 @@
 $menu-line-height: 50px;
 $menu-width-full: 300px;
-$menu-width-small: 50px;
+$menu-width-small: 64px;
 $menu-breakpoint: 1000px;
 
 $logo-height: 80px;
@@ -74,21 +74,6 @@ table {
   }
 }
 
-.user {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: $custom-padding;
-
-  img {
-    border-radius: 50%;
-    border: 2px solid white;
-    width: 50px;
-    height: 50px;
-  }
-}
-
 a {
   text-decoration: none;
 }
@@ -108,6 +93,7 @@ a {
     outline: none;
     transition: width .2s;
     position: fixed;
+    overflow: auto;
     height: 100vh;
     color: white;
     width: $menu-width-full;
@@ -152,6 +138,10 @@ a {
       }
     }
 
+    .user {
+      border-top: 1px solid $white;
+    }
+
     @media(max-width: $menu-breakpoint) {
       width: $menu-width-small;
 
@@ -170,7 +160,17 @@ a {
       }
 
       .user {
-        display: none;
+        a {
+          .fa,
+          .fab,
+          .fas {
+            padding-right: 0;
+          }
+
+          span {
+            display: none;
+          }
+        }
       }
     }
   }
