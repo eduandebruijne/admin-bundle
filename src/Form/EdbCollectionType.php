@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EdbCollectionType extends AbstractType
@@ -19,10 +20,13 @@ class EdbCollectionType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'entry_options' => [
+        $resolver->setNormalizer('entry_options', function(Options $options, $value) {
+            return array_merge([
                 'label' => false
-            ],
+            ], $value);
+        });
+
+        $resolver->setDefaults([
             'by_reference' => false,
             'allow_add' => true,
             'required' => false,
