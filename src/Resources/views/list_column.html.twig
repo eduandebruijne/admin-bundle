@@ -14,7 +14,7 @@
                     </span>
                 {% endfor %}
             {% endif %}
-            {{ object | length < max ? object : object | slice(0, max) ~ '...' }}
+            <span title="{{ object }}">{{ object | length < max ? object : object | slice(0, max) ~ '...' }}</span>
 		{% endif %}
 	{% endblock %}
 </td>

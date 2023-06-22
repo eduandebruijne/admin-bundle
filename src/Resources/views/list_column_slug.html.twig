@@ -2,5 +2,7 @@
 
 {% block value %}
 	{% set max = 30 %}
-	<div class="badge bg-primary">/{{ object | length < max ? object : object | slice(0, max) ~ '...' }}</div>
+	<div class="badge bg-primary">
+		<span title="/{{ object }}">/{{ object | length < max ? object : object | slice(0, max) ~ '...' }}</span>
+	</div>
 {% endblock %}

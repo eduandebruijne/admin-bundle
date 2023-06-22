@@ -13,7 +13,6 @@ use EDB\AdminBundle\Entity\SortableEntityInterface;
 use EDB\AdminBundle\FormBuilder\Dynamic;
 use EDB\AdminBundle\FormBuilder\FormCollection;
 use EDB\AdminBundle\ListBuilder\ListCollection;
-use EDB\AdminBundle\Util\ClassUtils;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use EDB\AdminBundle\Admin\AbstractAdmin;
@@ -29,6 +28,8 @@ use Twig\Environment;
 
 class CRUDController
 {
+    protected const LIST_QUERY_ROOT_ALIAS = 'o';
+
     protected Environment $twig;
     protected AdminPool $adminPool;
     protected FormFactoryInterface $formFactory;
@@ -74,23 +75,13 @@ class CRUDController
         $listCollection = new ListCollection();
         $admin->buildList($listCollection);
 
-        $rootAlias = 'o';
+        $rootAlias = self::LIST_QUERY_ROOT_ALIAS;
         $queryBuilder = $this->entityManager->getRepository($admin->getEntityClass())->createQueryBuilder($rootAlias);
         $queryBuilder->select($rootAlias);
 
-        $associationMappings = $this->entityManager->getClassMetadata($admin->getEntityClass())->getAssociationMappings();
-        $allColumns = $listCollection->getColumns();
-
-        foreach ($allColumns as $column) {
-            $columnName = $column->getName();
-            $parts = explode('.', $columnName);
-            $relationshipName = $parts[0];
-            $field = sprintf('%s.%s', $rootAlias, $relationshipName);
-            if (in_array($relationshipName, array_keys($associationMappings))) {
-                $alias = ClassUtils::getShortName($associationMappings[$relationshipName]["targetEntity"]) . '_' . str_replace('.', '_', $columnName);
-                $queryBuilder->leftJoin($field, $alias);
-                $queryBuilder->addSelect($alias);
-            }
+        $joins = [];
+        foreach ($listCollection->getColumns() as $column) {
+            $this->joinRelationshipRecursive($admin->getEntityClass(), $column->getName(), $rootAlias, $queryBuilder, $joins);
         }
 
         $sort = $request->query->get('sort');
@@ -98,11 +89,18 @@ class CRUDController
             $direction = false !== strpos($sort, '!') ? 'DESC' : 'ASC';
             $cleanedUpSortField = str_replace('!', '', $sort);
 
-            if (false === strpos($sort, '.')) {
-                $cleanedUpSortField = sprintf('%s.%s', $rootAlias, $cleanedUpSortField);
+            $parts = explode('.', $cleanedUpSortField);
+
+            if (1 === count($parts)) {
+                $finalSortField = sprintf('%s.%s', $rootAlias, $cleanedUpSortField);
+            } else {
+                $property = array_pop($parts);
+                $joinPath = implode('_', $parts);
+
+                $finalSortField = sprintf('%s.%s', $joinPath, $property);
             }
 
-            $queryBuilder->orderBy($cleanedUpSortField, $direction);
+            $queryBuilder->orderBy($finalSortField, $direction);
         }
 
         $admin->extendQuery($queryBuilder);
@@ -150,6 +148,44 @@ class CRUDController
         return new Response(
             $this->twig->render($admin->getTemplate(AbstractAdmin::ROUTE_CONTEXT_LIST), $templateArguments)
         );
+    }
+
+    protected function joinRelationshipRecursive(
+        $entityClass,
+        $columnPath,
+        $previousAlias,
+        QueryBuilder $queryBuilder,
+        array &$joins
+    ) {
+        $associationMappings = $this->entityManager->getClassMetadata($entityClass)->getAssociationMappings();
+
+        $parts = explode('.', $columnPath);
+        $focus = array_shift($parts);
+
+        $field = sprintf('%s.%s', $previousAlias, $focus);
+
+        if (in_array($focus, array_keys($associationMappings))) {
+
+            if (self::LIST_QUERY_ROOT_ALIAS === $previousAlias) {
+                $alias = $focus;
+            } else {
+                $alias = sprintf('%s_%s', $previousAlias, $focus);
+            }
+
+            if (false === array_key_exists($alias, $joins)) {
+                $joins[$alias] = $field;
+                $queryBuilder->leftJoin($field, $alias);
+                $queryBuilder->addSelect($alias);
+            }
+
+            $this->joinRelationshipRecursive(
+                $associationMappings[$focus]['targetEntity'],
+                implode('.', $parts),
+                $alias,
+                $queryBuilder,
+                $joins
+            );
+        }
     }
 
     protected function addResultSetToListResults(
