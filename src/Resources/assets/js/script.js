@@ -30,10 +30,11 @@ function showAlert(message, type) {
 }
 
 function selectMaskedForm(formId, value) {
-    $('#' + formId).val(value);
+    const target_input_element = $('#' + formId)
+    target_input_element.val(value);
 
+    const parent_element = target_input_element.parent();
     const base_form_id = formId.split('_').slice(0, -1);
-    const main_form_element = $('form[name="' + base_form_id + '"]');
 
     if (!value) {
         $('.masked-container-' + formId + ' button').first().trigger('click');
@@ -45,7 +46,7 @@ function selectMaskedForm(formId, value) {
         $(buttonElement).removeClass('btn-primary');
         $(buttonElement).data('form-ids').split(',').forEach((id) => {
             const sub_form_id = base_form_id.concat([id]).join('_');
-            main_form_element.find('label[for="' + sub_form_id + '"]').parent().hide();
+            parent_element.find('label[for="' + sub_form_id + '"]').parent().hide();
         })
     });
 
@@ -54,8 +55,9 @@ function selectMaskedForm(formId, value) {
 
     element.attr('data-form-ids').split(',').forEach(function (name) {
         const sub_form_id = base_form_id.concat([name]).join('_');
-        main_form_element.find('label[for="' + sub_form_id + '"]').parent().show();
+        parent_element.find('label[for="' + sub_form_id + '"]').parent().show();
     });
+
     element.addClass('btn-primary');
     element.removeClass('btn-secondary');
 }
