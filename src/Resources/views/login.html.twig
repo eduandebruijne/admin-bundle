@@ -10,11 +10,13 @@
 					</div>
 					<div class="mb-4 mt-5">
 						<div class="col col-lg-8 m-auto">
+							{% include('@EDBAdmin/render_flashes.html.twig') %}
 							<form method="post" action="{{ path('check_form_login') }}">
 								<div class="form-group">
 									<input type="text" name="_username" class="form-control mb-1 text-center" placeholder="{{ 'Username' | trans }}">
 									<input type="password" name="_password" class="form-control mb-3 text-center" placeholder="{{ 'Password' | trans }}">
 									<button class="btn btn-primary d-block w-100" type="submit">{{ 'Login' | trans }}</button>
+									<a href="{{ path('forgot_password') }}" class="btn btn-link d-block w-100">{{ 'Forgot password' | trans }}</a>
 									<hr>
 									<a class="btn btn-primary d-block w-100" href="{{ path('login_with_google') }}"><i class="fab fa-google"></i> Google</a>
 								</div>

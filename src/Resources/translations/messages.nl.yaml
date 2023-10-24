@@ -28,8 +28,19 @@ Select media: Media selecteren
 Focus point: Focus punt
 Not an image: Geen afbeelding
 
+Invalid credentials: Inloggegevens niet geldig
 Login: Inloggen
+Send: Versturen
+Forgot password: Wachtwoord vergeten
+Password has been reset successfully: Wachtwoord is succesvol gewijzigd
 Logout: Uitloggen
 Username: Gebruikersnaam
 Password: Wachtwoord
 Plain password: Nieuw wachtwoord
+Invalid email address: Dit is geen valide e-mailadres
+An Email has been sent to reset your password: Er is een e-mail verzonden waarmee een nieuw wachtwoord gekozen kan worden
+Reset password: Wachtwoord opnieuw instellen
+Navigate to this URL to reset your password: Volg deze URL om het wachtwoord opnieuw in te stellen
+New password: Nieuw wachtwoord
+Repeat new password: Herhaal nieuw wachtwoord
+Given password values are not the same: Gegeven wachtwoorden zijn niet gelijk aan elkaar
