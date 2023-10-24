@@ -70,10 +70,10 @@ class AuthController
                 'username' => $username
             ]);
 
-            $user->setResetPasswordToken(StringUtils::generateRandomString('reset-password-'));
-            $this->entityManager->flush();
-
             if (null !== $user) {
+                $user->setResetPasswordToken(StringUtils::generateRandomString('reset-password-'));
+                $this->entityManager->flush();
+
                 $mail = new Email();
                 $mail->subject($this->translator->trans('Reset password'));
                 $mail->to(new Address('eduan.de.bruijne@gmail.com'));
