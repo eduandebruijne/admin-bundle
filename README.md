@@ -79,6 +79,8 @@ firewalls:
 
 access_control:
     - { path: ^/%env(EDB_ADMIN_PATH)%/login, roles: PUBLIC_ACCESS }
+    - { path: ^/%env(EDB_ADMIN_PATH)%/forgot-password, roles: PUBLIC_ACCESS }
+    - { path: ^/%env(EDB_ADMIN_PATH)%/reset-password, roles: PUBLIC_ACCESS }
     - { path: ^/%env(EDB_ADMIN_PATH)%, roles: ROLE_ADMIN }
 ```
 
