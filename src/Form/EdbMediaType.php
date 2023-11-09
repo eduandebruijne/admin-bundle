@@ -10,18 +10,24 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Twig\Environment;
 
 class EdbMediaType extends AbstractType
 {
     protected ?string $mediaClass;
+    protected Environment $twig;
 
-    public function __construct(?string $mediaClass)
+    public function __construct(
+        ?string $mediaClass,
+        Environment $twig
+    )
     {
         if (empty($mediaClass)) {
             throw new Exception('No media class defined for project.');
         }
 
         $this->mediaClass = $mediaClass;
+        $this->twig = $twig;
     }
 
     public function getParent(): string
@@ -43,6 +49,13 @@ class EdbMediaType extends AbstractType
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
         parent::finishView($view, $form, $options);
+
+        $object = $form->getData();
+        if (!empty($object)) {
+            $view->vars['preview'] = $this->twig->render('@EDBAdmin/media/preview.html.twig', [
+                'object' => $object
+            ]);
+        }
 
         $view->vars['preview_route_name'] = $options['preview_route_name'];
         $view->vars['mime_types'] = $options['mime_types'];

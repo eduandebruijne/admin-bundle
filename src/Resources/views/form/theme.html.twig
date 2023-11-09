@@ -24,7 +24,11 @@
             {% endfor %}
         {% endif %}
         <div id="{{ form.vars.id }}-media-form">
-            <div id="{{ form.vars.id }}-media-preview" class="bg-light col-12"></div>
+            <div id="{{ form.vars.id }}-media-preview" class="bg-light col-12">
+                {% if preview is defined %}
+                    <div class="mb-3">{{ preview | raw }}</div>
+                {% endif %}
+            </div>
             <div class="mb-3">
                 <input type="hidden" id="{{ form.vars.id }}" name="{{ form.vars.full_name }}" value="{{ value }}">
                 <input type="file" onchange="jquery('#{{ form.vars.id }}-media-form').trigger({type: 'updateValue', fileInput: this})" class="d-none">
@@ -34,7 +38,7 @@
                         {{ 'Select media' | trans }}
                     </button>
                     <label onclick="jquery(this).prev().prev().trigger('click')" for="{{ form.vars.full_name }}" class="custom-upload-label btn btn-sm btn-secondary"></label>
-                    <button type="button" style="display: none" id="{{ form.vars.id }}-clear" class="btn btn-sm btn-danger"><i class="fa fa-trash-alt"></i></button>
+                    <button type="button" {% if preview is not defined %}style="display: none"{% endif%} id="{{ form.vars.id }}-clear" class="btn btn-sm btn-danger"><i class="fa fa-trash-alt"></i></button>
                 {% endif %}
             </div>
         </div>
@@ -67,7 +71,7 @@
                 }
             })
 
-            previewContainer.trigger({type: "refresh", id: "{{ value }}"})
+            {#previewContainer.trigger({type: "refresh", id: "{{ value }}"})#}
 
             formContainer.on("open", async function() {
                 mediaModalObject.show()
