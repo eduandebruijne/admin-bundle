@@ -1,9 +1,9 @@
 {% block edb_masked_row %}
     {{ form_label(form) }}
     {{ form_widget(form) }}
-    <div class="masked-container masked-container-{{ form.vars.id }}">
+    <div class="masked-container masked-container-{{ form.vars.id }} mb-3">
         {% for button_name, config in choices %}
-            <button type="button" class="btn btn-sm btn-primary mb-3" data-value="{{ config.value }}" data-form-ids="{{ config.forms | join(',') }}" onclick="selectMaskedForm('{{ form.vars.id }}', '{{ config.value }}')">
+            <button type="button" class="btn btn-sm btn-primary mb-1" data-value="{{ config.value }}" data-form-ids="{{ config.forms | join(',') }}" onclick="selectMaskedForm('{{ form.vars.id }}', '{{ config.value }}')">
                 {{ button_name }}
             </button>
         {% endfor %}
