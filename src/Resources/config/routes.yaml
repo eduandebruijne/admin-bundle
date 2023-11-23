@@ -3,6 +3,20 @@ login:
   controller: EDB\AdminBundle\Controller\AuthController::login
   methods: GET
 
+forgot_password:
+  path: /forgot-password
+  controller: EDB\AdminBundle\Controller\AuthController::forgotPassword
+  methods:
+    - GET
+    - POST
+
+reset_password:
+  path: /reset-password
+  controller: EDB\AdminBundle\Controller\AuthController::resetPassword
+  methods:
+    - GET
+    - POST
+
 check_form_login:
   path: /login-check
   controller: EDB\AdminBundle\Controller\AuthController::check

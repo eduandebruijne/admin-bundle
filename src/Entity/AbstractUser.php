@@ -38,6 +38,12 @@ class AbstractUser extends BaseEntity implements UserInterface, PasswordAuthenti
      */
     protected $roles = [];
 
+    /**
+     * @ORM\Column(nullable=true)
+     * @var string
+     */
+    protected $resetPasswordToken;
+
     public function __toString()
     {
         return $this->getUserIdentifier();
@@ -86,6 +92,16 @@ class AbstractUser extends BaseEntity implements UserInterface, PasswordAuthenti
     public function setSalt(?string $salt): void
     {
         $this->salt = $salt;
+    }
+
+    public function getResetPasswordToken(): ?string
+    {
+        return $this->resetPasswordToken;
+    }
+
+    public function setResetPasswordToken(?string $resetPasswordToken): void
+    {
+        $this->resetPasswordToken = $resetPasswordToken;
     }
 
     public function eraseCredentials()
