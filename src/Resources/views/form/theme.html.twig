@@ -71,8 +71,6 @@
                 }
             })
 
-            {#previewContainer.trigger({type: "refresh", id: "{{ value }}"})#}
-
             formContainer.on("open", async function() {
                 mediaModalObject.show()
 
@@ -149,41 +147,23 @@
     </div>
 
     <script>
-        function addFormToCollection(collectionHolderClass, allowAdd, allowDelete) {
+        function addFormToCollection(collectionHolder, allowAdd, allowDelete) {
             if (!allowAdd) return
 
-            // Get the ul that holds the collection of tags
-            let collectionHolder = jquery("." + collectionHolderClass)
-
-            // Get the data-prototype explained earlier
             let prototype = collectionHolder.data("prototype")
-
-            // get the new index
             let index = collectionHolder.data("index")
 
             let newForm = prototype
-            // You need this only if you didn't set 'label' => false in your tags field in TaskType
-            // Replace '__name__label__' in the prototype's HTML to
-            // instead be a number based on how many items we have
-            // newForm = newForm.replace(/__name__label__/g, index);
-
-            // Replace '__name__' in the prototype's HTML to
-            // instead be a number based on how many items we have
             newForm = newForm.replace(/__name__/g, index)
 
-            // increase the index with one for the next item
             collectionHolder.data("index", index + 1)
 
-            // Display the form in the page in an li, before the "Add a tag" link li
             let newFormLi = jquery("<li class=\"form-collection-item\"><div class=\"row\"><div class=\"col\">"+newForm+"</div></div></li>")
 
-            // Add the new form at the end of the list
             collectionHolder.append(newFormLi)
 
-            // Add buttons to the new form
             addRowButtons(newFormLi, allowAdd, allowDelete)
 
-            // Calculate order if available
             collectionHolder.find('.edb_admin_position').each((element, index) => {
                 element.value = index
             })
@@ -257,27 +237,19 @@
         }
 
         jquery(document).ready(function() {
-            // Get the ul that holds the collection of tags
             let collectionHolder = jquery("ul.{{ form.vars.id }}")
 
             let allowAdd = collectionHolder.data('allowAdd')
             let allowDelete = collectionHolder.data('allowDelete')
 
-            // add a delete link to all of the existing tag form li elements
             collectionHolder.find("li").each(function() {
                 addRowButtons(jquery(this), allowAdd, allowDelete)
             })
 
-            // Get the ul that holds the collection of tags
-            let tagsCollectionHolder = jquery("ul.{{ form.vars.id }}")
-            // count the current form inputs we have (e.g. 2), use that as the new
-            // index when inserting a new item (e.g. 2)
-            tagsCollectionHolder.data("index", tagsCollectionHolder.find("input").length)
+            collectionHolder.data("index", collectionHolder.find(".form-collection-item").length)
 
             jquery("body").on("click", ".add_item_link_{{ form.vars.id }}", function(e) {
-                let collectionHolderClass = jquery(e.currentTarget).data("collectionHolderClass")
-                // add a new tag form (see next code block)
-                addFormToCollection(collectionHolderClass, allowAdd, allowDelete)
+                addFormToCollection(collectionHolder, allowAdd, allowDelete)
             })
         });
     </script>
