@@ -92,7 +92,7 @@ edb_admin:
 
 #### Get ready
 
-* Make sure your `DATABASE_URL` in .env is correct
+* Make sure the `DATABASE_URL` in your `.env` file is correct
 * Create and update the database schema
 * Create your first admin user
 
