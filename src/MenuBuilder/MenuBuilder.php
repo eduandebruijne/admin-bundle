@@ -8,7 +8,7 @@ use EDB\AdminBundle\Admin\AbstractAdmin;
 use EDB\AdminBundle\Admin\Pool;
 use Exception;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 
 class MenuBuilder
 {
