@@ -1,16 +1,16 @@
 {
   "name": "eduandebruijne/admin-bundle",
+  "version": "12.0.0",
   "description": "A simple to use Symfony based CMS",
   "type": "symfony-bundle",
   "license": "MIT",
   "require": {
     "php": "^8.0",
-    "doctrine/annotations": "^2.0",
-    "doctrine/dbal": "^3.1 | ^4.0",
-    "doctrine/doctrine-bundle": "^2.4",
-    "doctrine/orm": "^2.10 | ^3.0",
-    "league/glide": "^2.0",
-    "oneup/flysystem-bundle": "^4.1",
+    "doctrine/dbal": "^4.0",
+    "doctrine/doctrine-bundle": "^2.12",
+    "doctrine/orm": "^3.0",
+    "league/glide": "^2.3",
+    "oneup/flysystem-bundle": "^4.12",
     "symfony/asset": "^6.0 | ^7.0",
     "symfony/form": "^6.0 | ^7.0",
     "symfony/framework-bundle": "^6.0 | ^7.0",
@@ -19,11 +19,14 @@
     "symfony/translation": "^6.0 | ^7.0",
     "symfony/twig-bundle": "^6.0 | ^7.0",
     "symfony/validator": "^6.0 | ^7.0",
-    "twig/twig": "^2.12 | ^3.0"
+    "twig/twig": "^3.9"
   },
   "autoload": {
     "psr-4": {
       "EDB\\AdminBundle\\": "src"
     }
+  },
+  "config": {
+    "lock": false
   }
 }

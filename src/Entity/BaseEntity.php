@@ -4,73 +4,47 @@ declare(strict_types=1);
 
 namespace EDB\AdminBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use DateTimeImmutable;
+use DateTimeInterface;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\MappedSuperclass;
+use Doctrine\ORM\Mapping\PrePersist;
+use Doctrine\ORM\Mapping\PreUpdate;
 
 /**
- * @ORM\MappedSuperclass
- *
- * IMPORTANT: Make sure to add @ORM\HasLifecycleCallbacks when extending this class
+ * IMPORTANT: Make sure to add #[MappedSuperclass] when extending this class
  */
+#[MappedSuperclass]
 abstract class BaseEntity
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     * @var ?int
-     */
-    protected $id;
+    #[Id]
+    #[GeneratedValue]
+    #[Column(type: 'integer')]
+    protected ?int $id;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    protected $createdAt;
+    #[Column(type: 'datetime')]
+    protected ?DateTimeInterface $createdAt;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    protected $updatedAt;
+    #[Column(type: 'datetime')]
+    protected ?DateTimeInterface $updatedAt;
 
     public function getId(): ?int
 	{
 		return $this->id;
 	}
 
-	public function setId(?int $id)
-	{
-		$this->id = $id;
-	}
-
-    /**
-     * @return \DateTimeInterface|null
-     */
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * @return \DateTimeInterface|null
-     */
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    /**
-     * @ORM\PrePersist
-     */
+    #[PrePersist]
     public function onPrePersist()
     {
-        $this->createdAt = new \DateTimeImmutable();
-        $this->updatedAt = new \DateTimeImmutable();
+        $this->createdAt = new DateTimeImmutable();
+        $this->updatedAt = new DateTimeImmutable();
     }
 
-    /**
-     * @ORM\PreUpdate
-     */
+    #[PreUpdate]
     public function onPreUpdate()
     {
-        $this->updatedAt = new \DateTimeImmutable();
+        $this->updatedAt = new DateTimeImmutable();
     }
 }

@@ -4,8 +4,17 @@ declare(strict_types=1);
 
 namespace EDB\AdminBundle\Entity;
 
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
+
 trait EntityHierarchy
 {
+    #[ManyToOne(targetEntity: BaseEntity::class, inversedBy: 'children')]
+    protected $parent;
+
+    #[OneToMany(targetEntity: BaseEntity::class, mappedBy: 'parent')]
+    protected $children;
+
     public function getParent(): ?BaseEntity
     {
         return $this->parent;
@@ -13,9 +22,6 @@ trait EntityHierarchy
 
     public function getChildren(): array
     {
-        /**
-         * Assuming that 'children' will be a Doctrine Collection
-         */
         return $this->children->toArray();
     }
 

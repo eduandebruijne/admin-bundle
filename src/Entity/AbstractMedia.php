@@ -2,46 +2,31 @@
 
 namespace EDB\AdminBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\MappedSuperclass;
 
-/**
- * @ORM\MappedSuperclass
- */
+#[MappedSuperclass]
 class AbstractMedia extends BaseEntity
 {
-    /**
-     * @ORM\Column
-     */
+    #[Column(type: 'string')]
     protected ?string $title;
 
-    /**
-     * @ORM\Column
-     */
+    #[Column(type: 'string')]
     protected ?string $filename;
 
-    /**
-     * @ORM\Column
-     */
+    #[Column(type: 'string')]
     protected ?string $originalFilename;
 
-    /**
-     * @ORM\Column(nullable=true)
-     */
+    #[Column(type: 'string', nullable: true)]
     protected ?string $mimeType;
 
-    /**
-     * @ORM\Column(nullable=true)
-     */
+    #[Column(type: 'string', nullable: true)]
     protected ?string $extension;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[Column(type: 'integer', nullable: true)]
     protected ?int $size;
 
-    /**
-     * @ORM\Column(type="json", nullable=true)
-     */
+    #[Column(type: 'json', nullable: true)]
     protected array $focusPoint;
 
     public $update;

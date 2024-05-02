@@ -2,15 +2,12 @@
 
 namespace EDB\AdminBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
 
 trait SortableEntity
 {
-    /**
-     * @ORM\Column(type="integer")
-     * @var ?int
-     */
-    protected $position = 0;
+    #[Column(type: 'int')]
+    protected ?int $position = 0;
 
     public function getPosition(): ?int
     {
