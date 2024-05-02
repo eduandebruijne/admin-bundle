@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EDB\AdminBundle\Entity;
 
-use DateTimeImmutable;
+use DateTime;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -38,13 +38,13 @@ abstract class BaseEntity
     #[PrePersist]
     public function onPrePersist()
     {
-        $this->createdAt = new DateTimeImmutable();
-        $this->updatedAt = new DateTimeImmutable();
+        $this->createdAt = new DateTime();
+        $this->updatedAt = new DateTime();
     }
 
     #[PreUpdate]
     public function onPreUpdate()
     {
-        $this->updatedAt = new DateTimeImmutable();
+        $this->updatedAt = new DateTime();
     }
 }
