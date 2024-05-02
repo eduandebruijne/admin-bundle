@@ -19,13 +19,12 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use EDB\AdminBundle\Entity\AbstractUser;
 
-/**
- * @ORM\Entity
- * @ORM\HasLifecycleCallbacks
- */
+#[Entity]
+#[HasLifecycleCallbacks]
 class User extends AbstractUser
 {
 }
@@ -40,13 +39,12 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use EDB\AdminBundle\Entity\AbstractMedia;
 
-/**
- * @ORM\Entity
- * @ORM\HasLifecycleCallbacks
- */
+#[Entity]
+#[HasLifecycleCallbacks]
 class Media extends AbstractMedia
 {
 }
@@ -156,18 +154,16 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use EDB\AdminBundle\Entity\BaseEntity;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Entity;
 
-/** 
- * @ORM\Entity
- * @ORM\HasLifecycleCallbacks
- */
+#[Entity]
+#[HasLifecycleCallbacks]
 class Page extends BaseEntity
 {
-    /**
-     * @ORM\Column
-     */
+    #[Column(type: 'string')]
     private ?string $title;
 
     public function __toString(): ?string
