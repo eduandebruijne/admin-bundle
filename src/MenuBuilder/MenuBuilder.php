@@ -12,23 +12,12 @@ use Symfony\Bundle\SecurityBundle\Security;
 
 class MenuBuilder
 {
-    protected Pool $pool;
-
-    protected RouterInterface $router;
-
-    protected Security $security;
-
-    protected array $customMenuItems = [];
-
-    public function __construct(Pool $pool, RouterInterface $router, Security $security, $customMenuItems = [])
-    {
-        $this->pool = $pool;
-        $this->router = $router;
-        $this->security = $security;
-
-        foreach ($customMenuItems as $customMenuItem) {
-            $this->customMenuItems[] = $customMenuItem;
-        }
+    public function __construct(
+        protected Pool $pool,
+        protected RouterInterface $router,
+        protected Security $security,
+        protected $customMenuItems = [],
+    ) {
     }
 
     public function getElements(): array

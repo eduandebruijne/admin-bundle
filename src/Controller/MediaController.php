@@ -14,28 +14,16 @@ use Twig\Environment;
 
 class MediaController
 {
-    protected MediaService $mediaService;
-    protected EntityManagerInterface $entityManager;
-    protected Environment $twig;
-    protected string $mediaPath;
-    protected ?string $mediaClass;
-
     public function __construct(
-        MediaService $mediaService,
-        EntityManagerInterface $entityManager,
-        Environment $twig,
-        string $mediaPath,
-        ?string $mediaClass
+        protected MediaService $mediaService,
+        protected EntityManagerInterface $entityManager,
+        protected Environment $twig,
+        protected string $mediaPath,
+        protected ?string $mediaClass,
     ) {
-        if (empty($mediaClass)) {
+        if (empty($this->mediaClass)) {
             throw new Exception('No media class defined for project.');
         }
-
-        $this->mediaService = $mediaService;
-        $this->entityManager = $entityManager;
-        $this->twig = $twig;
-        $this->mediaPath = $mediaPath;
-        $this->mediaClass = $mediaClass;
     }
 
     public function renderPreview(Request $request): Response

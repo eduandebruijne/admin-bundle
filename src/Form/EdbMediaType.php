@@ -14,20 +14,13 @@ use Twig\Environment;
 
 class EdbMediaType extends AbstractType
 {
-    protected ?string $mediaClass;
-    protected Environment $twig;
-
     public function __construct(
-        ?string $mediaClass,
-        Environment $twig
-    )
-    {
-        if (empty($mediaClass)) {
+        protected ?string $mediaClass,
+        protected Environment $twig
+    ) {
+        if (empty($this->mediaClass)) {
             throw new Exception('No media class defined for project.');
         }
-
-        $this->mediaClass = $mediaClass;
-        $this->twig = $twig;
     }
 
     public function getParent(): string

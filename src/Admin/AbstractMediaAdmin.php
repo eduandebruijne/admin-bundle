@@ -18,18 +18,11 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 abstract class AbstractMediaAdmin extends AbstractAdmin
 {
-    protected MediaService $mediaService;
-    protected EntityManagerInterface $entityManager;
-    protected RequestStack $requestStack;
-
     public function __construct(
-        MediaService $mediaService,
-        EntityManagerInterface $entityManager,
-        RequestStack $requestStack
+        protected MediaService $mediaService,
+        protected EntityManagerInterface $entityManager,
+        protected RequestStack $requestStack,
     ) {
-        $this->mediaService = $mediaService;
-        $this->entityManager = $entityManager;
-        $this->requestStack = $requestStack;
     }
 
     public function buildList(ListCollection $collection)

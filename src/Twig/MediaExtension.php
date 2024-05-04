@@ -4,21 +4,19 @@ namespace EDB\AdminBundle\Twig;
 
 use EDB\AdminBundle\Entity\AbstractMedia;
 use EDB\AdminBundle\Service\MediaService;
+use Psr\Log\LoggerInterface;
 use Throwable;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 class MediaExtension extends AbstractExtension
 {
-    protected MediaService $mediaService;
-    protected string $mediaPath;
-    protected string $sourcePrefix;
-
-    public function __construct(MediaService $mediaService, string $mediaPath, string $sourcePrefix)
-    {
-        $this->mediaService = $mediaService;
-        $this->mediaPath = $mediaPath;
-        $this->sourcePrefix = $sourcePrefix;
+    public function __construct(
+        protected MediaService $mediaService,
+        protected string $mediaPath,
+        protected string $sourcePrefix,
+        protected LoggerInterface $logger,
+    ) {
     }
 
     public function getFunctions(): array
@@ -50,6 +48,7 @@ class MediaExtension extends AbstractExtension
                 $imageUrl
             );
         } catch (Throwable $throwable) {
+            $this->logger->critical($throwable->getMessage());
             return null;
         }
     }

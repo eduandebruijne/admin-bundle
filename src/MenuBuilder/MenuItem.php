@@ -14,10 +14,16 @@ class MenuItem extends AbstractCollectionElement
     public const OPTION_ICON = 'icon';
     public const OPTION_SHOW_IN_DASHBOARD = 'show-in-dashboard';
 
-    public function __construct(string $name, array $options = [])
-    {
-        parent::__construct($name, array_merge([
-            self::OPTION_SHOW_IN_DASHBOARD => true,
-        ], $options));
+    public function __construct(
+        protected string $name,
+        protected array $options = [],
+    ) {
+        parent::__construct(
+            $name,
+            array_merge(
+                [self::OPTION_SHOW_IN_DASHBOARD => true],
+                $this->options
+            )
+        );
     }
 }

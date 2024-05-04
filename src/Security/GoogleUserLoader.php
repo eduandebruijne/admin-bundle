@@ -8,15 +8,10 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class GoogleUserLoader
 {
-    protected EntityManagerInterface $entityManager;
-    protected ?string $userClass;
-
     public function __construct(
-        EntityManagerInterface $entityManager,
-        ?string $userClass
+        protected EntityManagerInterface $entityManager,
+        protected ?string $userClass
     ) {
-        $this->entityManager = $entityManager;
-        $this->userClass = $userClass;
     }
 
     public function load(string $emailAddress)

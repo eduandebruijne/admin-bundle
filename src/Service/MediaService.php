@@ -13,22 +13,18 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class MediaService
 {
     protected Server $server;
-    protected FilesystemOperator $publicFilesystem;
-    protected FilesystemOperator $protectedFilesystem;
-    protected string $sourcePrefix;
-    protected string $cachePrefix;
-    protected ?string $mediaClass;
 
     public function __construct(
-        FilesystemOperator $defaultFilesystem,
-        string $sourcePrefix,
-        string $cachePrefix,
-        ?string $mediaClass,
-        ?FilesystemOperator $protectedFilesystem = null
-    )
-    {
+        protected FilesystemOperator $defaultFilesystem,
+        protected string $sourcePrefix,
+        protected string $cachePrefix,
+        protected ?string $mediaClass,
+        protected ?FilesystemOperator $protectedFilesystem = null
+    ) {
         $this->publicFilesystem = $defaultFilesystem;
-        $this->protectedFilesystem = $protectedFilesystem ?? $defaultFilesystem;
+        if (false === $this->protectedFilesystem instanceof FilesystemOperator) {
+            $this->protectedFilesystem = $this->defaultFilesystem;
+        }
 
         $this->sourcePrefix = $sourcePrefix;
         $this->cachePrefix = $cachePrefix;

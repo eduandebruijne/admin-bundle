@@ -9,11 +9,9 @@ use Symfony\Component\Routing\RouterInterface;
 
 class AdminUrlHelper
 {
-    protected RouterInterface $router;
-
-    public function __construct(RouterInterface $router)
-    {
-        $this->router = $router;
+    public function __construct(
+        protected RouterInterface $router,
+    ) {
     }
 
     public function generateAdminUrl(string $class, string $action, array $params = []): string
