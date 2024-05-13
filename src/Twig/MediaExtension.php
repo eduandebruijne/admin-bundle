@@ -27,7 +27,7 @@ class MediaExtension extends AbstractExtension
         ];
     }
 
-    public function renderMedia(?AbstractMedia $media, int $width, int $height, string $fit = "crop"): ?string
+    public function renderMedia(?AbstractMedia $media, int $width, int $height, string $fit = "crop", array $options = []): ?string
     {
         if (empty($media)) return null;
 
@@ -39,7 +39,8 @@ class MediaExtension extends AbstractExtension
             $imageUrl = $this->mediaService->makeImage($media->getFilename(), [
                 'w' => $width,
                 'h' => $height,
-                'fit' => $fit
+                'fit' => $fit,
+                ...$options
             ]);
 
             return sprintf(
