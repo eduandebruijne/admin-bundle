@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class MediaService
 {
+    protected FilesystemOperator $publicFilesystem;
+
     protected Server $server;
 
     public function __construct(
@@ -26,15 +28,11 @@ class MediaService
             $this->protectedFilesystem = $this->defaultFilesystem;
         }
 
-        $this->sourcePrefix = $sourcePrefix;
-        $this->cachePrefix = $cachePrefix;
-        $this->mediaClass = $mediaClass;
-
         $this->server = ServerFactory::create([
             'source' => $this->protectedFilesystem,
-            'source_path_prefix' => $this->sourcePrefix,
+            'source_path_prefix' => $sourcePrefix,
             'cache' => $this->publicFilesystem,
-            'cache_path_prefix' => $this->cachePrefix,
+            'cache_path_prefix' => $cachePrefix,
             'group_cache_in_folders' => false,
             'watermarks' => $this->protectedFilesystem,
             'watermarks_path_prefix' => 'watermarks',
