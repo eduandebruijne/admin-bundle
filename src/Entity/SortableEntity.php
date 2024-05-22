@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping\Column;
 
 trait SortableEntity
 {
-    #[Column(type: 'int')]
+    #[Column(type: 'integer')]
     protected ?int $position = 0;
 
     public function getPosition(): ?int
