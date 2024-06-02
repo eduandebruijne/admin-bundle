@@ -90,7 +90,7 @@ class CRUDController
             $queryBuilder->orderBy($finalSortField, $direction);
         }
 
-        $admin->extendQuery($queryBuilder);
+
 
         $search = $request->query->get('search');
         if ($search) {
@@ -110,6 +110,8 @@ class CRUDController
                     ->setParameter($parameterName, $whereValue);
             }
         }
+
+        $admin->extendQuery($queryBuilder);
 
         if ($hierarchyEnabled) {
             $listResults = [];
