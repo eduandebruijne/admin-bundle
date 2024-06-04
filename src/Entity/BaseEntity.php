@@ -22,7 +22,7 @@ abstract class BaseEntity
     #[Id]
     #[GeneratedValue]
     #[Column(type: 'integer')]
-    protected ?int $id;
+    protected ?int $id = null;
 
     #[Column(type: 'datetime')]
     protected ?DateTimeInterface $createdAt;
