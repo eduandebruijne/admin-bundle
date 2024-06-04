@@ -47,4 +47,14 @@ abstract class BaseEntity
     {
         $this->updatedAt = new DateTime();
     }
+
+    public function getCreatedAt(): ?DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function getUpdatedAt(): ?DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
 }
