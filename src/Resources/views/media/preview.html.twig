@@ -1,6 +1,9 @@
-<div>
-    <div class="mb-2">
-        <img height="120" src="{{ render_media(object, 120, 120) }}"/>
-    </div>
-    <i>{{ object }}</i>
+{% set imageUrl = render_media(object, 120, 120) %}
+<div class="p-3 border mb-3">
+    {% if imageUrl %}
+        <div class="mb-2">
+            <img height="120" src="{{ imageUrl }}"/>
+        </div>
+    {% endif %}
+    <i>{{ object.originalFilename }}</i>
 </div>
