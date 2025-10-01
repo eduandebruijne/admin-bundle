@@ -3,7 +3,7 @@
     {{ form_widget(form) }}
     <div class="masked-container masked-container-{{ form.vars.id }} mb-3">
         {% for button_name, config in choices %}
-            <button type="button" class="btn btn-sm btn-primary mb-1" data-value="{{ config.value }}" data-form-ids="{{ config.forms | join(',') }}" onclick="selectMaskedForm('{{ form.vars.id }}', '{{ config.value }}')">
+            <button type="button" class="btn btn-sm btn-primary mb-1 {{ form.vars.disabled ? 'disabled' : '' }}" data-value="{{ config.value }}" data-form-ids="{{ config.forms | join(',') }}" {% if not form.vars.disabled %}onclick="selectMaskedForm('{{ form.vars.id }}', '{{ config.value }}')"{% endif %}>
                 {{ button_name }}
             </button>
         {% endfor %}
@@ -26,7 +26,7 @@
         <div id="{{ form.vars.id }}-media-form">
             <div id="{{ form.vars.id }}-media-preview" class="bg-light col-12">
                 {% if preview is defined %}
-                    <div class="mb-3">{{ preview | raw }}</div>
+                    {{ preview | raw }}
                 {% endif %}
             </div>
             <div class="mb-3">
