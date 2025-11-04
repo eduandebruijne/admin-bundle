@@ -1,6 +1,6 @@
 {
   "name": "eduandebruijne/admin-bundle",
-  "version": "12.1.0",
+  "version": "12.1.1",
   "description": "A simple to use Symfony based CMS",
   "type": "symfony-bundle",
   "license": "MIT",
