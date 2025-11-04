@@ -25,7 +25,7 @@ trait EntityHierarchy
         return $this->children->toArray();
     }
 
-    public function setParent(?BaseEntity $parent)
+    public function setParent(?BaseEntity $parent): void
     {
         $this->parent = $parent;
     }
