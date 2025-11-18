@@ -15,6 +15,7 @@ class MediaExtension extends AbstractExtension
         protected MediaService $mediaService,
         protected string $mediaPath,
         protected string $sourcePrefix,
+        protected string $cachePrefix,
         protected LoggerInterface $logger,
     ) {
     }
@@ -23,6 +24,7 @@ class MediaExtension extends AbstractExtension
     {
         return [
             new TwigFunction('media_path', [$this, 'getMediaPath'], ['is_safe' => ['html']]),
+            new TwigFunction('media_download', [$this, 'getDownloadUrl'], ['is_safe' => ['html']]),
             new TwigFunction('render_media', [$this, 'renderMedia'], ['is_safe' => ['html']])
         ];
     }
@@ -54,6 +56,9 @@ class MediaExtension extends AbstractExtension
         }
     }
 
+    /**
+     * @deprecated Use media_download / getDownloadUrl instead.
+     */
     public function getMediaPath(?AbstractMedia $media): ?string
     {
         if (empty($media)) return null;
@@ -63,6 +68,20 @@ class MediaExtension extends AbstractExtension
             rtrim($this->mediaPath, '/'),
             trim($this->sourcePrefix, '/'),
             $media->getFilename()
+        );
+    }
+
+    public function getDownloadUrl(?AbstractMedia $media): ?string
+    {
+        if (empty($media)) return null;
+
+        $this->mediaService->moveToPublicFilesystem($media);
+
+        return sprintf(
+            '%s/%s/%s',
+            rtrim($this->mediaPath, '/'),
+            trim($this->cachePrefix, '/'),
+            $media->getOriginalFilename()
         );
     }
 }
