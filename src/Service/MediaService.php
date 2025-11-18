@@ -2,6 +2,7 @@
 
 namespace EDB\AdminBundle\Service;
 
+use App\Entity\Media;
 use EDB\AdminBundle\Entity\AbstractMedia;
 use EDB\AdminBundle\Util\StringUtils;
 use Exception;
@@ -79,5 +80,15 @@ class MediaService
         $this->checkMediaClass();
 
         return $this->server->makeImage($filename, ...$args);
+    }
+
+    public function moveToPublicFilesystem(Media $media)
+    {
+        $this->checkMediaClass();
+
+        $sourcePath = sprintf('%s/%s', $this->sourcePrefix, $media->getFilename());
+        $publicPath = sprintf('%s/%s', $this->cachePrefix, $media->getOriginalFilename());
+
+        $this->publicFilesystem->writeStream($publicPath, $this->protectedFilesystem->readStream($sourcePath));
     }
 }
