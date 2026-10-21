@@ -13,7 +13,7 @@ use function array_merge;
 
 class EdbTinyMceType extends AbstractType
 {
-    public function getParent()
+    public function getParent(): string
     {
         return TextareaType::class;
     }

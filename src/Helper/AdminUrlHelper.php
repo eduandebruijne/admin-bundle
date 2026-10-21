@@ -2,9 +2,7 @@
 
 namespace EDB\AdminBundle\Helper;
 
-use EDB\AdminBundle\Admin\AbstractAdmin;
 use EDB\AdminBundle\Util\ClassUtils;
-use Exception;
 use Symfony\Component\Routing\RouterInterface;
 
 class AdminUrlHelper

@@ -16,7 +16,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 
 class EDBAdminCompilerPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $poolDefinition = new Definition(Pool::class);
         $poolDefinition->addArgument($this->getServicesByTag($container, 'edb.admin'));

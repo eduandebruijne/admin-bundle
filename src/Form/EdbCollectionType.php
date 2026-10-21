@@ -13,12 +13,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EdbCollectionType extends AbstractType
 {
-    public function getParent()
+    public function getParent(): string
     {
         return CollectionType::class;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setNormalizer('entry_options', function(Options $options, $value) {
             return array_merge([
@@ -35,7 +35,7 @@ class EdbCollectionType extends AbstractType
         ]);
     }
 
-    public function finishView(FormView $view, FormInterface $form, array $options)
+    public function finishView(FormView $view, FormInterface $form, array $options): void
     {
         $view->vars['sortable'] = $options['sortable'];
     }

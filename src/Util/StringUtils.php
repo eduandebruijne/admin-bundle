@@ -18,7 +18,7 @@ class StringUtils
             ->lower();
     }
 
-    public static function generateRandomString(string $prefix = null): string
+    public static function generateRandomString(?string $prefix = null): string
     {
         return sprintf('%s%s', $prefix, ByteString::fromRandom(30));
     }

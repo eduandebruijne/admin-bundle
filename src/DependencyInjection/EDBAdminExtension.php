@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 class EDBAdminExtension extends Extension implements PrependExtensionInterface
 {
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yaml');
@@ -28,7 +28,7 @@ class EDBAdminExtension extends Extension implements PrependExtensionInterface
         $container->setParameter('edb_user_class', $configs[0]['user_class']);
     }
 
-    public function prepend(ContainerBuilder $container)
+    public function prepend(ContainerBuilder $container): void
     {
         $twig = $container->getExtensionConfig('twig')[0];
         $twig['globals']['media_path'] = '%env(EDB_MEDIA_PATH)%';

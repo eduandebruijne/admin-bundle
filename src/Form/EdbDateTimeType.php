@@ -10,12 +10,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EdbDateTimeType extends AbstractType
 {
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefault('widget', 'single_text');
     }
 
-    public function getParent()
+    public function getParent(): string
     {
         return DateTimeType::class;
     }

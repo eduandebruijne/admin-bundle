@@ -26,7 +26,7 @@ class Loader extends BaseLoader implements LoaderInterface
         parent::__construct();
     }
 
-    public function load($resource, string $type = null): RouteCollection
+    public function load($resource, ?string $type = null): RouteCollection
     {
         if ($this->loaded === true) {
             throw new \RuntimeException('Do not add this loader twice');
@@ -67,7 +67,7 @@ class Loader extends BaseLoader implements LoaderInterface
         return $routes;
     }
 
-    public function supports($resource, string $type = null): bool
+    public function supports($resource, ?string $type = null): bool
     {
         return 'admin' === $type;
     }

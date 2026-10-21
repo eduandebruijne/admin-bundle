@@ -1,6 +1,40 @@
 # EDBAdminBundle
 *A simple to use Symfony based CMS*
 
+## Requirements
+
+* PHP 8.4 or later within PHP 8.x (`^8.4`), including PHP 8.5.
+* Symfony 7.4.x (`7.4.*`).
+* The GD PHP extension for image processing.
+
+## Upgrading to 13.0
+
+PHP 8.2/8.3 are no longer supported. The dependency requirements now target
+Symfony 7.4, DoctrineBundle 3.3, DBAL 4.5, ORM 3.7, Glide 4.2,
+OneupFlysystemBundle 4.14 and Twig 3.30. Direct Symfony requirements allow
+only 7.4.x patch updates. Other dependencies allow compatible patch and minor
+updates through Composer's caret constraints.
+
+When upgrading an application, follow the
+[DoctrineBundle 3 upgrade guide](https://github.com/doctrine/DoctrineBundle/blob/3.3.x/UPGRADE-3.0.md).
+Remove obsolete Doctrine configuration options such as `enable_lazy_ghost_objects`,
+`auto_generate_proxy_classes`, `proxy_dir` and `proxy_namespace`.
+
+Image processing now uses Glide 4 and Intervention Image 4. Applications that
+directly use these libraries or customize image processing should review the
+[Glide changelog](https://glide.thephpleague.com/4.0/changelog/) and
+[Intervention Image upgrade guide](https://image.intervention.io/v4/getting-started/upgrade).
+
+Custom form types overriding bundle methods must declare the matching return
+types: `void` for form-building, view and options methods, and `string` for
+`getParent()`.
+
+## Compatibility checks
+
+After installing dependencies, run `composer validate` and
+`composer check-platform-reqs`. Test the consuming Symfony application's
+database, authentication, forms and media flows when upgrading dependencies.
+
 
 ## Installation Instructions
 
@@ -211,12 +245,12 @@ class PageAdmin extends AbstractAdmin implements AdminInterface
         $collection->add('title');
     }
 
-    public static function getAdminMenuTitle(): string
+    public function getAdminMenuTitle(): string
     {
         return 'Pages';
     }
 
-    public static function getEntityClass(): string
+    public function getEntityClass(): string
     {
         return Page::class;
     }
