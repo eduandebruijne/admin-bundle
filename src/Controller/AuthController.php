@@ -76,7 +76,7 @@ class AuthController
 
                 $mail = new Email();
                 $mail->subject($this->translator->trans('Reset password'));
-                $mail->to(new Address('eduan.de.bruijne@gmail.com'));
+                $mail->to(new Address($username));
                 $mail->from(new Address('info@com.com'));
                 $mail->html($this->twig->render(
                     '@EDBAdmin/mail/reset_password.html.twig',
